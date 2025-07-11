@@ -79,21 +79,21 @@ Flow Finder の **TDD 実装計画** です。基本的な TDD 手法につい�
 
 | Task | TDD Phase    | 説明                              | 配置場所         | 完了 |
 | ---- | ------------ | --------------------------------- | ---------------- | ---- |
-| 1.1  | **Red**      | Button コンポーネントのテスト作成 | `components/ui/` | [ ]  |
-| 1.2  | **Green**    | Button コンポーネントの最小実装   | `components/ui/` | [ ]  |
-| 1.3  | **Refactor** | Button コンポーネントの改善       | `components/ui/` | [ ]  |
-| 1.4  | **Red**      | Input コンポーネントのテスト作成  | `components/ui/` | [ ]  |
-| 1.5  | **Green**    | Input コンポーネントの最小実装    | `components/ui/` | [ ]  |
-| 1.6  | **Refactor** | Input コンポーネントの改善        | `components/ui/` | [ ]  |
-| 1.7  | **Red**      | Card コンポーネントのテスト作成   | `components/ui/` | [ ]  |
-| 1.8  | **Green**    | Card コンポーネントの最小実装     | `components/ui/` | [ ]  |
-| 1.9  | **Refactor** | Card コンポーネントの改善         | `components/ui/` | [ ]  |
+| 1.1  | **Red**      | Button コンポーネントのテスト作成 | `components/ui/` | [x]  |
+| 1.2  | **Green**    | Button コンポーネントの最小実装   | `components/ui/` | [x]  |
+| 1.3  | **Refactor** | Button コンポーネントの改善       | `components/ui/` | [x]  |
+| 1.4  | **Red**      | Input コンポーネントのテスト作成  | `components/ui/` | [x]  |
+| 1.5  | **Green**    | Input コンポーネントの最小実装    | `components/ui/` | [x]  |
+| 1.6  | **Refactor** | Input コンポーネントの改善        | `components/ui/` | [x]  |
+| 1.7  | **Red**      | Card コンポーネントのテスト作成   | `components/ui/` | [x]  |
+| 1.8  | **Green**    | Card コンポーネントの最小実装     | `components/ui/` | [x]  |
+| 1.9  | **Refactor** | Card コンポーネントの改善         | `components/ui/` | [x]  |
 
 #### Week 2: データレイヤーとゴール管理・デプロイ
 
 | Task | TDD Phase    | 説明                                | 配置場所                | 完了 |
 | ---- | ------------ | ----------------------------------- | ----------------------- | ---- |
-| 2.1  | **Red**      | Goal データ型のテスト作成           | `types/`                | [ ]  |
+| 2.1  | **Red**      | Goal データ型のテスト作成           | `types/`                | [x]  |
 | 2.2  | **Green**    | Goal データ型の実装                 | `types/goal.types.ts`   | [ ]  |
 | 2.3  | **Refactor** | Goal データ型の改善                 | `types/goal.types.ts`   | [ ]  |
 | 2.4  | **Red**      | Supabase クライアントのテスト作成   | `lib/`                  | [ ]  |
@@ -308,3 +308,28 @@ describe("Goal API", () => {
 ---
 
 基本的な TDD 手法・品質保証・ブランチ戦略については **[TDD 実装ガイド](../generic/tdd_generic_guide.md)** を参照してください。このドキュメントは Flow Finder 特有の実装例とスケジュールに焦点を当てています。
+
+## 7. タスク完了管理ルール
+
+### 7.1 完了チェック更新ルール
+
+**重要**: 各タスクが完了したら、必ずこのドキュメントの完了チェックを更新してください。
+
+#### 更新手順
+1. **タスク完了時**: `[ ]` を `[x]` に変更
+2. **実装確認**: テストが通ることを確認
+3. **品質確認**: コードレビュー・リファクタリング完了
+4. **ドキュメント更新**: 即座に完了ステータスを更新
+
+#### 完了基準
+- **Red Phase**: テストファイルが作成され、失敗することを確認
+- **Green Phase**: テストが成功する最小実装が完了
+- **Refactor Phase**: コード品質の改善が完了（テストは引き続き成功）
+
+### 7.2 進捗管理
+
+- **Week 1完了**: Task 1.1〜1.9（全て[x]）
+- **Week 2進行中**: Task 2.1〜2.16（2.1まで[x]、2.2以降は[ ]）
+- **次の実装**: Task 2.2（Goal データ型の実装）が最優先
+
+Claude Code使用時は、タスク完了と同時にこのドキュメントの完了チェックを更新することを必須とします。

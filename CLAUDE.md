@@ -19,17 +19,21 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - **Week 1**: 直接実装開始
 - **Week 2以降**: **必ずGitHub Issue作成から開始**
 
-### ステップ3：Week 2以降の必須手順（5ステップ）
+### ステップ3：Week 2以降の必須手順（6ステップ）
 1. **Issue作成**: `gh issue create`
 2. **ブランチ作成**: `git checkout -b feat/X.Y-feature-name`
 3. **実装**: TDD（Red-Green-Refactor）
 4. **確認**: Issue完了条件チェック
-5. **クローズ**: `gh issue close` + コミット
+5. **完了チェック更新**: 実装計画の完了ステータス更新
+6. **クローズ**: `gh issue close` + コミット
 
-### ステップ4：完了時の必須手順
-1. **Editツールで実装計画更新**（`[ ]` → `[x]`）
-2. **進捗管理セクション更新**（7.3の「次の実装」）
-3. **例外なし**：この手順を省略することは絶対に禁止
+### ステップ4：完了時の必須手順（正しい順序）
+1. **実装完了後**: Issue完了条件を全て満たす
+2. **Editツールで実装計画更新**（`[ ]` → `[x]`）
+3. **進捗管理セクション更新**（7.3の「次の実装」）
+4. **コミット**: 実装内容 + ドキュメント更新をコミット
+5. **Issue クローズ**: `gh issue close`
+6. **例外なし**：この手順を省略することは絶対に禁止
 
 **🚨 重要**：「進めてください」と言われても、必ずこのチェックリストを実行してから実装開始。
 
@@ -45,7 +49,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 **実行例**:
 ```
-タスク完了 → Editツールで実装計画更新 → 次のタスクに進む
+タスク完了 → Issue完了条件チェック → 実装計画更新 → コミット → Issue クローズ → 次のタスクに進む
 ```
 
 ## プロジェクト概要

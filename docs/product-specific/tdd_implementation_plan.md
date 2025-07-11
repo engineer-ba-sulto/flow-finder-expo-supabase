@@ -335,7 +335,8 @@ describe("Goal API", () => {
 2. **ブランチ作成**: タスク用ブランチを切る  
 3. **実装**: TDD（Red-Green-Refactor）で実装
 4. **確認**: Issueの完了条件をチェック
-5. **コミット**: 変更をコミット・プッシュ
+5. **クローズ**: Issueをクローズ
+6. **コミット**: 変更をコミット
 
 #### イシュー作成ルール
 - **タイトル**: `[Task X.Y] タスク名 (TDD Phase)` 形式
@@ -347,10 +348,17 @@ describe("Goal API", () => {
   - `refactor-phase`: 改善（Refactor Phase）
 
 #### ブランチ・コミット運用
-- **ブランチ名**: `task/X.Y-feature-name` 形式
-  - 例: `task/2.2-goal-data-types`
-- **コミットメッセージ**: `[Task X.Y] 実装内容の簡潔な説明`
+- **ブランチ名**: `feat/X.Y-feature-name` 形式
+  - 例: `feat/2.2-goal-data-types`
+- **コミットメッセージ**: `feat: [Task X.Y] 実装内容の簡潔な説明 (TDD Phase) (close #<issue-number>)`
+  - 例: `feat: [Task 2.2] Goal データ型の実装 (Green Phase) (close #11)`
 - **プッシュ**: 実装完了後に即座にプッシュ
+
+#### Issue クローズ手順
+1. **完了条件チェック**: Issueに記載された完了条件を全て確認
+2. **テスト実行**: 関連するテストが全て成功することを確認
+3. **Issue更新**: 完了条件にチェックマーク（`[x]`）を付与
+4. **Issue クローズ**: `gh issue close <issue-number>` でクローズ
 
 ### 7.3 進捗管理
 

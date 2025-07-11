@@ -96,7 +96,7 @@ Flow Finder の **TDD 実装計画** です。基本的な TDD 手法につい�
 | 2.1  | **Red**      | Goal データ型のテスト作成           | `types/`                | [x]  |
 | 2.2  | **Green**    | Goal データ型の実装                 | `types/goal.types.ts`   | [x]  |
 | 2.3  | **Refactor** | Goal データ型の改善                 | `types/goal.types.ts`   | [x]  |
-| 2.4  | **Red**      | Supabase クライアントのテスト作成   | `lib/`                  | [ ]  |
+| 2.4  | **Red**      | Supabase クライアントのテスト作成   | `lib/`                  | [x]  |
 | 2.5  | **Green**    | Supabase クライアントの実装         | `lib/supabase.ts`       | [ ]  |
 | 2.6  | **Refactor** | Supabase クライアントの改善         | `lib/supabase.ts`       | [ ]  |
 | 2.7  | **Red**      | GoalForm コンポーネントのテスト作成 | `components/forms/`     | [ ]  |
@@ -368,8 +368,8 @@ describe("Goal API", () => {
 ### 7.3 進捗管理
 
 - **Week 1完了**: Task 1.1〜1.9（全て[x]）
-- **Week 2進行中**: Task 2.1〜2.16（2.1〜2.3まで[x]、2.4以降は[ ]）
-- **次の実装**: Task 2.4（Supabase クライアントのテスト作成）が最優先
+- **Week 2進行中**: Task 2.1〜2.16（2.1〜2.4まで[x]、2.5以降は[ ]）
+- **次の実装**: Task 2.5（Supabase クライアントの実装）が最優先
 
 **🚨 Claude Code 使用時の必須ルール**:
 1. **タスク完了時**: 必ずEditツールでこのドキュメントの完了チェック（`[ ]` → `[x]`）を更新

@@ -80,6 +80,26 @@ expo start --clear
 - TypeScriptインターフェースをpropsに使用
 - 責任分離の原則に従う
 
+### タスク管理・イシュー運用ルール
+Week 2以降の実装では、TDD実装計画の各タスクごとにGitHub Issueを立てて管理する：
+
+#### イシュー作成ルール
+1. **タスク単位**: TDD実装計画の各タスク（Task 2.1, 2.2, 2.3...）ごとにIssueを作成
+2. **命名規則**: `[Task X.Y] タスク名 (TDD Phase)` 形式
+   - 例: `[Task 2.1] Goal データ型のテスト作成 (Red Phase)`
+3. **ラベル**: 対応するPhaseのラベルを付与
+   - `red-phase`: テスト作成（Red Phase）
+   - `green-phase`: 最小実装（Green Phase）
+   - `refactor-phase`: 改善（Refactor Phase）
+4. **説明**: 実装内容・配置場所・完了条件を明記
+
+#### ブランチ・PR運用
+1. **ブランチ名**: `task/X.Y-feature-name` 形式
+   - 例: `task/2.1-goal-data-types`
+2. **PRタイトル**: Issue番号とタスク名を含める
+   - 例: `[Task 2.1] Goal データ型のテスト作成 (Red Phase) (#5)`
+3. **PR説明**: 実装内容・テスト結果・TDDサイクルの進捗を記載
+
 ## 技術統合パターン
 
 ### NativeWind設定

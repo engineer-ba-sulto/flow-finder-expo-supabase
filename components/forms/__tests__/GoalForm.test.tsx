@@ -1,7 +1,11 @@
 import { fireEvent, render } from "@testing-library/react-native";
 import React from "react";
+import {
+  CreateGoalInput,
+  GoalPriority,
+  GoalStatus,
+} from "../../../types/goal.types";
 import { GoalForm } from "../GoalForm";
-import { CreateGoalInput, GoalPriority, GoalStatus } from "../../../types/goal.types";
 
 describe("GoalForm コンポーネント", () => {
   const mockOnSubmit = jest.fn();
@@ -50,16 +54,16 @@ describe("GoalForm コンポーネント", () => {
     );
 
     const priorityPicker = getByTestId("priority-picker");
-    
+
     // Pickerが存在することを確認
     expect(priorityPicker).toBeTruthy();
-    
+
     // 優先度ラベルが表示されていることを確認
     expect(getByText("優先度")).toBeTruthy();
-    
+
     // 値を変更してエラーが発生しないことを確認
     fireEvent(priorityPicker, "valueChange", GoalPriority.HIGH);
-    
+
     // Pickerの機能が動作することを確認
     expect(priorityPicker).toBeTruthy();
   });
@@ -83,7 +87,7 @@ describe("GoalForm コンポーネント", () => {
       title: "英語学習",
       description: "TOEIC 800点を目指す",
       priority: GoalPriority.HIGH,
-      user_id: "mock-user-id"
+      user_id: "mock-user-id",
     };
 
     expect(mockOnSubmit).toHaveBeenCalledWith(expectedGoalData);
@@ -156,12 +160,12 @@ describe("GoalForm コンポーネント", () => {
       status: GoalStatus.ACTIVE,
       created_at: new Date(),
       updated_at: new Date(),
-      user_id: "user-id"
+      user_id: "user-id",
     };
 
     const { getByDisplayValue, getByTestId, getByText } = render(
-      <GoalForm 
-        onSubmit={mockOnSubmit} 
+      <GoalForm
+        onSubmit={mockOnSubmit}
         onCancel={mockOnCancel}
         initialGoal={initialGoal}
       />
@@ -169,7 +173,7 @@ describe("GoalForm コンポーネント", () => {
 
     expect(getByDisplayValue("既存のゴール")).toBeTruthy();
     expect(getByDisplayValue("既存の説明")).toBeTruthy();
-    
+
     const priorityPicker = getByTestId("priority-picker");
     expect(priorityPicker).toBeTruthy();
     // 優先度選択エリアが表示されていることを確認
@@ -178,8 +182,8 @@ describe("GoalForm コンポーネント", () => {
 
   it("送信中はボタンが無効化されること", () => {
     const { getByText, getByPlaceholderText } = render(
-      <GoalForm 
-        onSubmit={mockOnSubmit} 
+      <GoalForm
+        onSubmit={mockOnSubmit}
         onCancel={mockOnCancel}
         isSubmitting={true}
       />

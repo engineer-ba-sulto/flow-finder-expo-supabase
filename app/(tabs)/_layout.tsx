@@ -14,6 +14,15 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
+        name="goals"
+        options={{
+          title: "Goals",
+          tabBarIcon: ({ color }) => (
+            <FontAwesome size={28} name="bullseye" color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
         name="settings"
         options={{
           title: "Settings",

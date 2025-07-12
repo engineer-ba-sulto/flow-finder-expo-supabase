@@ -382,6 +382,39 @@ describe("Signup画面", () => {
   });
 
   it("メール確認の案内メッセージが表示されること", async () => {
+    // Supabase成功レスポンスのモックを再設定
+    const mockSupabase = require("../../../lib/supabase");
+    mockSupabase.getSupabaseClient.mockReturnValue({
+      auth: {
+        signUp: jest.fn(() =>
+          Promise.resolve({
+            data: {
+              user: {
+                id: "mock-user-id",
+                email: "test@example.com",
+                email_confirmed_at: null,
+              },
+              session: null,
+            },
+            error: null,
+          })
+        ),
+        getSession: jest.fn(() =>
+          Promise.resolve({
+            data: { session: null },
+            error: null,
+          })
+        ),
+        onAuthStateChange: jest.fn(() => ({
+          data: {
+            subscription: {
+              unsubscribe: jest.fn(),
+            },
+          },
+        })),
+      },
+    });
+
     const { getByPlaceholderText, getByText, getByLabelText } = render(<Signup />);
 
     const emailInput = getByPlaceholderText("メールアドレス");

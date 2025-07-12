@@ -113,7 +113,7 @@ Flow Finder の **TDD 実装計画** です。基本的な TDD 手法につい�
 | 2.18 | **Refactor** | タブ UI・アクセシビリティ改善       | `app/(tabs)/_layout.tsx` | [x]  |
 | 2.19 | **Red**      | ログイン画面のテスト作成            | `app/auth/__tests__/`    | [x]  |
 | 2.20 | **Green**    | ログイン画面の実装                  | `app/auth/login.tsx`     | [x]  |
-| 2.21 | **Refactor** | ログイン画面の改善                  | `app/auth/login.tsx`     | [ ]  |
+| 2.21 | **Refactor** | ログイン画面の改善                  | `app/auth/login.tsx`     | [x]  |
 | 2.22 | **Red**      | サインアップ画面のテスト作成        | `app/auth/__tests__/`    | [ ]  |
 | 2.23 | **Green**    | サインアップ画面の実装              | `app/auth/signup.tsx`    | [ ]  |
 | 2.24 | **Refactor** | サインアップ画面の改善              | `app/auth/signup.tsx`    | [ ]  |
@@ -393,8 +393,8 @@ describe("Goal API", () => {
 ### 7.3 進捗管理
 
 - **Week 1 完了**: Task 1.1〜1.9（全て[x]）
-- **Week 2 進行中**: Task 2.1〜2.34（2.1〜2.20 まで[x]、2.21〜2.34 が[ ]）
-- **次の実装**: Task 2.21（ログイン画面の改善 - Refactor Phase）が最優先
+- **Week 2 進行中**: Task 2.1〜2.34（2.1〜2.21 まで[x]、2.22〜2.34 が[ ]）
+- **次の実装**: Task 2.22（サインアップ画面のテスト作成 - Red Phase）が最優先
 
 **🚨 Claude Code 使用時の必須ルール**:
 

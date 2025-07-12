@@ -264,7 +264,7 @@ describe("Login画面", () => {
     fireEvent.press(loginButton);
 
     await waitFor(() => {
-      expect(getByText("認証情報が正しくありません")).toBeTruthy();
+      expect(getByText("ログインに失敗しました")).toBeTruthy();
     });
   });
 

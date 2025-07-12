@@ -134,10 +134,7 @@ export const GoalForm: React.FC<GoalFormProps> = React.memo(
     }, []);
 
     return (
-      <View
-        testID="goal-form-container"
-        className="bg-white p-6 rounded-lg shadow-lg"
-      >
+      <View className="bg-white p-6 rounded-lg shadow-lg">
         <Input
           label="ゴールタイトル"
           placeholder="ゴールのタイトルを入力"
@@ -168,7 +165,6 @@ export const GoalForm: React.FC<GoalFormProps> = React.memo(
           <Text className="text-sm font-medium mb-2 text-gray-700">優先度</Text>
           <View className="border-2 border-[#FFC400] rounded-lg bg-white">
             <Picker
-              testID="priority-picker"
               selectedValue={priority}
               onValueChange={handlePriorityChange}
               enabled={!isSubmitting}

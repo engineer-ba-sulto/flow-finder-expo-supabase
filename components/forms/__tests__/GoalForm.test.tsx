@@ -20,9 +20,9 @@ describe("GoalForm コンポーネント", () => {
       <GoalForm onSubmit={mockOnSubmit} onCancel={mockOnCancel} />
     );
 
-    expect(getByPlaceholderText("ゴールのタイトルを入力")).toBeTruthy();
-    expect(getByPlaceholderText("ゴールの詳細説明（任意）")).toBeTruthy();
-    expect(getByText("保存")).toBeTruthy();
+    expect(getByPlaceholderText("例: 英語学習マスター")).toBeTruthy();
+    expect(getByPlaceholderText("このゴールについて詳しく...")).toBeTruthy();
+    expect(getByText("作成")).toBeTruthy();
     expect(getByText("キャンセル")).toBeTruthy();
   });
 
@@ -31,7 +31,7 @@ describe("GoalForm コンポーネント", () => {
       <GoalForm onSubmit={mockOnSubmit} onCancel={mockOnCancel} />
     );
 
-    const titleInput = getByPlaceholderText("ゴールのタイトルを入力");
+    const titleInput = getByPlaceholderText("例: 英語学習マスター");
     fireEvent.changeText(titleInput, "英語学習");
 
     expect(titleInput.props.value).toBe("英語学習");
@@ -42,7 +42,7 @@ describe("GoalForm コンポーネント", () => {
       <GoalForm onSubmit={mockOnSubmit} onCancel={mockOnCancel} />
     );
 
-    const descriptionInput = getByPlaceholderText("ゴールの詳細説明（任意）");
+    const descriptionInput = getByPlaceholderText("このゴールについて詳しく...");
     fireEvent.changeText(descriptionInput, "TOEIC 800点を目指す");
 
     expect(descriptionInput.props.value).toBe("TOEIC 800点を目指す");
@@ -53,19 +53,20 @@ describe("GoalForm コンポーネント", () => {
       <GoalForm onSubmit={mockOnSubmit} onCancel={mockOnCancel} />
     );
 
-    const priorityPicker = getByLabelText("優先度選択");
-
-    // Pickerが存在することを確認
-    expect(priorityPicker).toBeTruthy();
-
     // 優先度ラベルが表示されていることを確認
     expect(getByText("優先度")).toBeTruthy();
 
-    // 値を変更してエラーが発生しないことを確認
-    fireEvent(priorityPicker, "valueChange", GoalPriority.HIGH);
+    // 優先度ボタンが表示されていることを確認
+    expect(getByText("高")).toBeTruthy();
+    expect(getByText("中")).toBeTruthy();
+    expect(getByText("低")).toBeTruthy();
 
-    // Pickerの機能が動作することを確認
-    expect(priorityPicker).toBeTruthy();
+    // 高優先度ボタンをクリック
+    const highPriorityButton = getByLabelText("優先度高");
+    fireEvent.press(highPriorityButton);
+
+    // ボタンが動作することを確認
+    expect(highPriorityButton).toBeTruthy();
   });
 
   it("有効なデータで送信が成功すること", () => {
@@ -73,14 +74,14 @@ describe("GoalForm コンポーネント", () => {
       <GoalForm onSubmit={mockOnSubmit} onCancel={mockOnCancel} />
     );
 
-    const titleInput = getByPlaceholderText("ゴールのタイトルを入力");
-    const descriptionInput = getByPlaceholderText("ゴールの詳細説明（任意）");
-    const priorityPicker = getByLabelText("優先度選択");
-    const submitButton = getByText("保存");
+    const titleInput = getByPlaceholderText("例: 英語学習マスター");
+    const descriptionInput = getByPlaceholderText("このゴールについて詳しく...");
+    const highPriorityButton = getByLabelText("優先度高");
+    const submitButton = getByText("作成");
 
     fireEvent.changeText(titleInput, "英語学習");
     fireEvent.changeText(descriptionInput, "TOEIC 800点を目指す");
-    fireEvent(priorityPicker, "valueChange", GoalPriority.HIGH);
+    fireEvent.press(highPriorityButton);
     fireEvent.press(submitButton);
 
     const expectedGoalData: CreateGoalInput = {
@@ -98,7 +99,7 @@ describe("GoalForm コンポーネント", () => {
       <GoalForm onSubmit={mockOnSubmit} onCancel={mockOnCancel} />
     );
 
-    const submitButton = getByText("保存");
+    const submitButton = getByText("作成");
     fireEvent.press(submitButton);
 
     expect(getByText("タイトルは必須です")).toBeTruthy();
@@ -110,9 +111,9 @@ describe("GoalForm コンポーネント", () => {
       <GoalForm onSubmit={mockOnSubmit} onCancel={mockOnCancel} />
     );
 
-    const titleInput = getByPlaceholderText("ゴールのタイトルを入力");
+    const titleInput = getByPlaceholderText("例: 英語学習マスター");
     const longTitle = "あ".repeat(201);
-    const submitButton = getByText("保存");
+    const submitButton = getByText("作成");
 
     fireEvent.changeText(titleInput, longTitle);
     fireEvent.press(submitButton);
@@ -126,10 +127,10 @@ describe("GoalForm コンポーネント", () => {
       <GoalForm onSubmit={mockOnSubmit} onCancel={mockOnCancel} />
     );
 
-    const titleInput = getByPlaceholderText("ゴールのタイトルを入力");
-    const descriptionInput = getByPlaceholderText("ゴールの詳細説明（任意）");
+    const titleInput = getByPlaceholderText("例: 英語学習マスター");
+    const descriptionInput = getByPlaceholderText("このゴールについて詳しく...");
     const longDescription = "あ".repeat(1001);
-    const submitButton = getByText("保存");
+    const submitButton = getByText("作成");
 
     fireEvent.changeText(titleInput, "英語学習");
     fireEvent.changeText(descriptionInput, longDescription);
@@ -163,7 +164,7 @@ describe("GoalForm コンポーネント", () => {
       user_id: "user-id",
     };
 
-    const { getByDisplayValue, getByLabelText, getByText } = render(
+    const { getByDisplayValue, getByText } = render(
       <GoalForm
         onSubmit={mockOnSubmit}
         onCancel={mockOnCancel}
@@ -174,10 +175,11 @@ describe("GoalForm コンポーネント", () => {
     expect(getByDisplayValue("既存のゴール")).toBeTruthy();
     expect(getByDisplayValue("既存の説明")).toBeTruthy();
 
-    const priorityPicker = getByLabelText("優先度選択");
-    expect(priorityPicker).toBeTruthy();
+    // 編集モードのタイトル表示確認
+    expect(getByText("ゴール編集")).toBeTruthy();
     // 優先度選択エリアが表示されていることを確認
     expect(getByText("優先度")).toBeTruthy();
+    expect(getByText("更新")).toBeTruthy();
   });
 
   it("送信中はボタンが無効化されること", () => {
@@ -189,7 +191,7 @@ describe("GoalForm コンポーネント", () => {
       />
     );
 
-    const titleInput = getByPlaceholderText("ゴールのタイトルを入力");
+    const titleInput = getByPlaceholderText("例: 英語学習マスター");
     const submitButton = getByText("保存中...");
 
     fireEvent.changeText(titleInput, "テストゴール");
@@ -205,13 +207,17 @@ describe("GoalForm コンポーネント", () => {
       <GoalForm onSubmit={mockOnSubmit} onCancel={mockOnCancel} />
     );
 
-    // フォームが表示されていることを確認（保存ボタンで判定）
-    const saveButton = getByText("保存");
+    // フォームが表示されていることを確認（作成ボタンで判定）
+    const saveButton = getByText("作成");
     expect(saveButton).toBeTruthy();
     
     // 優先度ラベルでFlow Finderブランドスタイルを確認
     const priorityLabel = getByText("優先度");
     expect(priorityLabel).toBeTruthy();
+    
+    // フォームタイトル確認
+    const formTitle = getByText("新しいゴール");
+    expect(formTitle).toBeTruthy();
   });
 
   it("アクセシビリティ属性が正しく設定されること", () => {

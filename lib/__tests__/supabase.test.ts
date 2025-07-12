@@ -12,7 +12,7 @@ jest.mock("@supabase/supabase-js", () => ({
   })),
 }));
 
-// モジュールのモック（デフォルトエクスポート回避）
+// 実際のsupabase.tsファイルの代わりにモックを提供
 jest.mock("../supabase", () => {
   const mockClient = {
     auth: {},

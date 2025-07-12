@@ -1,6 +1,5 @@
-import { Picker } from "@react-native-picker/picker";
-import React, { useCallback, useMemo, useState } from "react";
-import { Text, View } from "react-native";
+import React, { useCallback, useState } from "react";
+import { Pressable, Text, TextInput, View } from "react-native";
 import { CreateGoalInput, Goal, GoalPriority } from "../../types/goal.types";
 import { Button } from "../ui/Button";
 import { Input } from "../ui/Input";
@@ -39,11 +38,9 @@ const FORM_CONSTRAINTS = {
  * 優先度選択肢のデータ
  */
 const PRIORITY_OPTIONS = [
-  { label: "低優先度", value: GoalPriority.LOW },
-  { label: "中優先度", value: GoalPriority.MEDIUM },
-  { label: "高優先度", value: GoalPriority.HIGH },
-  { label: "緊急", value: GoalPriority.URGENT },
-  { label: "最重要", value: GoalPriority.CRITICAL },
+  { label: "高", value: GoalPriority.HIGH },
+  { label: "中", value: GoalPriority.MEDIUM },
+  { label: "低", value: GoalPriority.LOW },
 ] as const;
 
 /**
@@ -124,70 +121,93 @@ export const GoalForm: React.FC<GoalFormProps> = React.memo(
       setPriority(value);
     }, []);
 
-    /**
-     * 優先度選択肢のレンダリング
-     */
-    const priorityItems = useMemo(() => {
-      return PRIORITY_OPTIONS.map(({ label, value }) => (
-        <Picker.Item key={value} label={label} value={value} />
-      ));
-    }, []);
-
     return (
-      <View className="bg-white p-6 rounded-lg shadow-lg">
-        <Input
-          label="ゴールタイトル"
-          placeholder="ゴールのタイトルを入力"
-          value={title}
-          onChangeText={setTitle}
-          error={!!errors.title}
-          errorMessage={errors.title}
-          disabled={isSubmitting}
-          accessibilityLabel="ゴールタイトル"
-          accessibilityHint="ゴールのタイトルを入力してください。必須項目です。"
-        />
+      <View className="bg-white flex-1">
+        {/* ヘッダータイトル */}
+        <View className="p-6 pb-0">
+          <Text className="text-lg font-bold text-[#212121] text-center mb-4">
+            {initialGoal ? "ゴール編集" : "新しいゴール"}
+          </Text>
+        </View>
 
-        <Input
-          label="ゴール説明"
-          placeholder="ゴールの詳細説明（任意）"
-          value={description}
-          onChangeText={setDescription}
-          multiline
-          numberOfLines={3}
-          error={!!errors.description}
-          errorMessage={errors.description}
-          disabled={isSubmitting}
-          accessibilityLabel="ゴール説明"
-          accessibilityHint="ゴールの詳細説明を入力してください。任意項目です。"
-        />
+        {/* フォームコンテンツ */}
+        <View className="pb-6 gap-4">
+          {/* タイトル入力 */}
+          <View>
+            <Input
+              label="タイトル"
+              placeholder="例: 英語学習マスター"
+              value={title}
+              onChangeText={setTitle}
+              error={!!errors.title}
+              errorMessage={errors.title}
+              disabled={isSubmitting}
+              accessibilityLabel="ゴールタイトル"
+              accessibilityHint="ゴールのタイトルを入力してください。必須項目です。"
+            />
+          </View>
 
-        <View className="mb-4">
-          <Text className="text-sm font-medium mb-2 text-gray-700">優先度</Text>
-          <View className="border-2 border-[#FFC400] rounded-lg bg-white">
-            <Picker
-              selectedValue={priority}
-              onValueChange={handlePriorityChange}
-              enabled={!isSubmitting}
-              accessibilityLabel="優先度選択"
-              accessibilityHint="ゴールの優先度を選択してください"
-            >
-              {priorityItems}
-            </Picker>
+          {/* 説明入力 */}
+          <View>
+            <Text className="text-sm font-medium mb-2 text-[#212121]">
+              説明（任意）
+            </Text>
+            <TextInput
+              className="border border-gray-300 rounded-lg p-3 bg-white text-sm min-h-[200px]"
+              placeholder="このゴールについて詳しく..."
+              placeholderTextColor="#9CA3AF"
+              value={description}
+              onChangeText={setDescription}
+              multiline
+              numberOfLines={4}
+              textAlignVertical="top"
+              editable={!isSubmitting}
+              accessibilityLabel="ゴール説明"
+              accessibilityHint="ゴールの詳細説明を入力してください。任意項目です。"
+              style={{
+                fontFamily: "System",
+              }}
+            />
+            {errors.description && (
+              <Text className="text-red-500 text-xs mt-1">
+                {errors.description}
+              </Text>
+            )}
+          </View>
+
+          {/* 優先度選択（ボタン形式） */}
+          <View>
+            <Text className="text-sm font-medium mb-2 text-[#212121]">
+              優先度
+            </Text>
+            <View className="flex-row gap-2">
+              {PRIORITY_OPTIONS.map(({ label, value }) => (
+                <Pressable
+                  key={value}
+                  className={`flex-1 py-2 px-3 rounded-lg ${
+                    priority === value ? "bg-[#FFC400]" : "bg-gray-200"
+                  }`}
+                  onPress={() => handlePriorityChange(value)}
+                  disabled={isSubmitting}
+                  accessibilityLabel={`優先度${label}`}
+                  accessibilityRole="button"
+                  accessibilityState={{ selected: priority === value }}
+                >
+                  <Text
+                    className={`text-sm text-center font-medium ${
+                      priority === value ? "text-[#212121]" : "text-[#212121]"
+                    }`}
+                  >
+                    {label}
+                  </Text>
+                </Pressable>
+              ))}
+            </View>
           </View>
         </View>
 
-        <View className="flex-row gap-4 mt-6">
-          <View className="flex-1">
-            <Button
-              variant="primary"
-              onPress={handleSubmit}
-              disabled={isSubmitting}
-              accessibilityLabel={isSubmitting ? "保存中" : "保存"}
-              accessibilityHint="ゴールを保存します"
-            >
-              {isSubmitting ? "保存中..." : "保存"}
-            </Button>
-          </View>
+        {/* アクションボタン */}
+        <View className="flex-row gap-3 pb-6 mt-auto">
           <View className="flex-1">
             <Button
               variant="secondary"
@@ -197,6 +217,17 @@ export const GoalForm: React.FC<GoalFormProps> = React.memo(
               accessibilityHint="ゴールの作成・編集をキャンセルします"
             >
               キャンセル
+            </Button>
+          </View>
+          <View className="flex-1">
+            <Button
+              variant="primary"
+              onPress={handleSubmit}
+              disabled={isSubmitting}
+              accessibilityLabel={isSubmitting ? "保存中" : "作成"}
+              accessibilityHint="ゴールを保存します"
+            >
+              {isSubmitting ? "保存中..." : initialGoal ? "更新" : "作成"}
             </Button>
           </View>
         </View>

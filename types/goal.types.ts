@@ -10,7 +10,7 @@
 /**
  * ゴールの優先度を表すEnum
  * 
- * Flow Finderでは1-5の数値で優先度を管理し、
+ * Flow Finderでは1-3の数値で優先度を管理し、
  * 点検セッションでの優先度判定に使用されます。
  */
 export enum GoalPriority {
@@ -19,11 +19,7 @@ export enum GoalPriority {
   /** 中優先度 - 通常の目標 */
   MEDIUM = 2,
   /** 高優先度 - 重要な目標 */
-  HIGH = 3,
-  /** 緊急 - 近日中に対応が必要 */
-  URGENT = 4,
-  /** 最重要 - 即座に対応が必要 */
-  CRITICAL = 5
+  HIGH = 3
 }
 
 /**

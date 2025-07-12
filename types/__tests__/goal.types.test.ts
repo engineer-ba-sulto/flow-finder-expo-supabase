@@ -74,16 +74,12 @@ describe('Goal データ型', () => {
       expect(GoalPriority.LOW).toBeDefined();
       expect(GoalPriority.MEDIUM).toBeDefined();
       expect(GoalPriority.HIGH).toBeDefined();
-      expect(GoalPriority.URGENT).toBeDefined();
-      expect(GoalPriority.CRITICAL).toBeDefined();
     });
 
     it('優先度値が期待される数値であること', () => {
       expect(GoalPriority.LOW).toBe(1);
       expect(GoalPriority.MEDIUM).toBe(2);
       expect(GoalPriority.HIGH).toBe(3);
-      expect(GoalPriority.URGENT).toBe(4);
-      expect(GoalPriority.CRITICAL).toBe(5);
     });
   });
 
@@ -120,7 +116,7 @@ describe('Goal データ型', () => {
       expect(goal.title.length).toBeGreaterThan(0);
     });
 
-    it('priorityが1-5の範囲内であること', () => {
+    it('priorityが1-3の範囲内であること', () => {
       const goal: Goal = {
         id: 'test-id-123',
         title: 'テストゴール',
@@ -132,7 +128,7 @@ describe('Goal データ型', () => {
       };
 
       expect(goal.priority).toBeGreaterThanOrEqual(1);
-      expect(goal.priority).toBeLessThanOrEqual(5);
+      expect(goal.priority).toBeLessThanOrEqual(3);
     });
 
     it('created_atがupdated_atより前または同じであること', () => {

@@ -102,7 +102,7 @@ Flow Finder の **TDD 実装計画** です。基本的な TDD 手法につい�
 | 2.7  | **Red**      | GoalForm コンポーネントのテスト作成 | `components/forms/`     | [x]  |
 | 2.8  | **Green**    | GoalForm コンポーネントの実装       | `components/forms/`     | [x]  |
 | 2.9  | **Refactor** | GoalForm コンポーネントの改善       | `components/forms/`     | [x]  |
-| 2.10 | **Red**      | ゴール管理画面のテスト作成          | `app/(tabs)/__tests__/` | [ ]  |
+| 2.10 | **Red**      | ゴール管理画面のテスト作成          | `app/(tabs)/__tests__/` | [x]  |
 | 2.11 | **Green**    | ゴール管理画面の実装                | `app/(tabs)/goals.tsx`  | [ ]  |
 | 2.12 | **Refactor** | ゴール管理画面の改善                | `app/(tabs)/goals.tsx`  | [ ]  |
 | 2.13 | **Red**      | 認証機能のテスト作成                | `hooks/`                | [ ]  |
@@ -368,8 +368,8 @@ describe("Goal API", () => {
 ### 7.3 進捗管理
 
 - **Week 1完了**: Task 1.1〜1.9（全て[x]）
-- **Week 2進行中**: Task 2.1〜2.16（2.1〜2.9まで[x]、2.10以降は[ ]）
-- **次の実装**: Task 2.10（ゴール管理画面のテスト作成 - Red Phase）が最優先
+- **Week 2進行中**: Task 2.1〜2.16（2.1〜2.10まで[x]、2.11以降は[ ]）
+- **次の実装**: Task 2.11（ゴール管理画面の実装 - Green Phase）が最優先
 
 **🚨 Claude Code 使用時の必須ルール**:
 1. **タスク完了時**: 必ずEditツールでこのドキュメントの完了チェック（`[ ]` → `[x]`）を更新

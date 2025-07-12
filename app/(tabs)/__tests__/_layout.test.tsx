@@ -25,13 +25,13 @@ describe("TabLayout - goals タブ追加テスト (Red Phase)", () => {
 
     it("現在はHomeタブ（index）が実装されていること", () => {
       expect(layoutContent).toContain('name="index"');
-      expect(layoutContent).toContain('title: "Home"');
+      expect(layoutContent).toContain('title: "ホーム"');
       expect(layoutContent).toContain('name="home"'); // FontAwesome icon
     });
 
     it("現在はSettingsタブが実装されていること", () => {
       expect(layoutContent).toContain('name="settings"');
-      expect(layoutContent).toContain('title: "Settings"');
+      expect(layoutContent).toContain('title: "設定"');
       expect(layoutContent).toContain('name="cog"'); // FontAwesome icon
     });
   });
@@ -44,7 +44,7 @@ describe("TabLayout - goals タブ追加テスト (Red Phase)", () => {
 
     it("Goalsタブのタイトル設定が存在すること", () => {
       // Green Phase: goals タブのタイトルが設定されている
-      expect(layoutContent).toContain('title: "Goals"');
+      expect(layoutContent).toContain('title: "ゴール"');
     });
 
     it("Goalsタブのbullseyeアイコンが設定されていること", () => {

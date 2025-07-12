@@ -11,10 +11,6 @@ export const getPriorityLabel = (priority: GoalPriority): string => {
       return "中優先度";
     case GoalPriority.HIGH:
       return "高優先度";
-    case GoalPriority.URGENT:
-      return "緊急";
-    case GoalPriority.CRITICAL:
-      return "最重要";
     default:
       return "中優先度";
   }

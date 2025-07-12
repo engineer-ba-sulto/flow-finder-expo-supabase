@@ -99,8 +99,8 @@ describe("<Goals />", () => {
       fireEvent.press(createButton);
     });
 
-    // ゴール作成フォームが表示されることを確認（保存ボタンの存在で判定）
-    expect(getByText("保存")).toBeTruthy();
+    // ゴール作成フォームが表示されることを確認（作成ボタンの存在で判定）
+    expect(getByText("作成")).toBeTruthy();
   });
 
   test("ゴール作成フォームにタイトル入力フィールドが表示されること", async () => {
@@ -118,7 +118,7 @@ describe("<Goals />", () => {
     });
 
     // タイトル入力フィールドが表示されることを確認
-    expect(getByPlaceholderText("ゴールのタイトルを入力")).toBeTruthy();
+    expect(getByPlaceholderText("例: 英語学習マスター")).toBeTruthy();
   });
 
   test("ゴール作成フォームに優先度選択フィールドが表示されること", async () => {
@@ -153,8 +153,8 @@ describe("<Goals />", () => {
       fireEvent.press(createButton);
     });
 
-    // 保存ボタンが表示されることを確認
-    expect(getByText("保存")).toBeTruthy();
+    // 作成ボタンが表示されることを確認
+    expect(getByText("作成")).toBeTruthy();
   });
 
   test("ゴール作成フォームにキャンセルボタンが表示されること", async () => {
@@ -195,8 +195,8 @@ describe("<Goals />", () => {
       fireEvent.press(cancelButton);
     });
 
-    // ゴール作成フォームが非表示になることを確認（保存ボタンがなくなる）
-    expect(queryByText("保存")).toBeNull();
+    // ゴール作成フォームが非表示になることを確認（作成ボタンがなくなる）
+    expect(queryByText("作成")).toBeNull();
   });
 
   test("既存のゴールアイテムに編集ボタンが表示されること", async () => {

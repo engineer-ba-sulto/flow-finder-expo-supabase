@@ -105,7 +105,7 @@ Flow Finder の **TDD 実装計画** です。基本的な TDD 手法につい�
 | 2.10 | **Red**      | ゴール管理画面のテスト作成          | `app/(tabs)/__tests__/`  | [x]  |
 | 2.11 | **Green**    | ゴール管理画面の実装                | `app/(tabs)/goals.tsx`   | [x]  |
 | 2.12 | **Refactor** | ゴール管理画面の改善                | `app/(tabs)/goals.tsx`   | [x]  |
-| 2.13 | **Red**      | 認証機能のテスト作成                | `hooks/`                 | [ ]  |
+| 2.13 | **Red**      | 認証機能のテスト作成                | `hooks/`                 | [x]  |
 | 2.14 | **Green**    | 認証機能の実装                      | `hooks/useAuth.ts`       | [ ]  |
 | 2.15 | **Refactor** | 認証機能の改善                      | `hooks/useAuth.ts`       | [ ]  |
 | 2.16 | **Red**      | goals タブ追加のテスト作成          | `app/(tabs)/__tests__/`  | [ ]  |
@@ -378,8 +378,8 @@ describe("Goal API", () => {
 ### 7.3 進捗管理
 
 - **Week 1 完了**: Task 1.1〜1.9（全て[x]）
-- **Week 2 進行中**: Task 2.1〜2.19（2.1〜2.12 まで[x]、2.13 以降は[ ]）
-- **次の実装**: Task 2.17（goals タブ追加のテスト作成 - Red Phase）が最優先
+- **Week 2 進行中**: Task 2.1〜2.19（2.1〜2.13 まで[x]、2.14 以降は[ ]）
+- **次の実装**: Task 2.14（認証機能の実装 - Green Phase）が最優先
 
 **🚨 Claude Code 使用時の必須ルール**:
 

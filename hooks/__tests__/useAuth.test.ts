@@ -1,9 +1,10 @@
 // 環境変数をモック（importの前に設定）
 process.env.EXPO_PUBLIC_SUPABASE_URL = "https://test-project.supabase.co";
-process.env.EXPO_PUBLIC_SUPABASE_ANON_KEY = "test-anon-key-mock-100-characters-long-string-for-proper-validation-check-testing";
+process.env.EXPO_PUBLIC_SUPABASE_ANON_KEY =
+  "test-anon-key-mock-100-characters-long-string-for-proper-validation-check-testing";
 
-import { renderHook, act } from "@testing-library/react-native";
 import { AuthError, Session, User } from "@supabase/supabase-js";
+import { act, renderHook } from "@testing-library/react-native";
 
 // Supabaseクライアントのモック
 const mockSupabaseClient = {
@@ -17,7 +18,7 @@ const mockSupabaseClient = {
 };
 
 // Supabaseモジュールのモック
-jest.mock("../../../lib/supabase", () => ({
+jest.mock("../../lib/supabase", () => ({
   getSupabaseClient: jest.fn(() => mockSupabaseClient),
   __esModule: true,
   default: mockSupabaseClient,
@@ -97,7 +98,7 @@ describe("useAuth カスタムフック", () => {
 
       // セッション取得の完了を待つ
       await act(async () => {
-        await new Promise(resolve => setTimeout(resolve, 0));
+        await new Promise((resolve) => setTimeout(resolve, 0));
       });
 
       expect(result.current.user).toEqual(mockUser);
@@ -114,7 +115,7 @@ describe("useAuth カスタムフック", () => {
       const { result } = renderHook(() => useAuth());
 
       await act(async () => {
-        await new Promise(resolve => setTimeout(resolve, 0));
+        await new Promise((resolve) => setTimeout(resolve, 0));
       });
 
       expect(result.current.user).toBeNull();
@@ -131,7 +132,7 @@ describe("useAuth カスタムフック", () => {
       const { result } = renderHook(() => useAuth());
 
       await act(async () => {
-        await new Promise(resolve => setTimeout(resolve, 0));
+        await new Promise((resolve) => setTimeout(resolve, 0));
       });
 
       expect(result.current.user).toBeNull();
@@ -155,7 +156,9 @@ describe("useAuth カスタムフック", () => {
 
       renderHook(() => useAuth());
 
-      expect(mockSupabaseClient.auth.onAuthStateChange).toHaveBeenCalledTimes(1);
+      expect(mockSupabaseClient.auth.onAuthStateChange).toHaveBeenCalledTimes(
+        1
+      );
       expect(mockSupabaseClient.auth.onAuthStateChange).toHaveBeenCalledWith(
         expect.any(Function)
       );
@@ -218,7 +221,10 @@ describe("useAuth カスタムフック", () => {
       const { result } = renderHook(() => useAuth());
 
       await act(async () => {
-        const result_signIn = await result.current.signIn("test@example.com", "password123");
+        const result_signIn = await result.current.signIn(
+          "test@example.com",
+          "password123"
+        );
         expect(result_signIn.error).toBeNull();
       });
 
@@ -240,7 +246,10 @@ describe("useAuth カスタムフック", () => {
       const { result } = renderHook(() => useAuth());
 
       await act(async () => {
-        const result_signIn = await result.current.signIn("wrong@example.com", "wrongpassword");
+        const result_signIn = await result.current.signIn(
+          "wrong@example.com",
+          "wrongpassword"
+        );
         expect(result_signIn.error).toEqual(mockAuthError);
       });
 
@@ -286,7 +295,10 @@ describe("useAuth カスタムフック", () => {
       const { result } = renderHook(() => useAuth());
 
       await act(async () => {
-        const result_signUp = await result.current.signUp("newuser@example.com", "password123");
+        const result_signUp = await result.current.signUp(
+          "newuser@example.com",
+          "password123"
+        );
         expect(result_signUp.error).toBeNull();
       });
 
@@ -308,7 +320,10 @@ describe("useAuth カスタムフック", () => {
       const { result } = renderHook(() => useAuth());
 
       await act(async () => {
-        const result_signUp = await result.current.signUp("invalid@example.com", "weak");
+        const result_signUp = await result.current.signUp(
+          "invalid@example.com",
+          "weak"
+        );
         expect(result_signUp.error).toEqual(mockAuthError);
       });
 
@@ -350,7 +365,7 @@ describe("useAuth カスタムフック", () => {
 
       // 初期状態でユーザーが存在することを確認
       await act(async () => {
-        await new Promise(resolve => setTimeout(resolve, 0));
+        await new Promise((resolve) => setTimeout(resolve, 0));
       });
       expect(result.current.user).toEqual(mockUser);
 
@@ -396,20 +411,27 @@ describe("useAuth カスタムフック", () => {
 
       // 型安全性の確認
       expect(typeof result.current.loading).toBe("boolean");
-      expect(result.current.user === null || typeof result.current.user === "object").toBe(true);
-      expect(result.current.error === null || typeof result.current.error === "object").toBe(true);
+      expect(
+        result.current.user === null || typeof result.current.user === "object"
+      ).toBe(true);
+      expect(
+        result.current.error === null ||
+          typeof result.current.error === "object"
+      ).toBe(true);
       expect(typeof result.current.signIn).toBe("function");
       expect(typeof result.current.signUp).toBe("function");
       expect(typeof result.current.signOut).toBe("function");
     });
 
     it("非同期エラーが適切にキャッチされること", async () => {
-      mockSupabaseClient.auth.getSession.mockRejectedValue(new Error("Network error"));
+      mockSupabaseClient.auth.getSession.mockRejectedValue(
+        new Error("Network error")
+      );
 
       const { result } = renderHook(() => useAuth());
 
       await act(async () => {
-        await new Promise(resolve => setTimeout(resolve, 0));
+        await new Promise((resolve) => setTimeout(resolve, 0));
       });
 
       expect(result.current.user).toBeNull();

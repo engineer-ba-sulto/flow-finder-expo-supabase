@@ -121,7 +121,7 @@ Flow Finder の **TDD 実装計画** です。基本的な TDD 手法につい�
 | 2.26 | **Green**    | 認証ガードの実装                    | `app/_layout.tsx`        | [x]  |
 | 2.27 | **Refactor** | 認証ガードの改善                    | `app/_layout.tsx`        | [x]  |
 | 2.28 | **Red**      | ホーム画面のテスト作成              | `app/(tabs)/__tests__/`  | [x]  |
-| 2.29 | **Green**    | ホーム画面の最小実装                | `app/(tabs)/index.tsx`   | [ ]  |
+| 2.29 | **Green**    | ホーム画面の最小実装                | `app/(tabs)/index.tsx`   | [x]  |
 | 2.30 | **Refactor** | ホーム画面の改善                    | `app/(tabs)/index.tsx`   | [ ]  |
 | 2.31 | **Red**      | 設定画面のテスト作成                | `app/(tabs)/__tests__/`  | [ ]  |
 | 2.32 | **Green**    | 設定画面の実装                      | `app/(tabs)/settings.tsx`| [ ]  |
@@ -399,8 +399,8 @@ describe("Goal API", () => {
 ### 7.3 進捗管理
 
 - **Week 1 完了**: Task 1.1〜1.9（全て[x]）
-- **Week 2 進行中**: Task 2.1〜2.34（2.1〜2.28 まで[x]、2.29〜2.34 が[ ]）
-- **次の実装**: Task 2.29（ホーム画面の最小実装 - Green Phase）が最優先
+- **Week 2 進行中**: Task 2.1〜2.34（2.1〜2.29 まで[x]、2.30〜2.34 が[ ]）
+- **次の実装**: Task 2.30（ホーム画面の改善 - Refactor Phase）が最優先
 
 **🚨 Claude Code 使用時の必須ルール**:
 

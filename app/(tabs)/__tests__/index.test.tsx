@@ -11,6 +11,17 @@ jest.mock("expo-router", () => ({
   useFocusEffect: jest.fn(),
 }));
 
+// Supabaseクライアントのモック
+jest.mock("../../../lib/supabase", () => ({
+  getSupabaseClient: jest.fn(() => ({
+    from: jest.fn(() => ({
+      select: jest.fn(() => ({
+        eq: jest.fn(() => Promise.resolve({ count: 0, error: null })),
+      })),
+    })),
+  })),
+}));
+
 // useAuthフックのモック
 jest.mock("../../../hooks/useAuth", () => ({
   useAuth: jest.fn(() => ({
@@ -159,6 +170,18 @@ describe("<HomeScreen />", () => {
   });
 
   test("アプリの基本説明が表示されること", async () => {
+    // 正常状態のモック（未認証ユーザー）
+    const mockUseAuth = require("../../../hooks/useAuth").useAuth;
+    mockUseAuth.mockReturnValue({
+      user: null,
+      loading: false,
+      error: null,
+      isAuthenticated: false,
+      signIn: jest.fn(),
+      signUp: jest.fn(),
+      signOut: jest.fn(),
+    });
+
     const { getByText } = render(<HomeScreen />);
     
     await waitFor(() => {

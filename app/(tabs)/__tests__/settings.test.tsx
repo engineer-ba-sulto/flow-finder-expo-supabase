@@ -180,6 +180,22 @@ describe("<SettingsScreen />", () => {
   });
 
   test("プロフィール編集ボタンが表示されること", async () => {
+    const mockUseAuth = require("../../../hooks/useAuth").useAuth;
+    mockUseAuth.mockReturnValue({
+      user: { 
+        email: "test@example.com",
+        user_metadata: { 
+          name: "テストユーザー" 
+        }
+      },
+      loading: false,
+      error: null,
+      isAuthenticated: true,
+      signIn: jest.fn(),
+      signUp: jest.fn(),
+      signOut: jest.fn(),
+    });
+
     const { getByText } = render(<SettingsScreen />);
     
     await waitFor(() => {
@@ -188,6 +204,22 @@ describe("<SettingsScreen />", () => {
   });
 
   test("アプリバージョン情報が表示されること", async () => {
+    const mockUseAuth = require("../../../hooks/useAuth").useAuth;
+    mockUseAuth.mockReturnValue({
+      user: { 
+        email: "test@example.com",
+        user_metadata: { 
+          name: "テストユーザー" 
+        }
+      },
+      loading: false,
+      error: null,
+      isAuthenticated: true,
+      signIn: jest.fn(),
+      signUp: jest.fn(),
+      signOut: jest.fn(),
+    });
+
     const { getByText } = render(<SettingsScreen />);
     
     await waitFor(() => {

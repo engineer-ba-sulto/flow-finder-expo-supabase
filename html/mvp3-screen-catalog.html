@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MVP 3段目 - プレミアム機能 画面カタログ</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      /* React Native互換スタイル */
+      .rn-view {
+        display: flex;
+        flex-direction: column;
+        position: relative;
+        box-sizing: border-box;
+      }
+      .rn-text {
+        color: #000000;
+        display: block;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          sans-serif;
+        font-size: 14px;
+        font-weight: normal;
+        margin: 0;
+      }
+      .rn-touchable {
+        cursor: pointer;
+        user-select: none;
+      }
+      .rn-touchable:active {
+        opacity: 0.6;
+      }
+      .rn-input {
+        border: 1px solid #d1d5db;
+        border-radius: 8px;
+        padding: 12px;
+        font-size: 14px;
+        font-family: inherit;
+        width: 100%;
+        box-sizing: border-box;
+        background-color: white;
+      }
+      .rn-scroll-view {
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+      }
+      .rn-safe-area {
+        padding-top: env(safe-area-inset-top);
+        padding-bottom: env(safe-area-inset-bottom);
+      }
+      /* Flexbox Direction Utilities */
+      .flex-row {
+        flex-direction: row !important;
+      }
+      .items-center {
+        align-items: center;
+      }
+      .justify-center {
+        justify-content: center;
+      }
+      .justify-between {
+        justify-content: space-between;
+      }
+      .flex-1 {
+        flex: 1;
+      }
+      .gap-1 {
+        gap: 4px;
+      }
+      .gap-2 {
+        gap: 8px;
+      }
+      .gap-3 {
+        gap: 12px;
+      }
+      .gap-4 {
+        gap: 16px;
+      }
+      /* タブバー */
+      .tab-bar {
+        flex-direction: row;
+        background: white;
+        border-top: 1px solid #e5e7eb;
+        padding: 12px 0;
+        justify-content: space-around;
+      }
+      .tab-item {
+        align-items: center;
+        padding: 8px 12px;
+      }
+      /* モバイルサイズに制限 */
+      .mobile-container {
+        max-width: 414px;
+        min-width: 375px;
+        height: 800px;
+        margin: 0 auto;
+        border: 1px solid #e5e7eb;
+        border-radius: 20px;
+        overflow: hidden;
+        background: white;
+        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+      }
+      .status-bar {
+        height: 44px;
+        background: #000;
+        color: white;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 20px;
+        font-size: 14px;
+        font-weight: 600;
+      }
+      /* AI思考アニメーション */
+      @keyframes thinking {
+        0%, 100% { opacity: 0.5; }
+        50% { opacity: 1; }
+      }
+      .ai-thinking {
+        animation: thinking 1.5s ease-in-out infinite;
+      }
+    </style>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: "#FFC400",
+              secondary: "#212121",
+              success: "#4CAF50",
+              warning: "#FF9800",
+              error: "#F44336",
+              premium: "#8B5CF6",
+            },
+            spacing: {
+              "safe-top": "44px",
+              "safe-bottom": "34px",
+            },
+          },
+        },
+      };
+    </script>
+  </head>
+  <body class="bg-gray-200 font-sans p-4">
+    <!-- ヘッダー -->
+    <div class="rn-view bg-white shadow-md sticky top-0 z-50 mb-4">
+      <div class="rn-view px-4 py-4">
+        <h1 class="rn-text text-3xl font-bold text-secondary mb-2">
+          💎 MVP 3段目：プレミアム機能
+        </h1>
+        <div class="rn-text text-sm text-gray-600 mb-4">
+          <strong>リリース目標：</strong> Week 8完了（8週間目）<br />
+          <strong>実装範囲：</strong> AI機能・課金システム・プレミアム機能・本格収益化
+        </div>
+        <div class="rn-view">
+          <div class="rn-scroll-view">
+            <div class="flex flex-wrap gap-2">
+              <span class="text-sm bg-purple-200 text-purple-800 px-3 py-1 rounded-full font-medium">
+                Week 7: AI機能実装
+              </span>
+              <span class="text-sm bg-green-200 text-green-800 px-3 py-1 rounded-full font-medium">
+                Week 8: 課金システム・収益化
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="flex flex-wrap justify-center gap-6">
+      <!-- AI提案機能：セッションStep4（Premium版） -->
+      <div class="mb-8">
+        <h3 class="text-lg font-bold text-center mb-4">🤖 AI提案機能（Premium）</h3>
+        <div class="mobile-container">
+          <div class="status-bar">
+            <span>9:41</span>
+            <span>📶 📶 100%</span>
+          </div>
+          
+          <div class="rn-view rn-safe-area bg-white flex-1">
+            <div class="rn-view bg-premium p-4">
+              <div class="rn-view flex-row items-center justify-between">
+                <h2 class="rn-text text-xl font-bold text-white">🤖 AI提案機能</h2>
+                <div class="bg-white/20 text-white text-xs px-2 py-1 rounded-full">
+                  Premium
+                </div>
+              </div>
+            </div>
+            
+            <div class="rn-view rn-scroll-view flex-1 p-6">
+              <div class="rn-view mb-4">
+                <div class="rn-text text-xs text-gray-600 mb-2">Step 4/5 - AI提案</div>
+                <div class="rn-view w-full bg-gray-200 rounded-full h-2">
+                  <div class="bg-premium h-2 rounded-full" style="width: 80%"></div>
+                </div>
+              </div>
+
+              <h3 class="rn-text text-lg font-bold text-secondary mb-4 text-center">
+                AI があなたに最適な解決策を提案します
+              </h3>
+
+              <!-- AI思考中表示 -->
+              <div class="rn-view bg-premium/10 border border-premium/30 rounded-xl p-4 mb-4">
+                <div class="rn-view flex-row items-center">
+                  <div class="text-lg mr-2 ai-thinking">🤖</div>
+                  <div class="rn-view">
+                    <div class="rn-text text-sm font-medium text-premium">AI が分析中...</div>
+                    <div class="rn-text text-xs text-premium/70">
+                      あなたの状況に合わせた解決策を生成しています
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- AI提案結果 -->
+              <div class="rn-view gap-3 mb-6">
+                <div class="rn-view bg-premium/5 border border-premium/20 rounded-xl p-4">
+                  <div class="rn-view flex-row items-start mb-2">
+                    <div class="text-lg mr-2">🎯</div>
+                    <div class="rn-view flex-1">
+                      <div class="rn-text text-sm font-medium text-premium mb-1">
+                        AI 個人化提案 #1
+                      </div>
+                      <div class="rn-text text-xs text-gray-700">
+                        <strong>英語学習</strong>と<strong>通勤時間</strong>の組み合わせから、あなたには
+                        「ポッドキャスト＋シャドーイング」が最適です。理由：集中できる環境で、
+                        リスニングとスピーキングを同時に鍛えられるため。
+                      </div>
+                    </div>
+                  </div>
+                  <div class="rn-view flex-row justify-between items-center">
+                    <div class="rn-text text-xs text-premium">マッチ度: 92%</div>
+                    <div class="rn-touchable bg-premium text-white text-xs px-3 py-1 rounded-full">
+                      選択
+                    </div>
+                  </div>
+                </div>
+
+                <div class="rn-view bg-gray-50 border border-gray-200 rounded-xl p-4">
+                  <div class="rn-view flex-row items-start mb-2">
+                    <div class="text-lg mr-2">💡</div>
+                    <div class="rn-view flex-1">
+                      <div class="rn-text text-sm font-medium mb-1">
+                        AI 個人化提案 #2
+                      </div>
+                      <div class="rn-text text-xs text-gray-700">
+                        平日は短時間集中型、休日は長時間学習に切り替える「時間分割戦略」。
+                        あなたの生活パターン（忙しい平日・余裕のある休日）に最適化された学習法です。
+                      </div>
+                    </div>
+                  </div>
+                  <div class="rn-view flex-row justify-between items-center">
+                    <div class="rn-text text-xs text-gray-600">マッチ度: 85%</div>
+                    <div class="rn-touchable bg-gray-200 text-gray-700 text-xs px-3 py-1 rounded-full">
+                      選択
+                    </div>
+                  </div>
+                </div>
+
+                <div class="rn-view bg-gray-50 border border-gray-200 rounded-xl p-4">
+                  <div class="rn-view flex-row items-start mb-2">
+                    <div class="text-lg mr-2">📱</div>
+                    <div class="rn-view flex-1">
+                      <div class="rn-text text-sm font-medium mb-1">
+                        AI 個人化提案 #3
+                      </div>
+                      <div class="rn-text text-xs text-gray-700">
+                        ゲーミフィケーション要素を活用した「達成報酬システム」。
+                        週目標達成時の自分へのご褒美設定で、継続率を大幅アップ。
+                      </div>
+                    </div>
+                  </div>
+                  <div class="rn-view flex-row justify-between items-center">
+                    <div class="rn-text text-xs text-gray-600">マッチ度: 78%</div>
+                    <div class="rn-touchable bg-gray-200 text-gray-700 text-xs px-3 py-1 rounded-full">
+                      選択
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- AI詳細説明 -->
+              <div class="rn-view bg-blue-50 border border-blue-200 rounded-xl p-4 mb-4">
+                <div class="rn-text text-xs text-blue-800 font-medium mb-1">
+                  💡 なぜこの提案？
+                </div>
+                <div class="rn-text text-xs text-blue-600">
+                  過去の行動パターン・成功事例・類似ユーザーデータから、
+                  あなたの性格特性と目標に最も適した解決策をAIが算出しました。
+                </div>
+              </div>
+
+              <div class="rn-view flex-row justify-between">
+                <div class="rn-touchable text-gray-400 text-sm py-2 px-4">戻る</div>
+                <div
+                  class="rn-touchable bg-premium text-white font-semibold py-2 px-4 rounded-lg text-sm"
+                >
+                  次へ
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Premium ダッシュボード（詳細分析） -->
+      <div class="mb-8">
+        <h3 class="text-lg font-bold text-center mb-4">📊 Premium ダッシュボード</h3>
+        <div class="mobile-container">
+          <div class="status-bar">
+            <span>9:41</span>
+            <span>📶 📶 100%</span>
+          </div>
+          
+          <div class="rn-view rn-safe-area bg-white flex-1">
+            <div class="rn-view bg-premium p-4">
+              <div class="rn-view flex-row items-center justify-between">
+                <h2 class="rn-text text-xl font-bold text-white">📊 ダッシュボード</h2>
+                <div class="bg-white/20 text-white text-xs px-2 py-1 rounded-full">
+                  Premium
+                </div>
+              </div>
+            </div>
+            
+            <div class="rn-view rn-scroll-view flex-1 p-6">
+              <!-- Premium ステータス -->
+              <div class="rn-view bg-premium/10 border border-premium/30 rounded-xl p-4 mb-6">
+                <div class="rn-view flex-row items-center justify-between mb-2">
+                  <div class="rn-text text-sm font-medium text-premium">💎 Premium プラン</div>
+                  <div class="rn-text text-xs text-premium">月額 ¥600</div>
+                </div>
+                <div class="rn-text text-xs text-premium/70">
+                  無制限セッション / AI提案 / 全期間履歴 / 詳細分析
+                </div>
+              </div>
+
+              <!-- 高度な分析指標 -->
+              <div class="rn-view mb-6">
+                <h4 class="rn-text text-sm font-semibold text-secondary mb-3">
+                  🔬 詳細分析データ
+                </h4>
+                <div class="rn-view gap-3">
+                  <!-- 成功パターン分析 -->
+                  <div class="rn-view bg-green-50 border border-green-200 rounded-xl p-4">
+                    <div class="rn-view flex-row items-center justify-between mb-2">
+                      <div class="rn-text text-sm font-medium text-green-800">
+                        🎯 成功パターン発見
+                      </div>
+                      <div class="text-lg">📈</div>
+                    </div>
+                    <div class="rn-text text-xs text-green-700">
+                      朝7-8時の学習完了率: 95%（平均67%より28%高）<br />
+                      最適な学習時間帯が特定されました
+                    </div>
+                  </div>
+
+                  <!-- ボトルネック傾向 -->
+                  <div class="rn-view bg-orange-50 border border-orange-200 rounded-xl p-4">
+                    <div class="rn-view flex-row items-center justify-between mb-2">
+                      <div class="rn-text text-sm font-medium text-orange-800">
+                        ⚠️ ボトルネック傾向
+                      </div>
+                      <div class="text-lg">📉</div>
+                    </div>
+                    <div class="rn-text text-xs text-orange-700">
+                      金曜日の継続率低下（45%）を検出<br />
+                      週末モチベーション設計が必要
+                    </div>
+                  </div>
+
+                  <!-- AI推奨改善案 -->
+                  <div class="rn-view bg-purple-50 border border-purple-200 rounded-xl p-4">
+                    <div class="rn-view flex-row items-center justify-between mb-2">
+                      <div class="rn-text text-sm font-medium text-purple-800">
+                        🤖 AI 推奨改善案
+                      </div>
+                      <div class="text-lg">✨</div>
+                    </div>
+                    <div class="rn-text text-xs text-purple-700">
+                      「月曜日の学習強度を15%下げる」ことで<br />
+                      週全体の継続率を8%向上可能
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 詳細な進捗チャート -->
+              <div class="rn-view mb-6">
+                <h4 class="rn-text text-sm font-semibold text-secondary mb-2">
+                  📈 月間詳細進捗
+                </h4>
+                <div class="rn-view bg-gray-50 rounded-xl p-4">
+                  <!-- より詳細なチャート -->
+                  <div class="rn-view h-24 flex-row items-end justify-between mb-3">
+                    <div class="rn-view items-center">
+                      <div class="w-4 bg-premium rounded-t mb-1" style="height: 85%"></div>
+                      <div class="rn-text text-xs text-gray-600">W1</div>
+                    </div>
+                    <div class="rn-view items-center">
+                      <div class="w-4 bg-success rounded-t mb-1" style="height: 92%"></div>
+                      <div class="rn-text text-xs text-gray-600">W2</div>
+                    </div>
+                    <div class="rn-view items-center">
+                      <div class="w-4 bg-warning rounded-t mb-1" style="height: 67%"></div>
+                      <div class="rn-text text-xs text-gray-600">W3</div>
+                    </div>
+                    <div class="rn-view items-center">
+                      <div class="w-4 bg-success rounded-t mb-1" style="height: 89%"></div>
+                      <div class="rn-text text-xs text-gray-600">W4</div>
+                    </div>
+                  </div>
+                  <div class="rn-view flex-row justify-between text-xs">
+                    <span class="text-premium">85%</span>
+                    <span class="text-success">92%</span>
+                    <span class="text-warning">67%</span>
+                    <span class="text-success">89%</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 全期間履歴 -->
+              <div class="rn-view">
+                <div class="rn-view flex-row items-center justify-between mb-2">
+                  <h4 class="rn-text text-sm font-semibold text-secondary">
+                    🏆 全期間達成履歴
+                  </h4>
+                  <div class="rn-text text-xs text-premium">無制限表示</div>
+                </div>
+                <div class="rn-view gap-2 max-h-40 overflow-y-auto">
+                  <div class="rn-view bg-success/10 rounded-xl p-3">
+                    <div class="rn-text text-xs font-medium">✓ AI提案で学習効率25%向上</div>
+                    <div class="rn-text text-xs text-gray-600">2024/01/20</div>
+                  </div>
+                  <div class="rn-view bg-success/10 rounded-xl p-3">
+                    <div class="rn-text text-xs font-medium">✓ 朝の英語学習 7日連続達成</div>
+                    <div class="rn-text text-xs text-gray-600">2024/01/18</div>
+                  </div>
+                  <div class="rn-view bg-success/10 rounded-xl p-3">
+                    <div class="rn-text text-xs font-medium">✓ 運動習慣のボトルネック完全解消</div>
+                    <div class="rn-text text-xs text-gray-600">2024/01/15</div>
+                  </div>
+                  <div class="rn-view bg-success/10 rounded-xl p-3">
+                    <div class="rn-text text-xs font-medium">✓ 週次点検セッション4週連続</div>
+                    <div class="rn-text text-xs text-gray-600">2024/01/12</div>
+                  </div>
+                  <div class="rn-view bg-success/10 rounded-xl p-3">
+                    <div class="rn-text text-xs font-medium">✓ 時間管理術マスター認定</div>
+                    <div class="rn-text text-xs text-gray-600">2024/01/08</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <!-- タブバー -->
+            <div class="rn-view tab-bar">
+              <div class="rn-view tab-item items-center">
+                <div class="text-gray-400 text-lg">🏠</div>
+                <div class="rn-text text-xs text-gray-400">ホーム</div>
+              </div>
+              <div class="rn-view tab-item items-center">
+                <div class="text-gray-400 text-lg">🎯</div>
+                <div class="rn-text text-xs text-gray-400">ゴール</div>
+              </div>
+              <div class="rn-view tab-item items-center">
+                <div class="text-gray-400 text-lg">🔍</div>
+                <div class="rn-text text-xs text-gray-400">点検</div>
+              </div>
+              <div class="rn-view tab-item items-center">
+                <div class="text-premium text-lg">📊</div>
+                <div class="rn-text text-xs text-premium font-medium">ダッシュボード</div>
+              </div>
+              <div class="rn-view tab-item items-center">
+                <div class="text-gray-400 text-lg">⚙️</div>
+                <div class="rn-text text-xs text-gray-400">設定</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 課金・サブスクリプション管理画面 -->
+      <div class="mb-8">
+        <h3 class="text-lg font-bold text-center mb-4">💳 課金・サブスクリプション管理</h3>
+        <div class="mobile-container">
+          <div class="status-bar">
+            <span>9:41</span>
+            <span>📶 📶 100%</span>
+          </div>
+          
+          <div class="rn-view rn-safe-area bg-white flex-1">
+            <div class="rn-view bg-premium p-4">
+              <h2 class="rn-text text-xl font-bold text-white">💳 サブスクリプション</h2>
+            </div>
+            
+            <div class="rn-view rn-scroll-view flex-1 p-6">
+              <!-- 現在のプラン状況 -->
+              <div class="rn-view bg-premium/10 border border-premium/30 rounded-xl p-4 mb-6">
+                <div class="rn-view flex-row items-center justify-between mb-3">
+                  <div class="rn-view">
+                    <div class="rn-text text-lg font-bold text-premium">Premium プラン</div>
+                    <div class="rn-text text-xs text-premium/70">月額 ¥600</div>
+                  </div>
+                  <div class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full">
+                    有効
+                  </div>
+                </div>
+                <div class="rn-view">
+                  <div class="rn-text text-xs text-gray-600 mb-1">次回請求日</div>
+                  <div class="rn-text text-sm font-medium">2024年2月15日</div>
+                </div>
+              </div>
+
+              <!-- 利用状況 -->
+              <div class="rn-view mb-6">
+                <h4 class="rn-text text-sm font-semibold text-secondary mb-3">
+                  📊 今月の利用状況
+                </h4>
+                <div class="rn-view gap-3">
+                  <div class="rn-view flex-row items-center justify-between bg-gray-50 rounded-xl p-3">
+                    <div class="rn-view flex-row items-center">
+                      <div class="text-lg mr-3">🔍</div>
+                      <div class="rn-view">
+                        <div class="rn-text text-sm font-medium">点検セッション</div>
+                        <div class="rn-text text-xs text-gray-600">無制限利用</div>
+                      </div>
+                    </div>
+                    <div class="rn-text text-lg font-bold text-success">8回</div>
+                  </div>
+
+                  <div class="rn-view flex-row items-center justify-between bg-gray-50 rounded-xl p-3">
+                    <div class="rn-view flex-row items-center">
+                      <div class="text-lg mr-3">🤖</div>
+                      <div class="rn-view">
+                        <div class="rn-text text-sm font-medium">AI提案機能</div>
+                        <div class="rn-text text-xs text-gray-600">無制限利用</div>
+                      </div>
+                    </div>
+                    <div class="rn-text text-lg font-bold text-success">24回</div>
+                  </div>
+
+                  <div class="rn-view flex-row items-center justify-between bg-gray-50 rounded-xl p-3">
+                    <div class="rn-view flex-row items-center">
+                      <div class="text-lg mr-3">🎯</div>
+                      <div class="rn-view">
+                        <div class="rn-text text-sm font-medium">ゴール登録</div>
+                        <div class="rn-text text-xs text-gray-600">無制限利用</div>
+                      </div>
+                    </div>
+                    <div class="rn-text text-lg font-bold text-success">5個</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Premium 機能一覧 -->
+              <div class="rn-view mb-6">
+                <h4 class="rn-text text-sm font-semibold text-secondary mb-3">
+                  ✨ Premium 機能
+                </h4>
+                <div class="rn-view bg-gray-50 rounded-xl p-4">
+                  <div class="rn-view gap-2">
+                    <div class="rn-view flex-row items-center">
+                      <span class="rn-text text-success mr-2">✓</span>
+                      <span class="rn-text text-sm">無制限ゴール登録</span>
+                    </div>
+                    <div class="rn-view flex-row items-center">
+                      <span class="rn-text text-success mr-2">✓</span>
+                      <span class="rn-text text-sm">無制限点検セッション</span>
+                    </div>
+                    <div class="rn-view flex-row items-center">
+                      <span class="rn-text text-success mr-2">✓</span>
+                      <span class="rn-text text-sm">AI による個人化提案</span>
+                    </div>
+                    <div class="rn-view flex-row items-center">
+                      <span class="rn-text text-success mr-2">✓</span>
+                      <span class="rn-text text-sm">全期間履歴閲覧</span>
+                    </div>
+                    <div class="rn-view flex-row items-center">
+                      <span class="rn-text text-success mr-2">✓</span>
+                      <span class="rn-text text-sm">詳細分析ダッシュボード</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 課金履歴 -->
+              <div class="rn-view mb-6">
+                <h4 class="rn-text text-sm font-semibold text-secondary mb-3">
+                  💳 課金履歴
+                </h4>
+                <div class="rn-view gap-2">
+                  <div class="rn-view flex-row items-center justify-between bg-gray-50 rounded-xl p-3">
+                    <div class="rn-view">
+                      <div class="rn-text text-sm font-medium">Premium プラン</div>
+                      <div class="rn-text text-xs text-gray-600">2024/01/15</div>
+                    </div>
+                    <div class="rn-text text-sm font-bold">¥600</div>
+                  </div>
+                  <div class="rn-view flex-row items-center justify-between bg-gray-50 rounded-xl p-3">
+                    <div class="rn-view">
+                      <div class="rn-text text-sm font-medium">Premium プラン</div>
+                      <div class="rn-text text-xs text-gray-600">2023/12/15</div>
+                    </div>
+                    <div class="rn-text text-sm font-bold">¥600</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- プラン管理ボタン -->
+              <div class="rn-view gap-3">
+                <div
+                  class="rn-touchable w-full bg-gray-100 text-gray-700 font-semibold py-3 px-4 rounded-xl text-sm text-center"
+                >
+                  請求先情報の変更
+                </div>
+                <div
+                  class="rn-touchable w-full border border-red-300 text-red-600 font-semibold py-3 px-4 rounded-xl text-sm text-center"
+                >
+                  サブスクリプションの解約
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- AI 次のゴール提案画面 -->
+      <div class="mb-8">
+        <h3 class="text-lg font-bold text-center mb-4">🎯 AI 次のゴール提案</h3>
+        <div class="mobile-container">
+          <div class="status-bar">
+            <span>9:41</span>
+            <span>📶 📶 100%</span>
+          </div>
+          
+          <div class="rn-view rn-safe-area bg-white flex-1">
+            <div class="rn-view bg-premium p-4">
+              <div class="rn-view flex-row items-center justify-between">
+                <h2 class="rn-text text-xl font-bold text-white">🎯 AI ゴール提案</h2>
+                <div class="bg-white/20 text-white text-xs px-2 py-1 rounded-full">
+                  Premium
+                </div>
+              </div>
+            </div>
+            
+            <div class="rn-view rn-scroll-view flex-1 p-6">
+              <h3 class="rn-text text-lg font-bold text-secondary mb-4 text-center">
+                次に挑戦すべきゴールをAIが提案
+              </h3>
+
+              <!-- AI分析結果 -->
+              <div class="rn-view bg-premium/10 border border-premium/30 rounded-xl p-4 mb-6">
+                <div class="rn-view flex-row items-center mb-3">
+                  <div class="text-lg mr-2">🤖</div>
+                  <div class="rn-text text-sm font-medium text-premium">AI 分析結果</div>
+                </div>
+                <div class="rn-text text-xs text-gray-700 leading-relaxed">
+                  あなたの成功パターン（朝型・習慣化得意・継続重視）と
+                  現在のスキルレベルから、<strong>段階的スキルアップ</strong>が
+                  最適なゴール設定戦略です。
+                </div>
+              </div>
+
+              <!-- AI提案ゴール -->
+              <div class="rn-view gap-4 mb-6">
+                <div class="rn-view bg-premium/5 border border-premium/20 rounded-xl p-4">
+                  <div class="rn-view flex-row items-center justify-between mb-3">
+                    <div class="rn-view flex-row items-center">
+                      <div class="text-lg mr-2">🚀</div>
+                      <div class="rn-text text-sm font-medium text-premium">
+                        推奨度: 95%
+                      </div>
+                    </div>
+                    <div class="rn-touchable bg-premium text-white text-xs px-3 py-1 rounded-full">
+                      詳細
+                    </div>
+                  </div>
+                  <div class="rn-view">
+                    <h4 class="rn-text text-base font-bold text-secondary mb-2">
+                      📈 英語プレゼンテーション習得
+                    </h4>
+                    <div class="rn-text text-sm text-gray-700 mb-3">
+                      現在の英語学習の成果を活かし、実践的なアウトプットスキルを習得。
+                      3ヶ月で基本的なビジネスプレゼンが可能に。
+                    </div>
+                    <div class="rn-view flex-row flex-wrap gap-1">
+                      <div class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">
+                        既存スキル活用
+                      </div>
+                      <div class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full">
+                        キャリアアップ
+                      </div>
+                      <div class="bg-purple-100 text-purple-800 text-xs px-2 py-1 rounded-full">
+                        実践的
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="rn-view bg-gray-50 border border-gray-200 rounded-xl p-4">
+                  <div class="rn-view flex-row items-center justify-between mb-3">
+                    <div class="rn-view flex-row items-center">
+                      <div class="text-lg mr-2">💡</div>
+                      <div class="rn-text text-sm font-medium text-gray-700">
+                        推奨度: 78%
+                      </div>
+                    </div>
+                    <div class="rn-touchable bg-gray-200 text-gray-700 text-xs px-3 py-1 rounded-full">
+                      詳細
+                    </div>
+                  </div>
+                  <div class="rn-view">
+                    <h4 class="rn-text text-base font-bold text-secondary mb-2">
+                      🎨 デザイン思考入門
+                    </h4>
+                    <div class="rn-text text-sm text-gray-700 mb-3">
+                      問題解決能力と創造性を同時に鍛える新領域。
+                      論理的思考力を活かしつつ、新しい視点を獲得。
+                    </div>
+                    <div class="rn-view flex-row flex-wrap gap-1">
+                      <div class="bg-orange-100 text-orange-800 text-xs px-2 py-1 rounded-full">
+                        新分野挑戦
+                      </div>
+                      <div class="bg-yellow-100 text-yellow-800 text-xs px-2 py-1 rounded-full">
+                        創造性向上
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="rn-view bg-gray-50 border border-gray-200 rounded-xl p-4">
+                  <div class="rn-view flex-row items-center justify-between mb-3">
+                    <div class="rn-view flex-row items-center">
+                      <div class="text-lg mr-2">🏃</div>
+                      <div class="rn-text text-sm font-medium text-gray-700">
+                        推奨度: 65%
+                      </div>
+                    </div>
+                    <div class="rn-touchable bg-gray-200 text-gray-700 text-xs px-3 py-1 rounded-full">
+                      詳細
+                    </div>
+                  </div>
+                  <div class="rn-view">
+                    <h4 class="rn-text text-base font-bold text-secondary mb-2">
+                      🏃 ハーフマラソン完走
+                    </h4>
+                    <div class="rn-text text-sm text-gray-700 mb-3">
+                      健康習慣の延長として、明確な数値目標を設定。
+                      体力向上と達成感の両方を獲得。
+                    </div>
+                    <div class="rn-view flex-row flex-wrap gap-1">
+                      <div class="bg-red-100 text-red-800 text-xs px-2 py-1 rounded-full">
+                        体力勝負
+                      </div>
+                      <div class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full">
+                        健康増進
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- AI説明 -->
+              <div class="rn-view bg-blue-50 border border-blue-200 rounded-xl p-4 mb-4">
+                <div class="rn-text text-xs text-blue-800 font-medium mb-1">
+                  🔍 AI 選定理由
+                </div>
+                <div class="rn-text text-xs text-blue-600">
+                  英語学習の成功パターン（継続率92%）を他分野に応用可能な
+                  「英語プレゼン」が最適。既存スキルを活かしつつ、
+                  新しい挑戦で成長を加速できます。
+                </div>
+              </div>
+
+              <div
+                class="rn-touchable w-full bg-premium text-white font-semibold py-3 px-4 rounded-xl text-center"
+              >
+                推奨ゴールを作成
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- フッター -->
+    <footer class="bg-white border-t mt-12 py-8">
+      <div class="max-w-6xl mx-auto px-4 text-center">
+        <h3 class="text-lg font-bold text-secondary mb-4">📋 MVP 3段目 実装状況</h3>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+          <div class="bg-purple-50 p-4 rounded-lg">
+            <h4 class="font-semibold text-purple-800">🤖 Week 7: AI機能</h4>
+            <ul class="text-purple-700 text-xs mt-2 text-left">
+              <li>• AI 提案機能実装</li>
+              <li>• 個人化アルゴリズム</li>
+              <li>• AI 次のゴール提案</li>
+              <li>• OpenAI GPT-4 統合</li>
+            </ul>
+          </div>
+          <div class="bg-green-50 p-4 rounded-lg">
+            <h4 class="font-semibold text-green-800">💳 Week 8: 課金システム</h4>
+            <ul class="text-green-700 text-xs mt-2 text-left">
+              <li>• RevenueCat 統合</li>
+              <li>• サブスクリプション管理</li>
+              <li>• プレミアム機能統合</li>
+              <li>• 詳細分析ダッシュボード</li>
+            </ul>
+          </div>
+          <div class="bg-blue-50 p-4 rounded-lg">
+            <h4 class="font-semibold text-blue-800">📊 成功指標</h4>
+            <ul class="text-blue-700 text-xs mt-2 text-left">
+              <li>• Premium 転換率: 5%以上</li>
+              <li>• MRR: ¥30,000以上</li>
+              <li>• AI提案満足度: 85%以上</li>
+              <li>• 本格的収益化開始</li>
+            </ul>
+          </div>
+        </div>
+        <div class="mt-6 p-4 bg-premium/10 rounded-lg">
+          <h4 class="font-bold text-premium mb-2">🎯 MVP 3段目完了後の展望</h4>
+          <p class="text-xs text-gray-700">
+            <strong>本格的な収益化フェーズ</strong>：AI機能による差別化で競合優位性を確立。
+            継続的な機能改善とユーザー獲得により、安定したSaaS事業として成長。
+            Phase 4以降では、コミュニティ機能・コーチング連携・企業向け展開を検討。
+          </p>
+        </div>
+        <p class="text-gray-600 text-sm mt-6">
+          © 2024 Flow Finder - MVP 3段目：プレミアム機能 画面カタログ
+        </p>
+        <p class="text-gray-500 text-xs mt-2">
+          完成形：8週間で3段階MVP達成 → 本格収益化開始
+        </p>
+      </div>
+    </footer>
+  </body>
+</html>

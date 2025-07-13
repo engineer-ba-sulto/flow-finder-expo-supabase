@@ -14,30 +14,35 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 1. **Readツールで `docs/product-specific/tdd_implementation_plan.md` を読む**
 2. **現在のタスク番号を確認**（例：Task 2.3）
 3. **Week番号を確認**（Week 1 or Week 2以降）
+4. **画面カタログを確認**：該当するMVP段階の画面カタログを参照
+   - MVP1段目: `html/mvp1-screen-catalog.html`
+   - MVP2段目: `html/mvp2-screen-catalog.html`
+   - MVP3段目: `html/mvp3-screen-catalog.html`
 
 ### ステップ2：ワークフロー選択
 - **Week 1**: 直接実装開始
 - **Week 2以降**: **必ずGitHub Issue作成から開始**
 
 ### ステップ3：Week 2以降の必須TODOリスト作成
-**必ず以下の11項目でTODOリストを作成してください**：
+**必ず以下の12項目でTODOリストを作成してください**：
 
-1. **GitHub Issue 作成**: [Task X.Y] タスク名 (TDD Phase)
-2. **ブランチ作成**: feat/X.Y-feature-name
-3. **TDD実装**: Red/Green/Refactor Phase実装
-4. **Issue 完了条件チェック**
-5. **実装計画更新**: Task X.Y の [ ] → [x] + 進捗管理セクション更新
-6. **コミット・プッシュ**: feat形式メッセージでブランチにコミット
-7. **GitHub Issue クローズ**
-8. **PR 作成**: developブランチベースでPull Request作成
-9. **PR マージ**: developブランチにマージ・フィーチャーブランチ削除
-10. **ブランチ切替**: developブランチに戻る
-11. **最新状態取得**: git pull origin develop実行
+1. **画面カタログ確認**: 該当するMVP段階の画面カタログを参照し、実装する画面の仕様を把握
+2. **GitHub Issue 作成**: [Task X.Y] タスク名 (TDD Phase)
+3. **ブランチ作成**: feat/X.Y-feature-name
+4. **TDD実装**: Red/Green/Refactor Phase実装（画面カタログの仕様に従う）
+5. **Issue 完了条件チェック**
+6. **実装計画更新**: Task X.Y の [ ] → [x] + 進捗管理セクション更新
+7. **コミット・プッシュ**: feat形式メッセージでブランチにコミット
+8. **GitHub Issue クローズ**
+9. **PR 作成**: developブランチベースでPull Request作成
+10. **PR マージ**: developブランチにマージ・フィーチャーブランチ削除
+11. **ブランチ切替**: developブランチに戻る
+12. **最新状態取得**: git pull origin develop実行
 
 ### ステップ4：完了時の必須手順（正しい順序）
 **上記TODOリストの全項目を順番に実行し、全て completed にすること**
 
-**🚨 重要**: 11個すべてのTODO項目を完了するまでタスク完了とみなしません。
+**🚨 重要**: 12個すべてのTODO項目を完了するまでタスク完了とみなしません。
 **例外なし**：この手順を省略することは絶対に禁止
 
 **🚨 重要**：「進めてください」と言われても、必ずこのチェックリストを実行してから実装開始。
@@ -210,10 +215,16 @@ Flow Finder固有の仕様・設計・実装に関するドキュメント：
 - `component_design_rules.md`: React/Next.jsコンポーネント設計
 - `file_naming_rules.md`: ファイル命名規則
 
+### 画面カタログ（`html/`）
+**🚨 重要**: タスク実装時は必ず該当する画面カタログを参照してください：
+- `mvp1-screen-catalog.html`: MVP1段目の画面設計（認証・ゴールCRUD・基本UI）
+- `mvp2-screen-catalog.html`: MVP2段目の画面設計（オンボーディング・点検セッション・制限機能）
+- `mvp3-screen-catalog.html`: MVP3段目の画面設計（AI機能・課金システム）
+
 ### 主要な参照順序
-1. **開発開始時**: `PRD.md` → `docs/product-specific/tdd_implementation_plan.md`
-2. **実装時**: `docs/generic/component_design_rules.md` + `docs/generic/file_naming_rules.md`
-3. **機能設計時**: `docs/product-specific/screen_design.md` + `docs/product-specific/structure.md`
+1. **開発開始時**: `PRD.md` → `docs/product-specific/tdd_implementation_plan.md` → **該当MVP画面カタログ**
+2. **実装時**: **画面カタログ** + `docs/generic/component_design_rules.md` + `docs/generic/file_naming_rules.md`
+3. **機能設計時**: **画面カタログ** + `docs/product-specific/screen_design.md` + `docs/product-specific/structure.md`
 
 ## フリーミアム型収益化モデル
 
@@ -234,3 +245,28 @@ Flow Finder固有の仕様・設計・実装に関するドキュメント：
 - 履歴・ダッシュボード
 - プッシュ通知
 - AI提案機能（プレミアム）
+
+## 🚨 画面カタログ参照の必須ルール
+
+**タスク実装時は必ず以下の手順で画面カタログを確認してください**：
+
+### 画面カタログ確認手順
+1. **該当MVPの特定**: 現在のタスクがどのMVP段階に属するかを確認
+2. **カタログ参照**: `html/mvp[X]-screen-catalog.html` をReadツールで読む
+3. **仕様把握**: 実装するコンポーネント・画面の詳細仕様を把握
+4. **デザイン確認**: ブランドカラー・レイアウト・UI要素の確認
+
+### 画面カタログに含まれる重要な情報
+- **正確なレイアウト**: React Native + NativeWind対応のマークアップ
+- **ブランドカラー**: Flow Finderの統一されたカラーパレット
+- **MVP段階別機能**: 段階的リリースに応じた機能制限・プレミアム誘導
+- **コンポーネント詳細**: props・state・イベントハンドリング
+- **アクセシビリティ**: ボタン・フォーム要素の適切な実装
+
+### 実装時の注意点
+- カタログで定義されたclass名・スタイルを正確に再現
+- MVP段階に応じた機能制限を適切に実装
+- プレミアム誘導UIを適切なタイミングで表示
+- テストファイルでもカタログの仕様に基づいてアサーション作成
+
+**🚨 重要**: 画面カタログの参照を省略して実装することは絶対に禁止です。

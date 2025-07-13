@@ -13,13 +13,12 @@
       "Bash(gh pr diff:*)",
       "Bash(docker compose:*)",
       "Bash(docker compose exec:*)",
-      "Bash(docker compose logs:*)",
-      "Bash(bun run test:*)"
+      "Bash(docker compose logs:*)"
     ],
     "deny": [
       "Bash(sudo:*)",
       "Bash(rm -rf:*)",
-      // "Bash(git push:*)",
+      "Bash(git push:*)",
       "Bash(git reset:*)",
       "Bash(git rebase:*)",
       "Read(.env.*)",

@@ -79,54 +79,36 @@ Flow Finder の **TDD 実装計画** です。基本的な TDD 手法につい�
 
 | Task | TDD Phase    | 説明                              | 配置場所         | 完了 |
 | ---- | ------------ | --------------------------------- | ---------------- | ---- |
-| 1.1  | **Red**      | Button コンポーネントのテスト作成 | `components/ui/` | [x]  |
-| 1.2  | **Green**    | Button コンポーネントの最小実装   | `components/ui/` | [x]  |
-| 1.3  | **Refactor** | Button コンポーネントの改善       | `components/ui/` | [x]  |
-| 1.4  | **Red**      | Input コンポーネントのテスト作成  | `components/ui/` | [x]  |
-| 1.5  | **Green**    | Input コンポーネントの最小実装    | `components/ui/` | [x]  |
-| 1.6  | **Refactor** | Input コンポーネントの改善        | `components/ui/` | [x]  |
-| 1.7  | **Red**      | Card コンポーネントのテスト作成   | `components/ui/` | [x]  |
-| 1.8  | **Green**    | Card コンポーネントの最小実装     | `components/ui/` | [x]  |
-| 1.9  | **Refactor** | Card コンポーネントの改善         | `components/ui/` | [x]  |
+| 1.1  | **Red**      | Button コンポーネントのテスト作成 | `components/ui/` | [ ]  |
+| 1.2  | **Green**    | Button コンポーネントの最小実装   | `components/ui/` | [ ]  |
+| 1.3  | **Refactor** | Button コンポーネントの改善       | `components/ui/` | [ ]  |
+| 1.4  | **Red**      | Input コンポーネントのテスト作成  | `components/ui/` | [ ]  |
+| 1.5  | **Green**    | Input コンポーネントの最小実装    | `components/ui/` | [ ]  |
+| 1.6  | **Refactor** | Input コンポーネントの改善        | `components/ui/` | [ ]  |
+| 1.7  | **Red**      | Card コンポーネントのテスト作成   | `components/ui/` | [ ]  |
+| 1.8  | **Green**    | Card コンポーネントの最小実装     | `components/ui/` | [ ]  |
+| 1.9  | **Refactor** | Card コンポーネントの改善         | `components/ui/` | [ ]  |
 
 #### Week 2: データレイヤーとゴール管理・デプロイ
 
-| Task | TDD Phase    | 説明                                | 配置場所                 | 完了 |
-| ---- | ------------ | ----------------------------------- | ------------------------ | ---- |
-| 2.1  | **Red**      | Goal データ型のテスト作成           | `types/`                 | [x]  |
-| 2.2  | **Green**    | Goal データ型の実装                 | `types/goal.types.ts`    | [x]  |
-| 2.3  | **Refactor** | Goal データ型の改善                 | `types/goal.types.ts`    | [x]  |
-| 2.4  | **Red**      | Supabase クライアントのテスト作成   | `lib/`                   | [x]  |
-| 2.5  | **Green**    | Supabase クライアントの実装         | `lib/supabase.ts`        | [x]  |
-| 2.6  | **Refactor** | Supabase クライアントの改善         | `lib/supabase.ts`        | [x]  |
-| 2.7  | **Red**      | GoalForm コンポーネントのテスト作成 | `components/forms/`      | [x]  |
-| 2.8  | **Green**    | GoalForm コンポーネントの実装       | `components/forms/`      | [x]  |
-| 2.9  | **Refactor** | GoalForm コンポーネントの改善       | `components/forms/`      | [x]  |
-| 2.10 | **Red**      | ゴール管理画面のテスト作成          | `app/(tabs)/__tests__/`  | [x]  |
-| 2.11 | **Green**    | ゴール管理画面の実装                | `app/(tabs)/goals.tsx`   | [x]  |
-| 2.12 | **Refactor** | ゴール管理画面の改善                | `app/(tabs)/goals.tsx`   | [x]  |
-| 2.13 | **Red**      | 認証機能のテスト作成                | `hooks/`                 | [x]  |
-| 2.14 | **Green**    | 認証機能の実装                      | `hooks/useAuth.ts`       | [x]  |
-| 2.15 | **Refactor** | 認証機能の改善                      | `hooks/useAuth.ts`       | [x]  |
-| 2.16 | **Red**      | goals タブ追加のテスト作成          | `app/(tabs)/__tests__/`  | [x]  |
-| 2.17 | **Green**    | \_layout.tsx に goals タブを追加    | `app/(tabs)/_layout.tsx` | [x]  |
-| 2.18 | **Refactor** | タブ UI・アクセシビリティ改善       | `app/(tabs)/_layout.tsx` | [x]  |
-| 2.19 | **Red**      | ログイン画面のテスト作成            | `app/auth/__tests__/`    | [x]  |
-| 2.20 | **Green**    | ログイン画面の実装                  | `app/auth/login.tsx`     | [x]  |
-| 2.21 | **Refactor** | ログイン画面の改善                  | `app/auth/login.tsx`     | [x]  |
-| 2.22 | **Red**      | サインアップ画面のテスト作成        | `app/auth/__tests__/`    | [x]  |
-| 2.23 | **Green**    | サインアップ画面の実装              | `app/auth/signup.tsx`    | [x]  |
-| 2.24 | **Refactor** | サインアップ画面の改善              | `app/auth/signup.tsx`    | [x]  |
-| 2.25 | **Red**      | 認証ガードのテスト作成              | `app/__tests__/`         | [x]  |
-| 2.26 | **Green**    | 認証ガードの実装                    | `app/_layout.tsx`        | [x]  |
-| 2.27 | **Refactor** | 認証ガードの改善                    | `app/_layout.tsx`        | [x]  |
-| 2.28 | **Red**      | ホーム画面のテスト作成              | `app/(tabs)/__tests__/`  | [x]  |
-| 2.29 | **Green**    | ホーム画面の最小実装                | `app/(tabs)/index.tsx`   | [x]  |
-| 2.30 | **Refactor** | ホーム画面の改善                    | `app/(tabs)/index.tsx`   | [ ]  |
-| 2.31 | **Red**      | 設定画面のテスト作成                | `app/(tabs)/__tests__/`  | [ ]  |
-| 2.32 | **Green**    | 設定画面の実装                      | `app/(tabs)/settings.tsx`| [ ]  |
-| 2.33 | **Refactor** | 設定画面の改善                      | `app/(tabs)/settings.tsx`| [ ]  |
-| 2.34 | **Deploy**   | Phase 1 デプロイ設定・実行          | `eas.json`設定           | [ ]  |
+| Task | TDD Phase    | 説明                                | 配置場所                | 完了 |
+| ---- | ------------ | ----------------------------------- | ----------------------- | ---- |
+| 2.1  | **Red**      | Goal データ型のテスト作成           | `types/`                | [ ]  |
+| 2.2  | **Green**    | Goal データ型の実装                 | `types/goal.types.ts`   | [ ]  |
+| 2.3  | **Refactor** | Goal データ型の改善                 | `types/goal.types.ts`   | [ ]  |
+| 2.4  | **Red**      | Supabase クライアントのテスト作成   | `lib/`                  | [ ]  |
+| 2.5  | **Green**    | Supabase クライアントの実装         | `lib/supabase.ts`       | [ ]  |
+| 2.6  | **Refactor** | Supabase クライアントの改善         | `lib/supabase.ts`       | [ ]  |
+| 2.7  | **Red**      | GoalForm コンポーネントのテスト作成 | `components/forms/`     | [ ]  |
+| 2.8  | **Green**    | GoalForm コンポーネントの実装       | `components/forms/`     | [ ]  |
+| 2.9  | **Refactor** | GoalForm コンポーネントの改善       | `components/forms/`     | [ ]  |
+| 2.10 | **Red**      | ゴール管理画面のテスト作成          | `app/(tabs)/__tests__/` | [ ]  |
+| 2.11 | **Green**    | ゴール管理画面の実装                | `app/(tabs)/goals.tsx`  | [ ]  |
+| 2.12 | **Refactor** | ゴール管理画面の改善                | `app/(tabs)/goals.tsx`  | [ ]  |
+| 2.13 | **Red**      | 認証機能のテスト作成                | `hooks/`                | [ ]  |
+| 2.14 | **Green**    | 認証機能の実装                      | `hooks/useAuth.ts`      | [ ]  |
+| 2.15 | **Refactor** | 認証機能の改善                      | `hooks/useAuth.ts`      | [ ]  |
+| 2.16 | **Deploy**   | Phase 1 デプロイ設定・実行          | `eas.json`設定          | [ ]  |
 
 ---
 
@@ -326,87 +308,3 @@ describe("Goal API", () => {
 ---
 
 基本的な TDD 手法・品質保証・ブランチ戦略については **[TDD 実装ガイド](../generic/tdd_generic_guide.md)** を参照してください。このドキュメントは Flow Finder 特有の実装例とスケジュールに焦点を当てています。
-
-## 7. タスク完了管理ルール
-
-### 7.1 完了チェック更新ルール
-
-**🚨 必須ルール**: 各タスクが完了したら、**必ずこのドキュメントの完了チェックを更新してください**。
-
-#### 🔥 強制実行手順（例外なし）
-
-1. **タスク完了時**: `[ ]` を `[x]` に変更（**必須**）
-2. **実装確認**: テストが通ることを確認
-3. **品質確認**: コードレビュー・リファクタリング完了
-4. **ドキュメント更新**: 即座に完了ステータスを更新（**必須**）
-
-#### ⚠️ 重要な注意点
-
-- **タスク実装後は必ず Edit ツールでこのドキュメントを更新する**
-- **進捗管理セクション（7.3）も同時に更新する**
-- **更新を忘れた場合は、次のタスクに進む前に必ず更新する**
-
-#### 完了基準
-
-- **Red Phase**: テストファイルが作成され、失敗することを確認
-- **Green Phase**: テストが成功する最小実装が完了
-- **Refactor Phase**: コード品質の改善が完了（テストは引き続き成功）
-
-### 7.2 標準実装ワークフロー
-
-**重要**: Week 2 以降の実装では、以下の標準ワークフローを必須とします。
-
-#### 実装ワークフロー（9 ステップ）
-
-1. **Issue 作成**: GitHub Issue を立てる
-2. **ブランチ作成**: タスク用ブランチを切る
-3. **実装**: TDD（Red-Green-Refactor）で実装
-4. **確認**: Issue の完了条件をチェック
-5. **ドキュメント更新**: 実装計画の進捗表と進捗管理セクション更新
-6. **クローズ**: Issue をクローズ
-7. **コミット・プッシュ**: 変更をコミット・プッシュ
-8. **PR 作成・マージ**: Pull Request 作成後、develop ブランチにマージ
-9. **ブランチ切替・プル**: develop ブランチに戻って最新状態をプル
-
-#### イシュー作成ルール
-
-- **タイトル**: `[Task X.Y] タスク名 (TDD Phase)` 形式
-- **例**: `[Task 2.2] Goal データ型の実装 (Green Phase)`
-- **説明**: 実装内容・配置場所・完了条件を明記
-- **ラベル**: 対応する Phase のラベルを付与
-  - `red-phase`: テスト作成（Red Phase）
-  - `green-phase`: 最小実装（Green Phase）
-  - `refactor-phase`: 改善（Refactor Phase）
-
-#### ブランチ・コミット・PR 運用
-
-- **ブランチ名**: `feat/X.Y-feature-name` 形式
-  - 例: `feat/2.2-goal-data-types`
-- **コミットメッセージ**: `feat: [Task X.Y] 実装内容の簡潔な説明 (TDD Phase) (close #<issue-number>)`
-  - 例: `feat: [Task 2.2] Goal データ型の実装 (Green Phase) (close #11)`
-- **プッシュ**: 実装完了後に即座にプッシュ
-- **PR 作成**: `gh pr create` でプルリクエスト作成
-- **PR マージ**: `gh pr merge --merge --delete-branch` で develop ブランチにマージ
-- **ブランチ管理**: マージ後は develop ブランチに戻り `git pull origin develop` で最新状態を取得
-
-#### Issue クローズ手順
-
-1. **完了条件チェック**: Issue に記載された完了条件を全て確認
-2. **テスト実行**: 関連するテストが全て成功することを確認
-3. **Issue 更新**: 完了条件にチェックマーク（`[x]`）を付与
-4. **Issue クローズ**: `gh issue close <issue-number>` でクローズ
-
-### 7.3 進捗管理
-
-- **Week 1 完了**: Task 1.1〜1.9（全て[x]）
-- **Week 2 進行中**: Task 2.1〜2.34（2.1〜2.29 まで[x]、2.30〜2.34 が[ ]）
-- **次の実装**: Task 2.30（ホーム画面の改善 - Refactor Phase）が最優先
-
-**🚨 Claude Code 使用時の必須ルール**:
-
-1. **タスク完了時**: 必ず Edit ツールでこのドキュメントの完了チェック（`[ ]` → `[x]`）を更新
-2. **進捗管理更新**: 7.3 セクションの「次の実装」も同時に更新
-3. **確認手順**: 更新後は必ず Read ツールでドキュメントを確認
-4. **例外なし**: この手順を省略することは絶対に禁止
-
-**⚠️ 重要**: タスク実装後にドキュメント更新を忘れた場合、次のタスクに進む前に必ず更新すること。

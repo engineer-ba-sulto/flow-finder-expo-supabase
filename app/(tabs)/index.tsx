@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback, useMemo } from "react";
 import { Text, View, ScrollView, RefreshControl } from "react-native";
-import { useRouter } from "expo-router";
+import { useRouter, useFocusEffect } from "expo-router";
 import { useAuth } from "../../hooks/useAuth";
 import { Button } from "../../components/ui/Button";
 import { getSupabaseClient } from "../../lib/supabase";
@@ -62,6 +62,15 @@ export default function HomeScreen() {
   useEffect(() => {
     fetchGoalCount();
   }, [fetchGoalCount]);
+
+  // 画面がフォーカスされた時にゴール数を再取得（タブ切り替え時の同期）
+  useFocusEffect(
+    useCallback(() => {
+      if (isAuthenticated && user) {
+        fetchGoalCount();
+      }
+    }, [fetchGoalCount, isAuthenticated, user])
+  );
 
   // プルツーリフレッシュハンドラー
   const onRefresh = useCallback(() => {

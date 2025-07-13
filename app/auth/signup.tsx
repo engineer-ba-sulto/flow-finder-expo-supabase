@@ -200,7 +200,13 @@ export default function Signup() {
       {/* 戻るボタン */}
       <View className="px-6 pt-4">
         <Pressable
-          onPress={() => router.back()}
+          onPress={() => {
+            if (router.canGoBack()) {
+              router.back();
+            } else {
+              router.replace("/");
+            }
+          }}
           className="flex-row items-center"
           accessibilityRole="button"
           accessibilityLabel="前の画面に戻る"

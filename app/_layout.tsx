@@ -1,4 +1,4 @@
-import { Stack, Redirect } from "expo-router";
+import { Stack } from "expo-router";
 import { ActivityIndicator, View, Text } from "react-native";
 import { useAuth } from "../hooks/useAuth";
 import "../global.css";
@@ -93,31 +93,16 @@ export default function Layout(): JSX.Element {
     animation: 'slide_from_right' as const,
   }), []);
 
-  // 認証状態の初期化中はローディング表示
-  if (loading) {
-    return <AuthLoadingScreen />;
+  // デバッグ: 認証状態をコンソールに出力
+  if (__DEV__) {
+    console.log('[Layout Debug] 認証状態:', { loading, isAuthenticated, error: error?.message });
   }
 
-  // 認証エラーがある場合（現在は直接ログイン画面にリダイレクト）
-  // 将来的にはエラー画面を表示する可能性がある
-  if (error && !isAuthenticated) {
-    // 現在は認証エラーでもログイン画面にリダイレクト
-    // デバッグ時のみエラー情報をコンソールに出力
-    if (__DEV__) {
-      console.warn('認証エラー:', error.message);
-    }
-  }
-
-  // 未認証時はログイン画面にリダイレクト
-  if (!isAuthenticated) {
-    return <Redirect href="/auth/login" />;
-  }
-
-  // 認証済み時はタブナビゲーションを表示
+  // 常にStackを返し、画面レベルで認証チェックを行う
   return (
     <Stack 
       screenOptions={stackScreenOptions}
-      initialRouteName="(tabs)"
+      initialRouteName={!isAuthenticated ? "auth/login" : "(tabs)"}
     >
       <Stack.Screen 
         name="(tabs)" 
@@ -127,10 +112,17 @@ export default function Layout(): JSX.Element {
         }} 
       />
       <Stack.Screen 
-        name="auth" 
+        name="auth/login" 
         options={{
           ...stackScreenOptions,
-          title: '認証',
+          title: 'ログイン',
+        }} 
+      />
+      <Stack.Screen 
+        name="auth/signup" 
+        options={{
+          ...stackScreenOptions,
+          title: 'サインアップ',
         }} 
       />
     </Stack>

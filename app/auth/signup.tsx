@@ -1,8 +1,8 @@
 import React, { useState, useCallback, useMemo } from "react";
 import { Text, View, SafeAreaView, Pressable, ActivityIndicator } from "react-native";
-import { Link } from "expo-router";
+import { Link, useRouter } from "expo-router";
+import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { useAuth } from "../../hooks/useAuth";
-import { Button } from "../../components/ui/Button";
 import { Input } from "../../components/ui/Input";
 
 // 定数定義
@@ -58,6 +58,7 @@ export default function Signup() {
   }>({});
 
   const { signUp } = useAuth();
+  const router = useRouter();
 
   // Supabaseエラーメッセージの変換
   const getSignupErrorMessage = useCallback((errorMessage: string) => {
@@ -196,6 +197,20 @@ export default function Signup() {
 
   return (
     <SafeAreaView className="flex-1 bg-white" accessibilityLabel="アカウント作成画面">
+      {/* 戻るボタン */}
+      <View className="px-6 pt-4">
+        <Pressable
+          onPress={() => router.back()}
+          className="flex-row items-center"
+          accessibilityRole="button"
+          accessibilityLabel="前の画面に戻る"
+          accessibilityHint="ホーム画面に戻ります"
+        >
+          <FontAwesome name="arrow-left" size={20} color="#666666" />
+          <Text className="ml-2 text-gray-600 text-base">戻る</Text>
+        </Pressable>
+      </View>
+      
       <View className="flex-1 px-6 py-8 justify-center">
         {/* ロゴ・アプリ名エリア */}
         <View className="items-center mb-8">
@@ -330,11 +345,10 @@ export default function Signup() {
           )}
 
           {/* サインアップボタン */}
-          <Button
-            variant="primary"
+          <Pressable
             onPress={handleSignup}
             disabled={isLoading}
-            className="mb-4"
+            className={`bg-[#FFC400] px-4 py-3 rounded-lg mb-4 ${isLoading ? 'opacity-50' : ''}`}
             accessibilityRole="button"
             accessibilityLabel={isLoading ? "アカウント作成処理中" : "アカウント作成ボタン"}
             accessibilityHint={isLoading ? "アカウント作成処理を実行中です" : "タップしてアカウントを作成します"}
@@ -347,16 +361,16 @@ export default function Signup() {
               {isLoading && (
                 <ActivityIndicator 
                   size="small" 
-                  color="#FFFFFF" 
+                  color="#000000" 
                   className="mr-2" 
                   accessibilityLabel="ローディング中"
                 />
               )}
-              <Text className="text-white font-medium">
+              <Text className="text-black font-medium text-center">
                 {isLoading ? "アカウント作成中..." : "アカウントを作成する"}
               </Text>
             </View>
-          </Button>
+          </Pressable>
         </View>
 
         {/* ログインリンク */}

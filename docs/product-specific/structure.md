@@ -126,9 +126,12 @@ React Native アプリから直接 Supabase にアクセス（API ルートな�
 | -------------- | ----------------- | -------------------------- | -------- |
 | ゴール取得     | `goals`           | `user_id` でフィルタ       | ✅       |
 | ゴール作成     | `goals`           | INSERT with `user_id`      | ✅       |
+| ゴール完了     | `goals`           | UPDATE `completed=true, completed_at=now()` | ✅ |
+| 達成記録作成   | `achievements`    | INSERT with goal統計情報   | ✅       |
 | セッション保存 | `bottlenecks`     | INSERT with `goal_id`      | ✅       |
 | アクション管理 | `actions`         | INSERT/UPDATE with `done`  | ✅       |
 | 履歴取得       | `histories`       | `user_id` + `session_date` | ✅       |
+| 達成履歴表示   | `achievements`    | `user_id` でフィルタ       | ✅       |
 
 ### 5.2 AI 統合（OpenAI API）
 
@@ -157,6 +160,37 @@ export async function getActionSuggestions(context: string): Promise<string[]> {
   const data = await response.json();
   return parseActionSuggestions(data.choices[0].message.content);
 }
+
+// ゴール達成後の次のゴール提案（Premium機能）
+export async function suggestNextGoals(completedGoal: Goal, userProfile: UserProfile): Promise<string[]> {
+  const response = await fetch("https://api.openai.com/v1/chat/completions", {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${OPENAI_API_KEY}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      model: "gpt-4o",
+      messages: [
+        {
+          role: "user",
+          content: `
+            達成ゴール: "${completedGoal.title}"
+            解決したボトルネック数: ${completedGoal.bottlenecksResolved}
+            達成期間: ${completedGoal.totalDays}日
+            ユーザーの強み・弱み: ${userProfile.insights}
+            
+            このユーザーの成長に最適な次のゴールを3つ提案してください。
+            各ゴールには具体的な理由も含めてください。
+          `,
+        },
+      ],
+    }),
+  });
+
+  const data = await response.json();
+  return parseNextGoalSuggestions(data.choices[0].message.content);
+}
 ```
 
 ## 6. DB スキーマ (Supabase / PostgreSQL)
@@ -177,6 +211,10 @@ CREATE TABLE goals (
   user_id uuid REFERENCES users(id) ON DELETE CASCADE,
   title text NOT NULL,
   priority int DEFAULT 1,
+  completed boolean DEFAULT false,
+  completed_at timestamptz,
+  completion_notes text,
+  progress_percentage int DEFAULT 0,
   created_at timestamptz DEFAULT now()
 );
 
@@ -220,12 +258,29 @@ CREATE TABLE notifications (
   created_at timestamptz DEFAULT now()
 );
 
+-- achievements : ゴール達成履歴
+CREATE TABLE achievements (
+  id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  goal_id uuid REFERENCES goals(id) ON DELETE CASCADE,
+  user_id uuid REFERENCES users(id) ON DELETE CASCADE,
+  total_days int NOT NULL,
+  bottlenecks_resolved int DEFAULT 0,
+  actions_completed int DEFAULT 0,
+  key_learnings text,
+  difficulty_rating int CHECK (difficulty_rating BETWEEN 1 AND 5),
+  satisfaction_rating int CHECK (satisfaction_rating BETWEEN 1 AND 5),
+  next_goals_suggested jsonb,
+  shared_publicly boolean DEFAULT false,
+  created_at timestamptz DEFAULT now()
+);
+
 -- Row Level Security (RLS) 設定
 ALTER TABLE goals ENABLE ROW LEVEL SECURITY;
 ALTER TABLE bottlenecks ENABLE ROW LEVEL SECURITY;
 ALTER TABLE actions ENABLE ROW LEVEL SECURITY;
 ALTER TABLE histories ENABLE ROW LEVEL SECURITY;
 ALTER TABLE notifications ENABLE ROW LEVEL SECURITY;
+ALTER TABLE achievements ENABLE ROW LEVEL SECURITY;
 
 -- RLS ポリシー
 CREATE POLICY "Users can only access own goals" ON goals
@@ -233,6 +288,9 @@ CREATE POLICY "Users can only access own goals" ON goals
 
 CREATE POLICY "Users can only access own bottlenecks" ON bottlenecks
   FOR ALL USING (auth.uid() = (SELECT user_id FROM goals WHERE id = goal_id));
+
+CREATE POLICY "Users can only access own achievements" ON achievements
+  FOR ALL USING (auth.uid() = user_id);
 ```
 
 ## 7. 外部サービス & 環境変数

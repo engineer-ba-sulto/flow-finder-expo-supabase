@@ -356,14 +356,17 @@ describe("Goal API", () => {
 
 **重要**: Week 2 以降の実装では、以下の標準ワークフローを必須とします。
 
-#### 実装ワークフロー（5 ステップ）
+#### 実装ワークフロー（9 ステップ）
 
 1. **Issue 作成**: GitHub Issue を立てる
 2. **ブランチ作成**: タスク用ブランチを切る
 3. **実装**: TDD（Red-Green-Refactor）で実装
 4. **確認**: Issue の完了条件をチェック
-5. **クローズ**: Issue をクローズ
-6. **コミット**: 変更をコミット
+5. **ドキュメント更新**: 実装計画の進捗表と進捗管理セクション更新
+6. **クローズ**: Issue をクローズ
+7. **コミット・プッシュ**: 変更をコミット・プッシュ
+8. **PR 作成・マージ**: Pull Request 作成後、develop ブランチにマージ
+9. **ブランチ切替・プル**: develop ブランチに戻って最新状態をプル
 
 #### イシュー作成ルール
 
@@ -375,13 +378,16 @@ describe("Goal API", () => {
   - `green-phase`: 最小実装（Green Phase）
   - `refactor-phase`: 改善（Refactor Phase）
 
-#### ブランチ・コミット運用
+#### ブランチ・コミット・PR 運用
 
 - **ブランチ名**: `feat/X.Y-feature-name` 形式
   - 例: `feat/2.2-goal-data-types`
 - **コミットメッセージ**: `feat: [Task X.Y] 実装内容の簡潔な説明 (TDD Phase) (close #<issue-number>)`
   - 例: `feat: [Task 2.2] Goal データ型の実装 (Green Phase) (close #11)`
 - **プッシュ**: 実装完了後に即座にプッシュ
+- **PR 作成**: `gh pr create` でプルリクエスト作成
+- **PR マージ**: `gh pr merge --merge --delete-branch` で develop ブランチにマージ
+- **ブランチ管理**: マージ後は develop ブランチに戻り `git pull origin develop` で最新状態を取得
 
 #### Issue クローズ手順
 

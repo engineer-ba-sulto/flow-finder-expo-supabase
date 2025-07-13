@@ -19,21 +19,26 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - **Week 1**: 直接実装開始
 - **Week 2以降**: **必ずGitHub Issue作成から開始**
 
-### ステップ3：Week 2以降の必須手順（6ステップ）
-1. **Issue作成**: `gh issue create`
-2. **ブランチ作成**: `git checkout -b feat/X.Y-feature-name`
-3. **実装**: TDD（Red-Green-Refactor）
-4. **確認**: Issue完了条件チェック
-5. **完了チェック更新**: 実装計画の完了ステータス更新
-6. **クローズ**: `gh issue close` + コミット
+### ステップ3：Week 2以降の必須TODOリスト作成
+**必ず以下の11項目でTODOリストを作成してください**：
+
+1. **GitHub Issue 作成**: [Task X.Y] タスク名 (TDD Phase)
+2. **ブランチ作成**: feat/X.Y-feature-name
+3. **TDD実装**: Red/Green/Refactor Phase実装
+4. **Issue 完了条件チェック**
+5. **実装計画更新**: Task X.Y の [ ] → [x] + 進捗管理セクション更新
+6. **コミット・プッシュ**: feat形式メッセージでブランチにコミット
+7. **GitHub Issue クローズ**
+8. **PR 作成**: developブランチベースでPull Request作成
+9. **PR マージ**: developブランチにマージ・フィーチャーブランチ削除
+10. **ブランチ切替**: developブランチに戻る
+11. **最新状態取得**: git pull origin develop実行
 
 ### ステップ4：完了時の必須手順（正しい順序）
-1. **実装完了後**: Issue完了条件を全て満たす
-2. **Editツールで実装計画更新**（`[ ]` → `[x]`）
-3. **進捗管理セクション更新**（7.3の「次の実装」）
-4. **コミット**: 実装内容 + ドキュメント更新をコミット
-5. **Issue クローズ**: `gh issue close`
-6. **例外なし**：この手順を省略することは絶対に禁止
+**上記TODOリストの全項目を順番に実行し、全て completed にすること**
+
+**🚨 重要**: 11個すべてのTODO項目を完了するまでタスク完了とみなしません。
+**例外なし**：この手順を省略することは絶対に禁止
 
 **🚨 重要**：「進めてください」と言われても、必ずこのチェックリストを実行してから実装開始。
 

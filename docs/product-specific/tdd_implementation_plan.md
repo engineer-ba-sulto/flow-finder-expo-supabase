@@ -183,7 +183,7 @@ Flow Finder の **TDD 実装計画** です。基本的な TDD 手法につい�
 
 ### MVP 2段目（Week 4–6）: 無料プラン完全版（点検セッション機能）
 
-#### Week 4: セッションステップ 1-3
+#### Week 4: オンボーディング・セッションステップ 1-3
 
 | Task | TDD Phase    | 説明                                    | 配置場所                       | 完了 |
 | ---- | ------------ | --------------------------------------- | ------------------------------ | ---- |
@@ -199,6 +199,12 @@ Flow Finder の **TDD 実装計画** です。基本的な TDD 手法につい�
 | 4.10 | **Red**      | SessionStep3 コンポーネントのテスト作成 | `components/features/session/` | [ ]  |
 | 4.11 | **Green**    | SessionStep3 コンポーネントの実装       | `components/features/session/` | [ ]  |
 | 4.12 | **Refactor** | SessionStep3 コンポーネントの改善       | `components/features/session/` | [ ]  |
+| 4.13 | **Red**      | Onboarding コンポーネントのテスト作成   | `components/features/onboarding/` | [ ]  |
+| 4.14 | **Green**    | Onboarding コンポーネントの実装         | `components/features/onboarding/` | [ ]  |
+| 4.15 | **Refactor** | Onboarding コンポーネントの改善         | `components/features/onboarding/` | [ ]  |
+| 4.16 | **Red**      | Onboarding フロー管理のテスト作成       | `hooks/`                       | [ ]  |
+| 4.17 | **Green**    | useOnboarding カスタムフックの実装      | `hooks/useOnboarding.ts`       | [ ]  |
+| 4.18 | **Refactor** | useOnboarding カスタムフックの改善      | `hooks/useOnboarding.ts`       | [ ]  |
 
 #### Week 5: セッションステップ 4-5（AI機能なし）とまとめ
 

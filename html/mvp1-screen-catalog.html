@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MVP 1段目 - ゴール機能 画面カタログ</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      /* React Native互換スタイル */
+      .rn-view {
+        display: flex;
+        flex-direction: column;
+        position: relative;
+        box-sizing: border-box;
+      }
+      .rn-text {
+        color: #000000;
+        display: block;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          sans-serif;
+        font-size: 14px;
+        font-weight: normal;
+        margin: 0;
+      }
+      .rn-touchable {
+        cursor: pointer;
+        user-select: none;
+      }
+      .rn-touchable:active {
+        opacity: 0.6;
+      }
+      .rn-input {
+        border: 1px solid #d1d5db;
+        border-radius: 8px;
+        padding: 12px;
+        font-size: 14px;
+        font-family: inherit;
+        width: 100%;
+        box-sizing: border-box;
+        background-color: white;
+      }
+      .rn-scroll-view {
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+      }
+      .rn-safe-area {
+        padding-top: env(safe-area-inset-top);
+        padding-bottom: env(safe-area-inset-bottom);
+      }
+      /* Flexbox Direction Utilities */
+      .flex-row {
+        flex-direction: row !important;
+      }
+      .items-center {
+        align-items: center;
+      }
+      .justify-center {
+        justify-content: center;
+      }
+      .justify-between {
+        justify-content: space-between;
+      }
+      .flex-1 {
+        flex: 1;
+      }
+      .gap-1 {
+        gap: 4px;
+      }
+      .gap-2 {
+        gap: 8px;
+      }
+      .gap-3 {
+        gap: 12px;
+      }
+      .gap-4 {
+        gap: 16px;
+      }
+      /* タブバー */
+      .tab-bar {
+        flex-direction: row;
+        background: white;
+        border-top: 1px solid #e5e7eb;
+        padding: 12px 0;
+        justify-content: space-around;
+      }
+      .tab-item {
+        align-items: center;
+        padding: 8px 12px;
+      }
+      /* モバイルサイズに制限 */
+      .mobile-container {
+        max-width: 414px;
+        min-width: 375px;
+        height: 800px;
+        margin: 0 auto;
+        border: 1px solid #e5e7eb;
+        border-radius: 20px;
+        overflow: hidden;
+        background: white;
+        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+      }
+      .status-bar {
+        height: 44px;
+        background: #000;
+        color: white;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 20px;
+        font-size: 14px;
+        font-weight: 600;
+      }
+    </style>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: "#FFC400",
+              secondary: "#212121",
+              success: "#4CAF50",
+              warning: "#FF9800",
+              error: "#F44336",
+            },
+            spacing: {
+              "safe-top": "44px",
+              "safe-bottom": "34px",
+            },
+          },
+        },
+      };
+    </script>
+  </head>
+  <body class="bg-gray-200 font-sans p-4">
+    <!-- ヘッダー -->
+    <div class="rn-view bg-white shadow-md sticky top-0 z-50 mb-4">
+      <div class="rn-view px-4 py-4">
+        <h1 class="rn-text text-3xl font-bold text-secondary mb-2">
+          🎯 MVP 1段目：ゴール機能
+        </h1>
+        <div class="rn-text text-sm text-gray-600 mb-4">
+          <strong>リリース目標：</strong> Week 3完了（3週間目）<br />
+          <strong>実装範囲：</strong> 認証・ゴールCRUD・基本UI・簡易完了機能
+        </div>
+        <div class="rn-view">
+          <div class="rn-scroll-view">
+            <div class="flex flex-wrap gap-2">
+              <span class="text-sm bg-primary text-secondary px-3 py-1 rounded-full font-medium">
+                Week 1-2: 完了済み
+              </span>
+              <span class="text-sm bg-orange-200 text-orange-800 px-3 py-1 rounded-full font-medium">
+                Week 3: リリース準備
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="flex flex-wrap justify-center gap-6">
+
+      <!-- 認証画面 -->
+      <div class="mb-8">
+        <h3 class="text-lg font-bold text-center mb-4">🔐 認証画面</h3>
+        <div class="mobile-container">
+          <div class="status-bar">
+            <span>9:41</span>
+            <span>📶 📶 100%</span>
+          </div>
+          
+          <div class="rn-view rn-safe-area bg-white flex-1">
+            <div class="rn-view bg-primary p-4">
+              <h2 class="rn-text text-xl font-bold text-secondary">🔐 認証</h2>
+            </div>
+            
+            <div class="rn-view rn-scroll-view flex-1 p-6 justify-between">
+              <div class="rn-view">
+                <h3 class="rn-text text-xl font-bold text-secondary mb-6 text-center"
+                  >ログイン</h3
+                >
+
+                <div class="rn-view gap-4">
+                  <div class="rn-view">
+                    <label class="rn-text text-sm text-secondary font-medium mb-1">Email</label>
+                    <input
+                      type="email"
+                      placeholder="example@email.com"
+                      class="rn-input"
+                    />
+                  </div>
+
+                  <div class="rn-view">
+                    <label class="rn-text text-sm text-secondary font-medium mb-1"
+                      >パスワード</label
+                    >
+                    <input
+                      type="password"
+                      placeholder="••••••••••••"
+                      class="rn-input"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div class="rn-view gap-3 mt-6">
+                <div
+                  class="rn-touchable w-full bg-primary text-secondary font-semibold py-3 px-4 rounded-xl text-sm text-center"
+                >
+                  ログイン
+                </div>
+                <div
+                  class="rn-touchable w-full border border-gray-300 text-secondary font-semibold py-3 px-4 rounded-xl text-sm text-center"
+                >
+                  新規登録
+                </div>
+                <div class="rn-view items-center">
+                  <div class="rn-touchable text-secondary underline text-xs"
+                    >パスワードをお忘れですか？</div
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ホーム画面 -->
+      <div class="mb-8">
+        <h3 class="text-lg font-bold text-center mb-4">🏠 ホーム画面</h3>
+        <div class="mobile-container">
+          <div class="status-bar">
+            <span>9:41</span>
+            <span>📶 📶 100%</span>
+          </div>
+          
+          <div class="rn-view rn-safe-area bg-white flex-1">
+            <div class="rn-view bg-primary p-4">
+              <h2 class="rn-text text-xl font-bold text-secondary">🏠 ホーム</h2>
+            </div>
+            
+            <div class="rn-view rn-scroll-view flex-1 p-6">
+              <div class="rn-view mb-4">
+                <h3 class="rn-text text-lg font-bold text-secondary"
+                  >👋 おはよう、田中さん</h3
+                >
+              </div>
+
+              <div class="rn-view mb-6">
+                <h4 class="rn-text text-sm font-semibold text-secondary mb-2"
+                  >🎯 今日のゴール</h4
+                >
+                <div class="rn-view bg-gray-50 rounded-xl p-4">
+                  <div class="rn-view flex-row items-center justify-between mb-2">
+                    <span class="rn-text text-sm font-medium">💼 英語学習マスター</span>
+                  </div>
+                  <div class="rn-text text-xs text-gray-600 mb-2">優先度: 高</div>
+                  <div class="rn-view w-full bg-gray-200 rounded-full h-2">
+                    <div
+                      class="bg-success h-2 rounded-full"
+                      style="width: 60%"
+                    ></div>
+                  </div>
+                  <div class="rn-text text-xs text-gray-600 mt-1">60%</div>
+                </div>
+              </div>
+
+              <!-- MVP1段目: 簡易完了機能ボタン -->
+              <div class="rn-view mb-6">
+                <h4 class="rn-text text-sm font-semibold text-secondary mb-2"
+                  >✅ ゴール管理</h4
+                >
+                <div
+                  class="rn-touchable w-full bg-success text-white font-semibold py-3 px-4 rounded-xl text-sm text-center mb-2"
+                >
+                  ゴール完了マーク
+                </div>
+                <div class="rn-text text-xs text-gray-600 text-center">
+                  ※ MVP2段目でアクション機能追加予定
+                </div>
+              </div>
+
+              <!-- MVP2段目予告エリア -->
+              <div class="rn-view bg-blue-50 p-4 rounded-xl">
+                <div class="rn-text text-xs text-blue-800 font-medium mb-1">
+                  🚀 MVP 2段目で追加予定
+                </div>
+                <div class="rn-text text-xs text-blue-600">
+                  • 点検セッション機能<br />
+                  • アクションリスト管理<br />
+                  • 進捗ダッシュボード
+                </div>
+              </div>
+            </div>
+            
+            <!-- タブバー -->
+            <div class="rn-view tab-bar">
+              <div class="rn-view tab-item items-center">
+                <div class="text-primary text-lg">🏠</div>
+                <div class="rn-text text-xs text-primary font-medium">ホーム</div>
+              </div>
+              <div class="rn-view tab-item items-center">
+                <div class="text-gray-400 text-lg">🎯</div>
+                <div class="rn-text text-xs text-gray-400">ゴール</div>
+              </div>
+              <div class="rn-view tab-item items-center">
+                <div class="text-gray-400 text-lg">⚙️</div>
+                <div class="rn-text text-xs text-gray-400">設定</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ゴール管理画面 -->
+      <div class="mb-8">
+        <h3 class="text-lg font-bold text-center mb-4">🎯 ゴール管理画面</h3>
+        <div class="mobile-container">
+          <div class="status-bar">
+            <span>9:41</span>
+            <span>📶 📶 100%</span>
+          </div>
+          
+          <div class="rn-view rn-safe-area bg-white flex-1">
+            <div class="rn-view bg-primary p-4">
+              <h2 class="rn-text text-xl font-bold text-secondary">🎯 ゴール管理</h2>
+            </div>
+            
+            <div class="rn-view rn-scroll-view flex-1 p-6">
+              <div class="rn-view flex-row justify-between items-center mb-4">
+                <h3 class="rn-text text-lg font-bold text-secondary">ゴール管理</h3>
+                <div
+                  class="rn-touchable bg-primary text-secondary text-sm font-semibold py-2 px-3 rounded-lg"
+                  >+ 追加</div
+                >
+              </div>
+
+              <div class="rn-view gap-3">
+                <div class="rn-view bg-gray-50 rounded-xl p-4">
+                  <div class="rn-view flex-row justify-between items-start">
+                    <div class="rn-view flex-1">
+                      <h4 class="rn-text text-sm font-semibold">💼 英語学習マスター</h4>
+                      <div class="rn-text text-xs text-gray-600 mt-1">優先度: 高 📊 60%</div>
+                    </div>
+                    <div class="rn-touchable text-gray-400">⋮</div>
+                  </div>
+                </div>
+
+                <div class="rn-view bg-gray-50 rounded-xl p-4">
+                  <div class="rn-view flex-row justify-between items-start">
+                    <div class="rn-view flex-1">
+                      <h4 class="rn-text text-sm font-semibold">🏃 健康的な生活習慣</h4>
+                      <div class="rn-text text-xs text-gray-600 mt-1">優先度: 中 📊 30%</div>
+                    </div>
+                    <div class="rn-touchable text-gray-400">⋮</div>
+                  </div>
+                </div>
+
+                <div class="rn-view bg-gray-50 rounded-xl p-4">
+                  <div class="rn-view flex-row justify-between items-start">
+                    <div class="rn-view flex-1">
+                      <h4 class="rn-text text-sm font-semibold">💰 副業収入月10万円</h4>
+                      <div class="rn-text text-xs text-gray-600 mt-1">優先度: 低 📊 10%</div>
+                    </div>
+                    <div class="rn-touchable text-gray-400">⋮</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="rn-view mt-6 p-3 bg-blue-50 rounded-xl">
+                <div class="rn-text text-xs text-blue-600"
+                  >💡 MVP1: 基本CRUD機能のみ実装済み</div
+                >
+              </div>
+            </div>
+            
+            <!-- タブバー -->
+            <div class="rn-view tab-bar">
+              <div class="rn-view tab-item items-center">
+                <div class="text-gray-400 text-lg">🏠</div>
+                <div class="rn-text text-xs text-gray-400">ホーム</div>
+              </div>
+              <div class="rn-view tab-item items-center">
+                <div class="text-primary text-lg">🎯</div>
+                <div class="rn-text text-xs text-primary font-medium">ゴール</div>
+              </div>
+              <div class="rn-view tab-item items-center">
+                <div class="text-gray-400 text-lg">⚙️</div>
+                <div class="rn-text text-xs text-gray-400">設定</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 設定画面 -->
+      <div class="mb-8">
+        <h3 class="text-lg font-bold text-center mb-4">⚙️ 設定画面</h3>
+        <div class="mobile-container">
+          <div class="status-bar">
+            <span>9:41</span>
+            <span>📶 📶 100%</span>
+          </div>
+          
+          <div class="rn-view rn-safe-area bg-white flex-1">
+            <div class="rn-view bg-primary p-4">
+              <h2 class="rn-text text-xl font-bold text-secondary">⚙️ 設定</h2>
+            </div>
+            
+            <div class="rn-view rn-scroll-view flex-1 p-6">
+              <h3 class="rn-text text-lg font-bold text-secondary mb-4">設定</h3>
+
+              <div class="rn-view gap-4">
+                <div class="rn-view">
+                  <h4 class="rn-text text-sm font-semibold text-secondary mb-2"
+                    >👤 プロフィール</h4
+                  >
+                  <div class="rn-view bg-gray-50 rounded-xl p-4">
+                    <div class="rn-view flex-row justify-between items-center">
+                      <div class="rn-view">
+                        <div class="rn-text text-sm font-medium">田中太郎</div>
+                        <div class="rn-text text-xs text-gray-600">example@email.com</div>
+                      </div>
+                      <span class="rn-text text-gray-400">></span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="rn-view">
+                  <h4 class="rn-text text-sm font-semibold text-secondary mb-2"
+                    >🔔 通知設定</h4
+                  >
+                  <div class="rn-view bg-gray-50 rounded-xl p-4">
+                    <div class="rn-view gap-2">
+                      <div class="rn-view flex-row justify-between items-center">
+                        <span class="rn-text text-sm">基本通知</span>
+                        <div class="w-8 h-4 bg-primary rounded-full"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- MVP2段目以降の機能予告 -->
+                <div class="rn-view">
+                  <h4 class="rn-text text-sm font-semibold text-secondary mb-2"
+                    >💎 今後の機能</h4
+                  >
+                  <div class="rn-view bg-gray-100 rounded-xl p-4">
+                    <div class="rn-view">
+                      <div class="rn-text text-sm text-gray-500">MVP 2段目で追加予定：</div>
+                      <div class="rn-text text-xs text-gray-500 mt-1">
+                        • 点検セッション機能<br />
+                        • 制限機能（無料プラン）<br />
+                        • プレミアム誘導UI
+                      </div>
+                      <div class="rn-text text-sm text-gray-500 mt-2">MVP 3段目で追加予定：</div>
+                      <div class="rn-text text-xs text-gray-500 mt-1">
+                        • AI提案機能<br />
+                        • 課金システム<br />
+                        • プレミアム機能
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div
+                class="rn-touchable w-full mt-6 text-error font-semibold py-3 px-4 rounded-xl text-sm border border-error text-center"
+              >
+                ログアウト
+              </div>
+            </div>
+            
+            <!-- タブバー -->
+            <div class="rn-view tab-bar">
+              <div class="rn-view tab-item items-center">
+                <div class="text-gray-400 text-lg">🏠</div>
+                <div class="rn-text text-xs text-gray-400">ホーム</div>
+              </div>
+              <div class="rn-view tab-item items-center">
+                <div class="text-gray-400 text-lg">🎯</div>
+                <div class="rn-text text-xs text-gray-400">ゴール</div>
+              </div>
+              <div class="rn-view tab-item items-center">
+                <div class="text-primary text-lg">⚙️</div>
+                <div class="rn-text text-xs text-primary font-medium">設定</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- モーダル例: ゴール作成 -->
+      <div class="mb-8">
+        <h3 class="text-lg font-bold text-center mb-4">➕ ゴール作成モーダル</h3>
+        <div class="mobile-container">
+          <div class="status-bar">
+            <span>9:41</span>
+            <span>📶 📶 100%</span>
+          </div>
+          
+          <div class="rn-view rn-safe-area bg-white flex-1">
+            <div class="rn-view bg-primary p-4">
+              <h2 class="rn-text text-xl font-bold text-secondary"
+                >➕ ゴール作成</h2
+              >
+            </div>
+            
+            <div class="rn-view rn-scroll-view flex-1 p-6">
+              <h3 class="rn-text text-lg font-bold text-secondary mb-4 text-center"
+                >新しいゴール</h3
+              >
+
+              <div class="rn-view gap-4">
+                <div class="rn-view">
+                  <label class="rn-text text-sm text-secondary font-medium mb-1">タイトル</label>
+                  <input
+                    type="text"
+                    placeholder="例: 英語学習マスター"
+                    class="rn-input"
+                  />
+                </div>
+
+                <div class="rn-view">
+                  <label class="rn-text text-sm text-secondary font-medium mb-1">カテゴリ</label>
+                  <select
+                    class="rn-input"
+                  >
+                    <option>📚 学習・スキルアップ</option>
+                    <option>🏃 健康・フィットネス</option>
+                    <option>💼 仕事・キャリア</option>
+                    <option>💰 お金・投資</option>
+                  </select>
+                </div>
+
+                <div class="rn-view">
+                  <label class="rn-text text-sm text-secondary font-medium mb-2">優先度</label>
+                  <div class="rn-view flex-row gap-2">
+                    <div
+                      class="rn-touchable flex-1 bg-primary text-secondary py-2 px-3 rounded-lg text-sm font-medium text-center"
+                      >高</div
+                    >
+                    <div
+                      class="rn-touchable flex-1 bg-gray-200 text-secondary py-2 px-3 rounded-lg text-sm text-center"
+                      >中</div
+                    >
+                    <div
+                      class="rn-touchable flex-1 bg-gray-200 text-secondary py-2 px-3 rounded-lg text-sm text-center"
+                      >低</div
+                    >
+                  </div>
+                </div>
+
+                <div class="rn-view">
+                  <label class="rn-text text-sm text-secondary font-medium mb-1"
+                    >説明（任意）</label
+                  >
+                  <textarea
+                    placeholder="このゴールについて詳しく..."
+                    class="rn-input h-16 resize-none"
+                  ></textarea>
+                </div>
+              </div>
+
+              <div class="rn-view flex-row gap-3 mt-6">
+                <div
+                  class="rn-touchable flex-1 border border-gray-300 text-secondary py-3 px-4 rounded-xl text-sm text-center"
+                >
+                  キャンセル
+                </div>
+                <div
+                  class="rn-touchable flex-1 bg-primary text-secondary font-semibold py-3 px-4 rounded-xl text-sm text-center"
+                >
+                  作成
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- フッター -->
+    <footer class="bg-white border-t mt-12 py-8">
+      <div class="max-w-6xl mx-auto px-4 text-center">
+        <h3 class="text-lg font-bold text-secondary mb-4">📋 MVP 1段目 実装状況</h3>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+          <div class="bg-green-50 p-4 rounded-lg">
+            <h4 class="font-semibold text-green-800">✅ 完了済み (Week 1-2)</h4>
+            <ul class="text-green-700 text-xs mt-2 text-left">
+              <li>• 認証機能 (Supabase Auth)</li>
+              <li>• ゴール CRUD機能</li>
+              <li>• 基本UI コンポーネント</li>
+              <li>• タブナビゲーション</li>
+            </ul>
+          </div>
+          <div class="bg-orange-50 p-4 rounded-lg">
+            <h4 class="font-semibold text-orange-800">🔄 実装中 (Week 3)</h4>
+            <ul class="text-orange-700 text-xs mt-2 text-left">
+              <li>• 簡易ゴール完了機能</li>
+              <li>• デプロイ設定</li>
+              <li>• App Store/Google Play 準備</li>
+              <li>• リリース実行</li>
+            </ul>
+          </div>
+          <div class="bg-blue-50 p-4 rounded-lg">
+            <h4 class="font-semibold text-blue-800">📊 成功指標</h4>
+            <ul class="text-blue-700 text-xs mt-2 text-left">
+              <li>• ユーザー獲得: 100名以上</li>
+              <li>• 週1回以上のアクティブ利用</li>
+              <li>• 基盤技術の検証完了</li>
+              <li>• 市場検証とフィードバック獲得</li>
+            </ul>
+          </div>
+        </div>
+        <p class="text-gray-600 text-sm mt-6">
+          © 2024 Flow Finder - MVP 1段目：ゴール機能 画面カタログ
+        </p>
+        <p class="text-gray-500 text-xs mt-2">
+          次の段階：MVP 2段目（点検セッション機能・無料プラン完全版）
+        </p>
+      </div>
+    </footer>
+  </body>
+</html>

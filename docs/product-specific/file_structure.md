@@ -49,7 +49,7 @@ app/
 │   └── [step].tsx               # 5ステップウィザード
 │       └── __tests__/
 │           └── [step].test.tsx
-├── onboarding/                  # オンボーディング
+├── onboarding/                  # オンボーディング（MVP2段目で実装）
 │   ├── _layout.tsx
 │   └── index.tsx
 │       └── __tests__/
@@ -114,6 +114,22 @@ components/
 │       └── __tests__/
 │           └── DashboardChart.test.tsx
 ├── features/                    # 機能別コンポーネント
+│   ├── onboarding/             # オンボーディング（MVP2段目で実装）
+│   │   ├── OnboardingSlider.tsx
+│   │   ├── __tests__/
+│   │   │   └── OnboardingSlider.test.tsx
+│   │   ├── AppIntroSlide.tsx
+│   │   ├── __tests__/
+│   │   │   └── AppIntroSlide.test.tsx
+│   │   ├── GoalValueSlide.tsx
+│   │   ├── __tests__/
+│   │   │   └── GoalValueSlide.test.tsx
+│   │   ├── SessionIntroSlide.tsx
+│   │   ├── __tests__/
+│   │   │   └── SessionIntroSlide.test.tsx
+│   │   └── PlanComparisonSlide.tsx
+│   │       └── __tests__/
+│   │           └── PlanComparisonSlide.test.tsx
 │   ├── session/
 │   │   ├── SessionWizard.tsx
 │   │   ├── __tests__/
@@ -245,6 +261,9 @@ hooks/
 ├── useNotifications.ts          # 通知管理
 ├── __tests__/
 │   └── useNotifications.test.ts
+├── useOnboarding.ts             # オンボーディング管理（MVP2段目で実装）
+├── __tests__/
+│   └── useOnboarding.test.ts
 └── useAnalytics.ts              # 分析データ
     └── __tests__/
         └── useAnalytics.test.ts

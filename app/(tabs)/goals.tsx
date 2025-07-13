@@ -3,6 +3,8 @@ import { ActivityIndicator, Text, View, ScrollView, Pressable, TextInput, Alert 
 import { Redirect } from "expo-router";
 import { useAuth } from "../../hooks/useAuth";
 import { getSupabaseClient } from "../../lib/supabase";
+import { GoalForm } from "../../components/forms/GoalForm";
+import { CreateGoalInput } from "../../types/goal.types";
 
 /**
  * ゴール管理画面コンポーネント（段階的復旧中）
@@ -14,15 +16,17 @@ const Goals: React.FC = () => {
   
   // ローカル状態管理
   const [isLoading, setIsLoading] = useState(false);
-  const [goalCount, setGoalCount] = useState(0);
   const [goals, setGoals] = useState<any[]>([]);
   const [error, setError] = useState<string | null>(null);
   
   // ゴール作成フォーム関連
   const [showCreateForm, setShowCreateForm] = useState(false);
   const [isCreating, setIsCreating] = useState(false);
-  const [newGoalTitle, setNewGoalTitle] = useState("");
-  const [newGoalDescription, setNewGoalDescription] = useState("");
+
+  // ゴール編集フォーム関連
+  const [showEditForm, setShowEditForm] = useState(false);
+  const [editingGoal, setEditingGoal] = useState<any | null>(null);
+  const [isUpdating, setIsUpdating] = useState(false);
 
   // 実際のSupabaseからのゴール取得
   const fetchGoals = useCallback(async () => {
@@ -33,25 +37,22 @@ const Goals: React.FC = () => {
 
     try {
       const supabase = getSupabaseClient();
-      const { data, error: fetchError, count } = await supabase
+      const { data, error: fetchError } = await supabase
         .from("goals")
-        .select("*", { count: "exact" })
+        .select("*")
         .eq("user_id", user.id)
         .order("created_at", { ascending: false });
 
       if (fetchError) {
         console.error("ゴール取得エラー:", fetchError);
         setError("ゴールの取得に失敗しました");
-        setGoalCount(0);
         setGoals([]);
       } else {
         setGoals(data || []);
-        setGoalCount(count || 0);
       }
     } catch (err) {
       console.error("ネットワークエラー:", err);
       setError("通信エラーが発生しました");
-      setGoalCount(0);
       setGoals([]);
     } finally {
       setIsLoading(false);
@@ -63,10 +64,10 @@ const Goals: React.FC = () => {
     fetchGoals();
   }, [fetchGoals]);
 
-  // ゴール作成機能
-  const createGoal = useCallback(async () => {
-    if (!isAuthenticated || !user || !newGoalTitle.trim()) {
-      Alert.alert("エラー", "タイトルを入力してください");
+  // ゴール作成機能（GoalFormコンポーネント用）
+  const createGoal = useCallback(async (goalData: CreateGoalInput) => {
+    if (!isAuthenticated || !user) {
+      Alert.alert("エラー", "認証が必要です");
       return;
     }
 
@@ -77,7 +78,7 @@ const Goals: React.FC = () => {
       
       // まずgoalsテーブルの存在確認
       console.log("goalsテーブルの存在確認...");
-      const { data: tableCheck, error: tableError } = await supabase
+      const { error: tableError } = await supabase
         .from("goals")
         .select("count", { count: "exact", head: true });
 
@@ -137,18 +138,17 @@ const Goals: React.FC = () => {
         console.log("ユーザーは既にusersテーブルに存在します");
       }
 
-      // より安全なデータ構造で試行
-      const goalData = {
+      // GoalFormから受け取ったデータを使用（user_idを現在のユーザーで上書き）
+      const finalGoalData = {
+        ...goalData,
         user_id: user.id,
-        title: newGoalTitle.trim(),
-        description: newGoalDescription.trim() || null,
       };
 
-      console.log("作成するゴールデータ:", goalData);
+      console.log("作成するゴールデータ:", finalGoalData);
 
-      const { data, error: createError } = await supabase
+      const { error: createError } = await supabase
         .from("goals")
-        .insert([goalData])
+        .insert([finalGoalData])
         .select();
 
       if (createError) {
@@ -165,8 +165,6 @@ const Goals: React.FC = () => {
         Alert.alert("エラー", errorMessage);
       } else {
         // 成功時の処理
-        setNewGoalTitle("");
-        setNewGoalDescription("");
         setShowCreateForm(false);
         Alert.alert("成功", "ゴールを作成しました");
         
@@ -179,13 +177,114 @@ const Goals: React.FC = () => {
     } finally {
       setIsCreating(false);
     }
-  }, [isAuthenticated, user, newGoalTitle, newGoalDescription, fetchGoals]);
+  }, [isAuthenticated, user, fetchGoals]);
+
+  // ゴール更新機能（GoalFormコンポーネント用）
+  const updateGoal = useCallback(async (goalData: CreateGoalInput) => {
+    if (!isAuthenticated || !user || !editingGoal) {
+      Alert.alert("エラー", "更新対象のゴールが見つかりません");
+      return;
+    }
+
+    setIsUpdating(true);
+
+    try {
+      const supabase = getSupabaseClient();
+      
+      const updateData = {
+        title: goalData.title,
+        description: goalData.description || null,
+        priority: goalData.priority,
+        updated_at: new Date().toISOString(),
+      };
+
+      console.log("更新するゴールデータ:", updateData);
+
+      const { error: updateError } = await supabase
+        .from("goals")
+        .update(updateData)
+        .eq("id", editingGoal.id)
+        .eq("user_id", user.id)
+        .select();
+
+      if (updateError) {
+        console.error("ゴール更新エラー:", updateError);
+        Alert.alert("エラー", `ゴールの更新に失敗しました: ${updateError.message}`);
+      } else {
+        // 成功時の処理
+        resetEditForm();
+        Alert.alert("成功", "ゴールを更新しました");
+        
+        // リストを再取得
+        await fetchGoals();
+      }
+    } catch (err) {
+      console.error("ネットワークエラー:", err);
+      Alert.alert("エラー", "通信エラーが発生しました");
+    } finally {
+      setIsUpdating(false);
+    }
+  }, [isAuthenticated, user, editingGoal, fetchGoals]);
+
+  // ゴール削除機能
+  const deleteGoal = useCallback(async (goal: any) => {
+    if (!isAuthenticated || !user || !goal) return;
+
+    Alert.alert(
+      "ゴールを削除",
+      `本当に「${goal.title}」を削除しますか？この操作は取り消せません。`,
+      [
+        {
+          text: "キャンセル",
+          style: "cancel",
+        },
+        {
+          text: "削除",
+          style: "destructive",
+          onPress: async () => {
+            try {
+              const supabase = getSupabaseClient();
+              
+              const { error: deleteError } = await supabase
+                .from("goals")
+                .delete()
+                .eq("id", goal.id)
+                .eq("user_id", user.id);
+
+              if (deleteError) {
+                console.error("ゴール削除エラー:", deleteError);
+                Alert.alert("エラー", `ゴールの削除に失敗しました: ${deleteError.message}`);
+              } else {
+                Alert.alert("成功", "ゴールを削除しました");
+                // リストを再取得
+                await fetchGoals();
+              }
+            } catch (err) {
+              console.error("ネットワークエラー:", err);
+              Alert.alert("エラー", "通信エラーが発生しました");
+            }
+          },
+        },
+      ]
+    );
+  }, [isAuthenticated, user, fetchGoals]);
+
+  // 編集開始
+  const startEditGoal = useCallback((goal: any) => {
+    setEditingGoal(goal);
+    setShowEditForm(true);
+    setShowCreateForm(false); // 作成フォームが開いている場合は閉じる
+  }, []);
 
   // フォームリセット
   const resetForm = useCallback(() => {
-    setNewGoalTitle("");
-    setNewGoalDescription("");
     setShowCreateForm(false);
+  }, []);
+
+  // 編集フォームリセット
+  const resetEditForm = useCallback(() => {
+    setEditingGoal(null);
+    setShowEditForm(false);
   }, []);
 
   // 認証状態の初期化中はローディング表示
@@ -217,33 +316,6 @@ const Goals: React.FC = () => {
           </Text>
         </View>
 
-        {/* 進捗表示 */}
-        <View className="bg-white rounded-xl p-6 mb-6 shadow-sm">
-          <Text className="text-lg font-semibold text-center mb-3 text-gray-800">
-            あなたの進捗
-          </Text>
-          {isLoading ? (
-            <View className="flex-row justify-center items-center">
-              <ActivityIndicator size="small" color="#FFC400" />
-              <Text className="ml-2 text-gray-600">読み込み中...</Text>
-            </View>
-          ) : error ? (
-            <View className="bg-red-50 rounded-lg p-4 items-center">
-              <Text className="text-red-600 text-center mb-2">{error}</Text>
-              <Text className="text-red-500 text-sm">タップして再試行</Text>
-            </View>
-          ) : (
-            <View className="bg-blue-50 rounded-lg p-4 items-center">
-              <Text className="text-2xl font-bold text-blue-600 mb-1">
-                {goalCount}
-              </Text>
-              <Text className="text-blue-600 font-medium">
-                登録ゴール
-              </Text>
-            </View>
-          )}
-        </View>
-
         {/* ゴール一覧プレビュー */}
         {!isLoading && !error && goals.length > 0 && (
           <View className="bg-white rounded-xl p-6 mb-6 shadow-sm">
@@ -252,12 +324,34 @@ const Goals: React.FC = () => {
             </Text>
             {goals.slice(0, 3).map((goal, index) => (
               <View key={goal.id || index} className="bg-gray-50 rounded-lg p-3 mb-2">
-                <Text className="font-medium text-gray-800" numberOfLines={1}>
-                  {goal.title || "無題のゴール"}
-                </Text>
-                <Text className="text-sm text-gray-600 mt-1" numberOfLines={2}>
-                  {goal.description || "説明なし"}
-                </Text>
+                <View className="flex-row justify-between items-start">
+                  <View className="flex-1 mr-3">
+                    <Text className="font-medium text-gray-800" numberOfLines={1}>
+                      {goal.title || "無題のゴール"}
+                    </Text>
+                    <Text className="text-sm text-gray-600 mt-1" numberOfLines={2}>
+                      {goal.description || "説明なし"}
+                    </Text>
+                  </View>
+                  
+                  {/* 編集・削除ボタン */}
+                  <View className="flex-row gap-2">
+                    <Pressable
+                      testID={`goal-edit-button-${goal.id}`}
+                      onPress={() => startEditGoal(goal)}
+                      className="bg-blue-500 px-2 py-1 rounded"
+                    >
+                      <Text className="text-white text-xs font-medium">編集</Text>
+                    </Pressable>
+                    <Pressable
+                      testID={`goal-delete-button-${goal.id}`}
+                      onPress={() => deleteGoal(goal)}
+                      className="bg-red-500 px-2 py-1 rounded"
+                    >
+                      <Text className="text-white text-xs font-medium">削除</Text>
+                    </Pressable>
+                  </View>
+                </View>
               </View>
             ))}
             {goals.length > 3 && (
@@ -282,7 +376,7 @@ const Goals: React.FC = () => {
               className="bg-[#FFC400] px-4 py-3 rounded-lg"
             >
               <Text className="text-black font-medium text-center">
-                ゴールを作成する
+                新しいゴールを作成
               </Text>
             </Pressable>
           </View>
@@ -305,85 +399,25 @@ const Goals: React.FC = () => {
         {/* ゴール作成フォーム */}
         {showCreateForm && (
           <View className="bg-white rounded-xl p-6 mb-6 shadow-sm">
-            <Text className="text-lg font-semibold mb-4 text-gray-800">
-              新しいゴールを作成
-            </Text>
-            
-            {/* タイトル入力 */}
-            <View className="mb-4">
-              <Text className="text-sm font-medium text-gray-700 mb-2">
-                タイトル *
-              </Text>
-              <TextInput
-                value={newGoalTitle}
-                onChangeText={setNewGoalTitle}
-                placeholder="例：英語を流暢に話せるようになる"
-                className="border border-gray-300 rounded-lg px-3 py-2 text-base"
-                maxLength={100}
-              />
-            </View>
-
-            {/* 説明入力 */}
-            <View className="mb-4">
-              <Text className="text-sm font-medium text-gray-700 mb-2">
-                説明（任意）
-              </Text>
-              <TextInput
-                value={newGoalDescription}
-                onChangeText={setNewGoalDescription}
-                placeholder="ゴールの詳細説明を入力してください"
-                className="border border-gray-300 rounded-lg px-3 py-2 text-base"
-                multiline
-                numberOfLines={3}
-                maxLength={500}
-              />
-            </View>
-
-            {/* ボタン */}
-            <View className="flex-row gap-3">
-              <Pressable
-                onPress={resetForm}
-                className="flex-1 bg-gray-200 px-4 py-3 rounded-lg"
-                disabled={isCreating}
-              >
-                <Text className="text-gray-700 font-medium text-center">
-                  キャンセル
-                </Text>
-              </Pressable>
-              
-              <Pressable
-                onPress={createGoal}
-                className={`flex-1 px-4 py-3 rounded-lg ${isCreating ? 'bg-gray-400' : 'bg-[#FFC400]'}`}
-                disabled={isCreating || !newGoalTitle.trim()}
-              >
-                <View className="flex-row justify-center items-center">
-                  {isCreating && (
-                    <ActivityIndicator size="small" color="#000000" className="mr-2" />
-                  )}
-                  <Text className="text-black font-medium">
-                    {isCreating ? "作成中..." : "作成"}
-                  </Text>
-                </View>
-              </Pressable>
-            </View>
+            <GoalForm
+              onSubmit={createGoal}
+              onCancel={resetForm}
+              isSubmitting={isCreating}
+            />
           </View>
         )}
 
-        {/* 機能状況 */}
-        <View className="bg-white rounded-xl p-6 shadow-sm">
-          <Text className="text-lg font-semibold text-center mb-3 text-gray-800">
-            段階的復旧中
-          </Text>
-          <Text className="text-center text-gray-600 leading-6 mb-4">
-            ゴール管理機能を安全に復旧しています。{'\n'}
-            現在：ゴール作成機能を実装済み
-          </Text>
-          <View className="bg-green-50 rounded-lg p-3">
-            <Text className="text-green-700 text-sm text-center">
-              ✅ 認証ガード　✅ 基本UI　✅ データ取得　✅ 作成機能　🔄 編集・削除
-            </Text>
+        {/* ゴール編集フォーム */}
+        {showEditForm && editingGoal && (
+          <View className="bg-white rounded-xl p-6 mb-6 shadow-sm">
+            <GoalForm
+              onSubmit={updateGoal}
+              onCancel={resetEditForm}
+              initialGoal={editingGoal}
+              isSubmitting={isUpdating}
+            />
           </View>
-        </View>
+        )}
       </View>
     </ScrollView>
   );

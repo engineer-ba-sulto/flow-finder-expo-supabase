@@ -1,17 +1,34 @@
 import { act, fireEvent, render, waitFor } from "@testing-library/react-native";
 import Goals from "../goals";
 
+// useAuthフックのモック
+jest.mock("../../../hooks/useAuth", () => ({
+  useAuth: jest.fn(() => ({
+    isAuthenticated: true,
+    loading: false,
+    user: {
+      id: "mock-user-id",
+      email: "test@example.com",
+      created_at: new Date().toISOString(),
+    },
+    error: null,
+  })),
+}));
+
 // Supabaseクライアントのモック
 jest.mock("../../../lib/supabase", () => ({
   getSupabaseClient: jest.fn(() => ({
     from: jest.fn(() => ({
       select: jest.fn(() => ({
-        order: jest.fn(() =>
-          Promise.resolve({
-            data: [],
-            error: null,
-          })
-        ),
+        eq: jest.fn(() => ({
+          order: jest.fn(() =>
+            Promise.resolve({
+              data: [],
+              count: 0,
+              error: null,
+            })
+          ),
+        })),
       })),
       insert: jest.fn(() => ({
         select: jest.fn(() => ({
@@ -118,11 +135,11 @@ describe("<Goals />", () => {
     });
 
     // タイトル入力フィールドが表示されることを確認
-    expect(getByPlaceholderText("例: 英語学習マスター")).toBeTruthy();
+    expect(getByPlaceholderText("例：英語を流暢に話せるようになる")).toBeTruthy();
   });
 
-  test("ゴール作成フォームに優先度選択フィールドが表示されること", async () => {
-    const { getByText } = render(<Goals />);
+  test("ゴール作成フォームに説明入力フィールドが表示されること", async () => {
+    const { getByText, getByPlaceholderText } = render(<Goals />);
 
     // ローディング完了を待つ
     await waitFor(() => {
@@ -135,8 +152,8 @@ describe("<Goals />", () => {
       fireEvent.press(createButton);
     });
 
-    // 優先度選択フィールドが表示されることを確認
-    expect(getByText("優先度")).toBeTruthy();
+    // 説明入力フィールドが表示されることを確認
+    expect(getByPlaceholderText("ゴールの詳細説明を入力してください")).toBeTruthy();
   });
 
   test("ゴール作成フォームに保存ボタンが表示されること", async () => {
@@ -200,27 +217,175 @@ describe("<Goals />", () => {
   });
 
   test("既存のゴールアイテムに編集ボタンが表示されること", async () => {
-    // このテストはSupabaseからデータを取得するため、スキップまたはモック化が必要
-    // 現在の実装では空状態が表示される
-    expect(true).toBeTruthy(); // プレースホルダーテスト
+    // モックデータでゴールが存在する状態を作成
+    const mockGoalData = [
+      {
+        id: "test-goal-1",
+        title: "テストゴール1",
+        description: "テスト説明1",
+        user_id: "mock-user-id",
+        created_at: new Date().toISOString(),
+      }
+    ];
+
+    // Supabaseクライアントのモックを更新
+    const mockSupabase = require("../../../lib/supabase").getSupabaseClient();
+    mockSupabase.from.mockReturnValue({
+      select: jest.fn(() => ({
+        eq: jest.fn(() => ({
+          order: jest.fn(() =>
+            Promise.resolve({
+              data: mockGoalData,
+              count: 1,
+              error: null,
+            })
+          ),
+        })),
+      })),
+    });
+
+    const { getByTestId } = render(<Goals />);
+
+    // ゴールが読み込まれるまで待つ
+    await waitFor(() => {
+      expect(getByTestId("goal-edit-button-test-goal-1")).toBeTruthy();
+    });
   });
 
   test("既存のゴールアイテムに削除ボタンが表示されること", async () => {
-    // このテストはSupabaseからデータを取得するため、スキップまたはモック化が必要
-    // 現在の実装では空状態が表示される
-    expect(true).toBeTruthy(); // プレースホルダーテスト
+    // モックデータでゴールが存在する状態を作成
+    const mockGoalData = [
+      {
+        id: "test-goal-1",
+        title: "テストゴール1",
+        description: "テスト説明1",
+        user_id: "mock-user-id",
+        created_at: new Date().toISOString(),
+      }
+    ];
+
+    // Supabaseクライアントのモックを更新
+    const mockSupabase = require("../../../lib/supabase").getSupabaseClient();
+    mockSupabase.from.mockReturnValue({
+      select: jest.fn(() => ({
+        eq: jest.fn(() => ({
+          order: jest.fn(() =>
+            Promise.resolve({
+              data: mockGoalData,
+              count: 1,
+              error: null,
+            })
+          ),
+        })),
+      })),
+    });
+
+    const { getByTestId } = render(<Goals />);
+
+    // ゴールが読み込まれるまで待つ
+    await waitFor(() => {
+      expect(getByTestId("goal-delete-button-test-goal-1")).toBeTruthy();
+    });
   });
 
   test("削除ボタンをタップすると確認ダイアログが表示されること", async () => {
-    // このテストはSupabaseからデータを取得するため、スキップまたはモック化が必要
-    // 現在の実装では空状態が表示される
-    expect(true).toBeTruthy(); // プレースホルダーテスト
+    // モックデータでゴールが存在する状態を作成
+    const mockGoalData = [
+      {
+        id: "test-goal-1",
+        title: "テストゴール1",
+        description: "テスト説明1",
+        user_id: "mock-user-id",
+        created_at: new Date().toISOString(),
+      }
+    ];
+
+    // Supabaseクライアントのモックを更新
+    const mockSupabase = require("../../../lib/supabase").getSupabaseClient();
+    mockSupabase.from.mockReturnValue({
+      select: jest.fn(() => ({
+        eq: jest.fn(() => ({
+          order: jest.fn(() =>
+            Promise.resolve({
+              data: mockGoalData,
+              count: 1,
+              error: null,
+            })
+          ),
+        })),
+      })),
+    });
+
+    // React Native Alertのモック
+    const mockAlert = jest.spyOn(require("react-native").Alert, "alert");
+
+    const { getByTestId } = render(<Goals />);
+
+    // ゴールが読み込まれるまで待つ
+    await waitFor(() => {
+      expect(getByTestId("goal-delete-button-test-goal-1")).toBeTruthy();
+    });
+
+    // 削除ボタンをタップ
+    const deleteButton = getByTestId("goal-delete-button-test-goal-1");
+    await act(async () => {
+      fireEvent.press(deleteButton);
+    });
+
+    // 確認ダイアログが表示されることを確認
+    expect(mockAlert).toHaveBeenCalledWith(
+      "ゴールを削除",
+      "本当に「テストゴール1」を削除しますか？この操作は取り消せません。",
+      expect.any(Array)
+    );
+
+    mockAlert.mockRestore();
   });
 
   test("編集ボタンをタップするとゴール編集フォームが表示されること", async () => {
-    // このテストはSupabaseからデータを取得するため、スキップまたはモック化が必要
-    // 現在の実装では空状態が表示される
-    expect(true).toBeTruthy(); // プレースホルダーテスト
+    // モックデータでゴールが存在する状態を作成
+    const mockGoalData = [
+      {
+        id: "test-goal-1",
+        title: "テストゴール1",
+        description: "テスト説明1",
+        user_id: "mock-user-id",
+        created_at: new Date().toISOString(),
+      }
+    ];
+
+    // Supabaseクライアントのモックを更新
+    const mockSupabase = require("../../../lib/supabase").getSupabaseClient();
+    mockSupabase.from.mockReturnValue({
+      select: jest.fn(() => ({
+        eq: jest.fn(() => ({
+          order: jest.fn(() =>
+            Promise.resolve({
+              data: mockGoalData,
+              count: 1,
+              error: null,
+            })
+          ),
+        })),
+      })),
+    });
+
+    const { getByTestId, getByText } = render(<Goals />);
+
+    // ゴールが読み込まれるまで待つ
+    await waitFor(() => {
+      expect(getByTestId("goal-edit-button-test-goal-1")).toBeTruthy();
+    });
+
+    // 編集ボタンをタップ
+    const editButton = getByTestId("goal-edit-button-test-goal-1");
+    await act(async () => {
+      fireEvent.press(editButton);
+    });
+
+    // 編集フォームが表示されることを確認
+    expect(getByText("ゴールを編集")).toBeTruthy();
+    expect(getByText("更新")).toBeTruthy();
   });
 
   test("ゴールが存在しない場合に空状態メッセージが表示されること", async () => {
@@ -228,8 +393,8 @@ describe("<Goals />", () => {
 
     // ローディング完了を待つ
     await waitFor(() => {
-      expect(getByText("まだゴールがありません")).toBeTruthy();
-      expect(getByText("最初のゴールを作成してみましょう")).toBeTruthy();
+      expect(getByText("ゴールがありません")).toBeTruthy();
+      expect(getByText("最初のゴールを作成して")).toBeTruthy();
     });
   });
 });

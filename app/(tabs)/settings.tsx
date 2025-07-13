@@ -1,5 +1,6 @@
 import React from "react";
 import { View, Text, ScrollView, Alert, Pressable } from "react-native";
+import { Redirect } from "expo-router";
 import { useAuth } from "../../hooks/useAuth";
 import { Button } from "../../components/ui/Button";
 
@@ -27,6 +28,11 @@ export default function SettingsScreen() {
         </View>
       </View>
     );
+  }
+
+  // 未認証時はログイン画面にリダイレクト
+  if (!isAuthenticated) {
+    return <Redirect href="/auth/login" />;
   }
 
   // エラー状態のUI改善

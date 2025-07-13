@@ -5,9 +5,10 @@ import { Tabs } from "expo-router";
  * タブレイアウトコンポーネント
  * 
  * Flow Finderアプリのメインナビゲーションを提供します。
- * Refactor Phase: ブランドカラー・アクセシビリティ対応完了
+ * Refactor Phase: ブランドカラー・アクセシビリティ対応完了 + 認証ガード追加
  */
 export default function TabLayout() {
+  // 認証チェックを削除し、各画面で個別に認証状態をハンドルするように変更
   return (
     <Tabs 
       screenOptions={{ 

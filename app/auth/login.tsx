@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Text, View, SafeAreaView, Pressable, ActivityIndicator } from "react-native";
 import { Link, useRouter } from "expo-router";
+import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { useAuth } from "../../hooks/useAuth";
-import { Button } from "../../components/ui/Button";
 import { Input } from "../../components/ui/Input";
 
 export default function Login() {
@@ -92,6 +92,20 @@ export default function Login() {
 
   return (
     <SafeAreaView className="flex-1 bg-white" accessibilityLabel="ログイン画面">
+      {/* 戻るボタン */}
+      <View className="px-6 pt-4">
+        <Pressable
+          onPress={() => router.back()}
+          className="flex-row items-center"
+          accessibilityRole="button"
+          accessibilityLabel="前の画面に戻る"
+          accessibilityHint="ホーム画面に戻ります"
+        >
+          <FontAwesome name="arrow-left" size={20} color="#666666" />
+          <Text className="ml-2 text-gray-600 text-base">戻る</Text>
+        </Pressable>
+      </View>
+      
       <View className="flex-1 px-6 py-8 justify-center">
         {/* ロゴ・アプリ名エリア */}
         <View className="items-center mb-8">
@@ -161,11 +175,10 @@ export default function Login() {
           )}
 
           {/* ログインボタン */}
-          <Button
-            variant="primary"
+          <Pressable
             onPress={handleLogin}
             disabled={isLoading}
-            className="mb-4"
+            className={`bg-[#FFC400] px-4 py-3 rounded-lg mb-4 ${isLoading ? 'opacity-50' : ''}`}
             accessibilityRole="button"
             accessibilityLabel={isLoading ? "ログイン処理中" : "ログインボタン"}
             accessibilityHint={isLoading ? "ログイン処理を実行中です" : "タップしてログインします"}
@@ -178,16 +191,16 @@ export default function Login() {
               {isLoading && (
                 <ActivityIndicator 
                   size="small" 
-                  color="#FFFFFF" 
+                  color="#000000" 
                   className="mr-2" 
                   accessibilityLabel="ローディング中"
                 />
               )}
-              <Text className="text-white font-medium">
+              <Text className="text-black font-medium text-center">
                 {isLoading ? "ログイン中..." : "ログインする"}
               </Text>
             </View>
-          </Button>
+          </Pressable>
         </View>
 
         {/* サインアップリンク */}

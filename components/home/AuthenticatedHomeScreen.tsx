@@ -1,7 +1,12 @@
 import React from "react";
-import { RefreshControl, ScrollView, Text, View } from "react-native";
+import {
+  RefreshControl,
+  ScrollView,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { Button } from "../../components/ui/Button";
-import { APP_DESCRIPTION } from "../../constants/app";
 
 interface AuthenticatedHomeScreenProps {
   goalData: any;
@@ -21,105 +26,142 @@ const AuthenticatedHomeScreen: React.FC<AuthenticatedHomeScreenProps> = ({
   user,
 }) => (
   <ScrollView
-    className="flex-1 bg-gray-50"
+    className="flex-1 bg-white"
     showsVerticalScrollIndicator={false}
     refreshControl={
       <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
     }
     accessibilityLabel="ホーム画面"
   >
-    <View className="flex-1 px-4 pt-8 pb-6">
-      {/* ウェルカムセクション */}
-      <View className="bg-white rounded-xl p-6 mb-6 shadow-sm">
+    <View className="flex-1 px-6 pt-4 pb-6">
+      {/* グリーティングセクション */}
+      <View className="mb-4">
         <Text
-          className="text-2xl font-bold text-center mb-2 text-gray-800"
+          className="text-lg font-bold text-gray-800"
           accessibilityRole="header"
-          accessibilityLabel="Flow Finderへようこそ"
+          accessibilityLabel={`おはよう、${user?.email || "ユーザー"}さん`}
         >
-          Flow Finderへようこそ
-        </Text>
-        <Text
-          className="text-lg text-center mb-4 text-[#FFC400] font-medium"
-          accessibilityLabel="おかえりなさい"
-        >
-          おかえりなさい
-        </Text>
-        {/* アプリ説明 */}
-        <Text
-          className="text-center text-gray-600 leading-6"
-          accessibilityLabel={APP_DESCRIPTION}
-        >
-          {APP_DESCRIPTION}
+          👋 おはよう、{user?.email?.split("@")[0] || "ユーザー"}さん
         </Text>
       </View>
-      {/* ゴール数表示セクション */}
-      <View className="bg-white rounded-xl p-6 mb-6 shadow-sm">
+
+      {/* 今日のゴールセクション */}
+      <View className="mb-6">
         <Text
-          className="text-lg font-semibold text-center mb-3 text-gray-800"
+          className="text-sm font-semibold text-gray-800 mb-2"
           accessibilityRole="header"
         >
-          あなたの進捗
+          🎯 今日のゴール
         </Text>
-        {goalData.error ? (
-          <View className="items-center">
-            <Text
-              className="text-red-500 text-center mb-3"
-              accessibilityLabel={`ゴール数取得エラー: ${goalData.error}`}
-            >
-              {goalData.error}
-            </Text>
-            <Button
-              variant="secondary"
-              onPress={fetchGoalCount}
-              accessibilityLabel="ゴール数を再取得"
-              accessibilityHint="ゴール数の取得を再試行します"
-            >
-              再取得
-            </Button>
+        <View className="bg-gray-50 rounded-xl p-4">
+          {goalData.loading ? (
+            <View className="flex-row items-center justify-between mb-2">
+              <Text className="text-sm font-medium">読み込み中...</Text>
+            </View>
+          ) : goalData.error ? (
+            <View className="flex-row items-center justify-between mb-2">
+              <Text className="text-sm font-medium text-red-500">
+                エラーが発生しました
+              </Text>
+            </View>
+          ) : goalData.count > 0 ? (
+            <>
+              <View className="flex-row items-center justify-between mb-2">
+                <Text className="text-sm font-medium">💼 目標達成に向けて</Text>
+              </View>
+              <Text className="text-xs text-gray-600 mb-2">
+                登録ゴール数: {goalData.count}件
+              </Text>
+              <View className="w-full bg-gray-200 rounded-full h-2">
+                <View
+                  className="bg-green-500 h-2 rounded-full"
+                  style={{
+                    width: `${Math.min((goalData.count / 5) * 100, 100)}%`,
+                  }}
+                />
+              </View>
+              <Text className="text-xs text-gray-600 mt-1">
+                {Math.min((goalData.count / 5) * 100, 100).toFixed(0)}%
+              </Text>
+            </>
+          ) : (
+            <View className="items-center py-4">
+              <Text className="text-sm font-medium text-gray-600 mb-2">
+                まだゴールが設定されていません
+              </Text>
+              <Text className="text-xs text-gray-500">
+                最初のゴールを作成しましょう
+              </Text>
+            </View>
+          )}
+        </View>
+      </View>
+
+      {/* 今日のアクションセクション */}
+      <View className="mb-6">
+        <Text
+          className="text-sm font-semibold text-gray-800 mb-2"
+          accessibilityRole="header"
+        >
+          ✅ 今日のアクション
+        </Text>
+        <View className="gap-2">
+          <View className="bg-gray-50 rounded-xl p-3">
+            <View className="flex-row items-center">
+              <View className="w-4 h-4 border border-gray-300 rounded mr-2" />
+              <View className="flex-1">
+                <Text className="text-xs font-medium">
+                  ゴール管理画面でゴールをチェック
+                </Text>
+                <Text className="text-xs text-gray-600">5分</Text>
+              </View>
+            </View>
           </View>
-        ) : (
-          <View className="bg-blue-50 rounded-lg p-4 items-center">
-            <Text
-              className="text-2xl font-bold text-blue-600 mb-1"
-              accessibilityLabel={`登録ゴール数: ${goalData.count}件`}
-            >
-              {goalData.loading ? "..." : goalData.count}
-            </Text>
-            <Text
-              className="text-blue-600 font-medium"
-              accessibilityLabel="ゴール数の単位"
-            >
-              {goalData.loading ? "読み込み中" : "登録ゴール"}
-            </Text>
-          </View>
-        )}
+          {goalData.count > 0 && (
+            <View className="bg-green-50 rounded-xl p-3">
+              <View className="flex-row items-center">
+                <View className="w-4 h-4 bg-green-500 rounded mr-2" />
+                <View className="flex-1">
+                  <Text className="text-xs font-medium">ゴールを設定済み</Text>
+                  <Text className="text-xs text-gray-600">完了済み</Text>
+                </View>
+              </View>
+            </View>
+          )}
+        </View>
       </View>
-      {/* クイックアクションセクション */}
-      <View className="bg-white rounded-xl p-6 shadow-sm">
-        <Text
-          className="text-lg font-semibold mb-4 text-gray-800"
-          accessibilityRole="header"
-        >
-          クイックアクション
+
+      {/* クイックアクションボタン */}
+      <TouchableOpacity
+        className="w-full bg-[#FFC400] py-3 px-4 rounded-xl mb-6"
+        onPress={() => router.push("/(tabs)/goals")}
+        accessibilityLabel="点検セッション開始"
+        accessibilityHint="ゴール管理画面に移動します"
+      >
+        <Text className="text-[#212121] font-semibold text-sm text-center">
+          + 点検セッション開始
         </Text>
-        <Button
-          variant="primary"
-          onPress={() => router.push("/(tabs)/goals")}
-          accessibilityLabel="ゴール一覧に移動"
-          accessibilityHint="登録されているゴールの一覧を確認できます"
-          className="mb-3"
-        >
-          ゴールを確認
-        </Button>
-        <Button
-          variant="secondary"
-          onPress={() => router.push("/(tabs)/goals")}
-          accessibilityLabel="新しいゴールを追加"
-          accessibilityHint="新しいゴールの登録を開始します"
-        >
-          新しいゴールを追加
-        </Button>
-      </View>
+      </TouchableOpacity>
+
+      {/* エラー表示 */}
+      {goalData.error && (
+        <View className="bg-red-50 rounded-xl p-4 mt-4">
+          <Text
+            className="text-red-500 text-center mb-3"
+            accessibilityLabel={`ゴール数取得エラー: ${goalData.error}`}
+          >
+            {goalData.error}
+          </Text>
+          <Button
+            variant="secondary"
+            onPress={fetchGoalCount}
+            accessibilityLabel="ゴール数を再取得"
+            accessibilityHint="ゴール数の取得を再試行します"
+          >
+            再取得
+          </Button>
+        </View>
+      )}
     </View>
   </ScrollView>
 );

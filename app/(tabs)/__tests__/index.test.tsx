@@ -1,191 +1,219 @@
-import { render, waitFor } from "@testing-library/react-native";
-import HomeScreen from "../index";
+import React from 'react';
+import { render, screen } from '@testing-library/react-native';
+import { Text, View } from 'react-native';
+import { useRouter } from 'expo-router';
+import HomeScreen from '../index';
+import { useAuth } from '../../../hooks/useAuth';
+import { useHomeData } from '../../../hooks/useHomeData';
 
-// React Navigationのモック
-jest.mock("expo-router", () => ({
-  useRouter: jest.fn(() => ({
-    push: jest.fn(),
-    replace: jest.fn(),
-    back: jest.fn(),
-  })),
-  useFocusEffect: jest.fn(),
+// モック設定
+jest.mock('expo-router', () => ({
+  useRouter: jest.fn(),
 }));
 
-// Supabaseクライアントのモック
-jest.mock("../../../lib/supabase", () => ({
-  getSupabaseClient: jest.fn(() => ({
-    from: jest.fn(() => ({
-      select: jest.fn(() => ({
-        eq: jest.fn(() => Promise.resolve({ count: 0, error: null })),
-      })),
-    })),
-  })),
+jest.mock('../../../hooks/useAuth', () => ({
+  useAuth: jest.fn(),
 }));
 
-// useAuthフックのモック
-jest.mock("../../../hooks/useAuth", () => ({
-  useAuth: jest.fn(() => ({
-    user: null,
-    loading: false,
-    error: null,
-    isAuthenticated: false,
-    signIn: jest.fn(),
-    signUp: jest.fn(),
-    signOut: jest.fn(),
-  })),
+jest.mock('../../../hooks/useHomeData', () => ({
+  useHomeData: jest.fn(),
 }));
 
-// ホーム画面のテスト（Red Phase）
-describe("<HomeScreen />", () => {
-  test("ホーム画面のウェルカムメッセージが表示されること", async () => {
-    const { getByText } = render(<HomeScreen />);
-    
-    await waitFor(() => {
-      expect(getByText("Flow Finderへようこそ")).toBeTruthy();
+jest.mock('../../../components/home/AuthenticatedHomeScreen', () => {
+  return function MockAuthenticatedHomeScreen() {
+    return (
+      <View testID="authenticated-home-screen">
+        <Text>Authenticated Home Screen</Text>
+      </View>
+    );
+  };
+});
+
+jest.mock('../../../components/home/UnauthenticatedHomeScreen', () => {
+  return function MockUnauthenticatedHomeScreen() {
+    return (
+      <View testID="unauthenticated-home-screen">
+        <Text>Unauthenticated Home Screen</Text>
+      </View>
+    );
+  };
+});
+
+jest.mock('../../../components/home/LoadingScreen', () => {
+  return function MockLoadingScreen() {
+    return (
+      <View testID="loading-screen">
+        <Text>Loading Screen</Text>
+      </View>
+    );
+  };
+});
+
+jest.mock('../../../components/home/ErrorScreen', () => {
+  return function MockErrorScreen() {
+    return (
+      <View testID="error-screen">
+        <Text>Error Screen</Text>
+      </View>
+    );
+  };
+});
+
+const mockRouter = {
+  push: jest.fn(),
+  replace: jest.fn(),
+  back: jest.fn(),
+  canGoBack: jest.fn(),
+  navigate: jest.fn(),
+  dismiss: jest.fn(),
+  dismissTo: jest.fn(),
+  canDismiss: jest.fn(),
+} as any;
+
+const mockUseAuth = useAuth as jest.MockedFunction<typeof useAuth>;
+const mockUseHomeData = useHomeData as jest.MockedFunction<typeof useHomeData>;
+const mockUseRouter = useRouter as jest.MockedFunction<typeof useRouter>;
+
+describe('HomeScreen', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+    mockUseRouter.mockReturnValue(mockRouter);
+  });
+
+  describe('ローディング状態', () => {
+    it('loading=trueの時、LoadingScreenを表示する', () => {
+      mockUseAuth.mockReturnValue({
+        user: null,
+        loading: true,
+        error: null,
+        isAuthenticated: false,
+        signIn: jest.fn(),
+        signUp: jest.fn(),
+        signOut: jest.fn(),
+      });
+      mockUseHomeData.mockReturnValue({
+        goalData: { count: 0, loading: false, error: null },
+        refreshing: false,
+        onRefresh: jest.fn(),
+        fetchGoalCount: jest.fn(),
+      });
+
+      render(<HomeScreen />);
+      
+      // LoadingScreenコンポーネントがレンダリングされることを確認
+      expect(screen.getByTestId('loading-screen')).toBeTruthy();
+      expect(screen.getByText('Loading Screen')).toBeTruthy();
     });
   });
 
-  test("認証されていないユーザーに対してログイン案内が表示されること", async () => {
-    const { getByText } = render(<HomeScreen />);
-    
-    await waitFor(() => {
-      expect(getByText("ログインして始めましょう")).toBeTruthy();
+  describe('エラー状態', () => {
+    it('error存在時、ErrorScreenを表示する', () => {
+      const testError = new Error('テストエラー');
+      mockUseAuth.mockReturnValue({
+        user: null,
+        loading: false,
+        error: testError,
+        isAuthenticated: false,
+        signIn: jest.fn(),
+        signUp: jest.fn(),
+        signOut: jest.fn(),
+      });
+      mockUseHomeData.mockReturnValue({
+        goalData: { count: 0, loading: false, error: null },
+        refreshing: false,
+        onRefresh: jest.fn(),
+        fetchGoalCount: jest.fn(),
+      });
+
+      render(<HomeScreen />);
+      
+      // ErrorScreenコンポーネントがレンダリングされることを確認
+      expect(screen.getByTestId('error-screen')).toBeTruthy();
+      expect(screen.getByText('Error Screen')).toBeTruthy();
     });
   });
 
-  test("認証されていないユーザーに対してログインボタンが表示されること", async () => {
-    const { getByText } = render(<HomeScreen />);
-    
-    await waitFor(() => {
-      expect(getByText("ログイン")).toBeTruthy();
+  describe('認証済み状態', () => {
+    it('認証済み且つユーザー存在時、AuthenticatedHomeScreenを表示する', () => {
+      const testUser = { 
+        id: '1', 
+        email: 'test@example.com',
+        app_metadata: {},
+        user_metadata: {},
+        aud: 'authenticated',
+        created_at: '2023-01-01T00:00:00.000Z'
+      } as any;
+      mockUseAuth.mockReturnValue({
+        user: testUser,
+        loading: false,
+        error: null,
+        isAuthenticated: true,
+        signIn: jest.fn(),
+        signUp: jest.fn(),
+        signOut: jest.fn(),
+      });
+      mockUseHomeData.mockReturnValue({
+        goalData: { count: 3, loading: false, error: null },
+        refreshing: false,
+        onRefresh: jest.fn(),
+        fetchGoalCount: jest.fn(),
+      });
+
+      render(<HomeScreen />);
+      
+      // AuthenticatedHomeScreenコンポーネントがレンダリングされることを確認
+      expect(screen.getByTestId('authenticated-home-screen')).toBeTruthy();
+      expect(screen.getByText('Authenticated Home Screen')).toBeTruthy();
     });
   });
 
-  test("認証されていないユーザーに対してサインアップボタンが表示されること", async () => {
-    const { getByText } = render(<HomeScreen />);
-    
-    await waitFor(() => {
-      expect(getByText("新規登録")).toBeTruthy();
-    });
-  });
+  describe('未認証状態', () => {
+    it('未認証時、UnauthenticatedHomeScreenを表示する', () => {
+      mockUseAuth.mockReturnValue({
+        user: null,
+        loading: false,
+        error: null,
+        isAuthenticated: false,
+        signIn: jest.fn(),
+        signUp: jest.fn(),
+        signOut: jest.fn(),
+      });
+      mockUseHomeData.mockReturnValue({
+        goalData: { count: 0, loading: false, error: null },
+        refreshing: false,
+        onRefresh: jest.fn(),
+        fetchGoalCount: jest.fn(),
+      });
 
-  test("認証済みユーザーに対してパーソナライズされた挨拶が表示されること", async () => {
-    // 認証済みユーザーのモック
-    const mockUseAuth = require("../../../hooks/useAuth").useAuth;
-    mockUseAuth.mockReturnValue({
-      user: { email: "test@example.com" },
-      loading: false,
-      error: null,
-      isAuthenticated: true,
-      signIn: jest.fn(),
-      signUp: jest.fn(),
-      signOut: jest.fn(),
-    });
-
-    const { getByText } = render(<HomeScreen />);
-    
-    await waitFor(() => {
-      expect(getByText("おかえりなさい")).toBeTruthy();
-    });
-  });
-
-  test("認証済みユーザーに対してクイックアクションセクションが表示されること", async () => {
-    // 認証済みユーザーのモック
-    const mockUseAuth = require("../../../hooks/useAuth").useAuth;
-    mockUseAuth.mockReturnValue({
-      user: { email: "test@example.com" },
-      loading: false,
-      error: null,
-      isAuthenticated: true,
-      signIn: jest.fn(),
-      signUp: jest.fn(),
-      signOut: jest.fn(),
+      render(<HomeScreen />);
+      
+      // UnauthenticatedHomeScreenコンポーネントがレンダリングされることを確認
+      expect(screen.getByTestId('unauthenticated-home-screen')).toBeTruthy();
+      expect(screen.getByText('Unauthenticated Home Screen')).toBeTruthy();
     });
 
-    const { getByText } = render(<HomeScreen />);
-    
-    await waitFor(() => {
-      expect(getByText("クイックアクション")).toBeTruthy();
-    });
-  });
+    it('認証済みだがユーザーが存在しない時、UnauthenticatedHomeScreenを表示する', () => {
+      mockUseAuth.mockReturnValue({
+        user: null,
+        loading: false,
+        error: null,
+        isAuthenticated: true,
+        signIn: jest.fn(),
+        signUp: jest.fn(),
+        signOut: jest.fn(),
+      });
+      mockUseHomeData.mockReturnValue({
+        goalData: { count: 0, loading: false, error: null },
+        refreshing: false,
+        onRefresh: jest.fn(),
+        fetchGoalCount: jest.fn(),
+      });
 
-  test("認証済みユーザーに対してゴール一覧へのリンクが表示されること", async () => {
-    // 認証済みユーザーのモック
-    const mockUseAuth = require("../../../hooks/useAuth").useAuth;
-    mockUseAuth.mockReturnValue({
-      user: { email: "test@example.com" },
-      loading: false,
-      error: null,
-      isAuthenticated: true,
-      signIn: jest.fn(),
-      signUp: jest.fn(),
-      signOut: jest.fn(),
-    });
-
-    const { getByText } = render(<HomeScreen />);
-    
-    await waitFor(() => {
-      expect(getByText("ゴールを確認")).toBeTruthy();
-    });
-  });
-
-  test("ローディング中にローディングインジケータが表示されること", async () => {
-    // ローディング状態のモック
-    const mockUseAuth = require("../../../hooks/useAuth").useAuth;
-    mockUseAuth.mockReturnValue({
-      user: null,
-      loading: true,
-      error: null,
-      isAuthenticated: false,
-      signIn: jest.fn(),
-      signUp: jest.fn(),
-      signOut: jest.fn(),
-    });
-
-    const { getByText } = render(<HomeScreen />);
-    
-    await waitFor(() => {
-      expect(getByText("読み込み中...")).toBeTruthy();
-    });
-  });
-
-  test("エラー状態でエラーメッセージが表示されること", async () => {
-    // エラー状態のモック
-    const mockUseAuth = require("../../../hooks/useAuth").useAuth;
-    mockUseAuth.mockReturnValue({
-      user: null,
-      loading: false,
-      error: new Error("認証エラー"),
-      isAuthenticated: false,
-      signIn: jest.fn(),
-      signUp: jest.fn(),
-      signOut: jest.fn(),
-    });
-
-    const { getByText } = render(<HomeScreen />);
-    
-    await waitFor(() => {
-      expect(getByText("エラーが発生しました")).toBeTruthy();
-    });
-  });
-
-  test("アプリの基本説明が表示されること", async () => {
-    // 正常状態のモック（未認証ユーザー）
-    const mockUseAuth = require("../../../hooks/useAuth").useAuth;
-    mockUseAuth.mockReturnValue({
-      user: null,
-      loading: false,
-      error: null,
-      isAuthenticated: false,
-      signIn: jest.fn(),
-      signUp: jest.fn(),
-      signOut: jest.fn(),
-    });
-
-    const { getByText } = render(<HomeScreen />);
-    
-    await waitFor(() => {
-      expect(getByText("あなたの成長を妨げる「見えない壁」を見つけ、壊すためのパーソナルコーチング アプリ")).toBeTruthy();
+      render(<HomeScreen />);
+      
+      // UnauthenticatedHomeScreenコンポーネントがレンダリングされることを確認
+      expect(screen.getByTestId('unauthenticated-home-screen')).toBeTruthy();
+      expect(screen.getByText('Unauthenticated Home Screen')).toBeTruthy();
     });
   });
 });

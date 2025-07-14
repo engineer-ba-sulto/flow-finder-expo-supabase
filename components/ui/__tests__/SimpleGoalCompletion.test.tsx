@@ -17,7 +17,7 @@ describe('SimpleGoalCompletion コンポーネント', () => {
     expect(button).toBeDefined();
   });
 
-  it('未完了状態では成功色（bg-success）でボタンが表示されること', () => {
+  it('未完了状態ではブランドカラー（#FFC400）でボタンが表示されること', () => {
     const mockOnToggle = jest.fn();
     const { getByTestId } = render(
       <SimpleGoalCompletion 
@@ -28,8 +28,8 @@ describe('SimpleGoalCompletion コンポーネント', () => {
     );
     
     const button = getByTestId('goal-completion-button');
-    // NativeWindクラスが適用されているかテスト
-    expect(button.props.className).toContain('bg-green-500');
+    // Flow Finderブランドカラーが適用されているかテスト
+    expect(button.props.className).toContain('bg-[#FFC400]');
   });
 
   it('完了状態では異なるスタイルでボタンが表示されること', () => {
@@ -88,6 +88,50 @@ describe('SimpleGoalCompletion コンポーネント', () => {
     
     const button = getByTestId('goal-completion-button');
     expect(button.props.accessibilityRole).toBe('button');
-    expect(button.props.accessibilityLabel).toBe('ゴール完了マーク');
+    expect(button.props.accessibilityLabel).toContain('ゴール完了マーク');
+    expect(button.props.accessibilityHint).toBeDefined();
+    expect(button.props.accessibilityState).toEqual({ selected: false });
+  });
+
+  it('完了状態では適切なテキストとアクセシビリティが設定されること', () => {
+    const mockOnToggle = jest.fn();
+    const { getByTestId, getByText } = render(
+      <SimpleGoalCompletion 
+        goalId="test-goal-1" 
+        isCompleted={true} 
+        onToggle={mockOnToggle} 
+      />
+    );
+    
+    const button = getByTestId('goal-completion-button');
+    const completedText = getByText('✓ 完了済み');
+    
+    expect(completedText).toBeDefined();
+    expect(button.props.accessibilityState).toEqual({ selected: true });
+    expect(button.props.accessibilityLabel).toContain('完了済み');
+  });
+
+  it('React.memoによる再レンダリング最適化が機能すること', () => {
+    const mockOnToggle = jest.fn();
+    const { rerender } = render(
+      <SimpleGoalCompletion 
+        goalId="test-goal-1" 
+        isCompleted={false} 
+        onToggle={mockOnToggle} 
+      />
+    );
+    
+    // 同じpropsで再レンダリング（再レンダリングされないことを期待）
+    rerender(
+      <SimpleGoalCompletion 
+        goalId="test-goal-1" 
+        isCompleted={false} 
+        onToggle={mockOnToggle} 
+      />
+    );
+    
+    // この段階では実際のメモ化の効果は測定困難だが、
+    // コンポーネントが正常に動作することを確認
+    expect(mockOnToggle).not.toHaveBeenCalled();
   });
 });

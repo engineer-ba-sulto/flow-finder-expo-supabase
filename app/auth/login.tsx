@@ -1,9 +1,14 @@
-import React, { useState } from "react";
-import { Text, View, SafeAreaView, Pressable, ActivityIndicator } from "react-native";
 import { Link, useRouter } from "expo-router";
-import FontAwesome from "@expo/vector-icons/FontAwesome";
-import { useAuth } from "../../hooks/useAuth";
+import React, { useState } from "react";
+import {
+  ActivityIndicator,
+  Pressable,
+  SafeAreaView,
+  Text,
+  View,
+} from "react-native";
 import { Input } from "../../components/ui/Input";
+import { useAuth } from "../../hooks/useAuth";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -58,14 +63,15 @@ export default function Login() {
     try {
       const trimmedEmail = email.trim();
       const result = await signIn(trimmedEmail, password);
-      
+
       if (result.error) {
         // Supabaseエラーメッセージの改善
         let errorMessage = "ログインに失敗しました";
         if (result.error.message.includes("Invalid login credentials")) {
           errorMessage = "メールアドレスまたはパスワードが正しくありません";
         } else if (result.error.message.includes("Email not confirmed")) {
-          errorMessage = "メールアドレスが確認されていません。メールを確認してください";
+          errorMessage =
+            "メールアドレスが確認されていません。メールを確認してください";
         } else if (result.error.message.includes("Too many requests")) {
           errorMessage = "しばらく時間をおいてから再度お試しください";
         }
@@ -92,140 +98,159 @@ export default function Login() {
 
   return (
     <SafeAreaView className="flex-1 bg-white" accessibilityLabel="ログイン画面">
-      {/* 戻るボタン */}
-      <View className="px-6 pt-4">
-        <Pressable
-          onPress={() => {
-            if (router.canGoBack()) {
-              router.back();
-            } else {
-              router.replace("/");
-            }
-          }}
-          className="flex-row items-center"
-          accessibilityRole="button"
-          accessibilityLabel="前の画面に戻る"
-          accessibilityHint="ホーム画面に戻ります"
+      {/* ヘッダー部分 - 画面カタログに従ったデザイン */}
+      <View className="bg-[#FFC400] p-4">
+        <Text
+          className="text-xl font-bold text-[#212121]"
+          accessibilityRole="text"
         >
-          <FontAwesome name="arrow-left" size={20} color="#666666" />
-          <Text className="ml-2 text-gray-600 text-base">戻る</Text>
-        </Pressable>
+          🔐 認証
+        </Text>
       </View>
-      
-      <View className="flex-1 px-6 py-8 justify-center">
-        {/* ロゴ・アプリ名エリア */}
-        <View className="items-center mb-8">
-          <Text className="text-3xl font-bold text-[#FFC400] mb-2" accessibilityRole="text" accessibilityLabel="Flow Finder ロゴ">
-            Flow Finder
-          </Text>
-          <Text className="text-lg text-gray-600" accessibilityRole="text">
-            ログイン
-          </Text>
-        </View>
 
-        {/* フォームエリア */}
-        <View className="mb-6" accessibilityLabel="ログインフォーム">
-          {/* メールアドレス入力 */}
-          <Input
-            placeholder="メールアドレス"
-            value={email}
-            onChangeText={setEmail}
-            keyboardType="email-address"
-            autoCapitalize="none"
-            autoComplete="email"
-            error={!!errors.email}
-            errorMessage={errors.email}
-            accessibilityLabel="メールアドレス入力"
-            accessibilityHint="登録済みのメールアドレスを入力してください"
-          />
-
-          {/* パスワード入力 */}
-          <View className="relative">
-            <Input
-              placeholder="パスワード"
-              value={password}
-              onChangeText={setPassword}
-              secureTextEntry={!showPassword}
-              autoCapitalize="none"
-              autoComplete="current-password"
-              error={!!errors.password}
-              errorMessage={errors.password}
-              accessibilityLabel="パスワード入力"
-              accessibilityHint="アカウントのパスワードを入力してください"
-            />
-            
-            {/* パスワード表示切り替えボタン */}
-            <Pressable
-              className="absolute right-3 top-3 p-1 rounded-md"
-              onPress={() => setShowPassword(!showPassword)}
-              accessibilityLabel="パスワード表示切り替え"
-              accessibilityRole="button"
-              accessibilityHint={showPassword ? "パスワードを隠します" : "パスワードを表示します"}
-              accessibilityState={{
-                expanded: showPassword
-              }}
+      <View className="flex-1 p-6 justify-between">
+        <View>
+          {/* ロゴ・アプリ名エリア */}
+          <View className="items-center mb-6">
+            <Text
+              className="text-xl font-bold text-[#212121] mb-6 text-center"
+              accessibilityRole="text"
             >
-              <Text className="text-[#FFC400] font-medium text-sm">
-                {showPassword ? "隠す" : "表示"}
+              ログイン
+            </Text>
+          </View>
+
+          {/* フォームエリア */}
+          <View className="gap-4" accessibilityLabel="ログインフォーム">
+            {/* メールアドレス入力 */}
+            <View>
+              <Text className="text-sm text-[#212121] font-medium mb-1">
+                Email
               </Text>
-            </Pressable>
+              <Input
+                placeholder="example@email.com"
+                value={email}
+                onChangeText={setEmail}
+                keyboardType="email-address"
+                autoCapitalize="none"
+                autoComplete="email"
+                error={!!errors.email}
+                errorMessage={errors.email}
+                accessibilityLabel="メールアドレス入力"
+                accessibilityHint="登録済みのメールアドレスを入力してください"
+              />
+            </View>
+
+            {/* パスワード入力 */}
+            <View className="relative">
+              <Text className="text-sm text-[#212121] font-medium mb-1">
+                パスワード
+              </Text>
+              <Input
+                placeholder="••••••••••••"
+                value={password}
+                onChangeText={setPassword}
+                secureTextEntry={!showPassword}
+                autoCapitalize="none"
+                autoComplete="current-password"
+                error={!!errors.password}
+                errorMessage={errors.password}
+                accessibilityLabel="パスワード入力"
+                accessibilityHint="アカウントのパスワードを入力してください"
+              />
+
+              {/* パスワード表示切り替えボタン */}
+              <Pressable
+                className="absolute right-3 top-8 p-1"
+                onPress={() => setShowPassword(!showPassword)}
+                accessibilityLabel="パスワード表示切り替え"
+                accessibilityRole="button"
+                accessibilityHint={
+                  showPassword
+                    ? "パスワードを隠します"
+                    : "パスワードを表示します"
+                }
+                accessibilityState={{
+                  expanded: showPassword,
+                }}
+              >
+                <Text className="text-xs text-[#FFC400] font-medium">
+                  {showPassword ? "隠す" : "表示"}
+                </Text>
+              </Pressable>
+            </View>
           </View>
 
           {/* 一般的なエラーメッセージ */}
           {errors.general && (
-            <View className="bg-red-50 border border-red-200 rounded-md px-3 py-2 mb-4">
-              <Text className="text-red-600 text-sm text-center" accessibilityRole="alert" accessibilityLiveRegion="assertive">
+            <View className="bg-red-50 border border-red-200 rounded-md px-3 py-2">
+              <Text
+                className="text-red-600 text-sm text-center"
+                accessibilityRole="alert"
+                accessibilityLiveRegion="assertive"
+              >
                 {errors.general}
               </Text>
             </View>
           )}
-
-          {/* ログインボタン */}
-          <Pressable
-            onPress={handleLogin}
-            disabled={isLoading}
-            className={`bg-[#FFC400] px-4 py-3 rounded-lg mb-4 ${isLoading ? 'opacity-50' : ''}`}
-            accessibilityRole="button"
-            accessibilityLabel={isLoading ? "ログイン処理中" : "ログインボタン"}
-            accessibilityHint={isLoading ? "ログイン処理を実行中です" : "タップしてログインします"}
-            accessibilityState={{
-              disabled: isLoading,
-              busy: isLoading
-            }}
-          >
-            <View className="flex-row items-center justify-center">
-              {isLoading && (
-                <ActivityIndicator 
-                  size="small" 
-                  color="#000000" 
-                  className="mr-2" 
-                  accessibilityLabel="ローディング中"
-                />
-              )}
-              <Text className="text-black font-medium text-center">
-                {isLoading ? "ログイン中..." : "ログインする"}
-              </Text>
-            </View>
-          </Pressable>
         </View>
+      </View>
 
-        {/* サインアップリンク */}
-        <View className="items-center" accessibilityLabel="アカウント作成">
-          <Text className="text-gray-600 mb-2 text-center" accessibilityRole="text">
-            アカウントをお持ちでない方
-          </Text>
-          <Link href="/auth/signup" asChild>
-            <Pressable 
-              accessibilityRole="link"
-              accessibilityLabel="サインアップページに移動"
-              accessibilityHint="新しいアカウントを作成するページに移動します"
-              className="px-4 py-2 rounded-md"
-            >
-              <Text className="text-[#FFC400] font-medium underline text-center">
-                サインアップ
-              </Text>
-            </Pressable>
-          </Link>
+      {/* ボタンエリア */}
+      <View className="gap-3 mt-6">
+        {/* ログインボタン */}
+        <Pressable
+          onPress={handleLogin}
+          disabled={isLoading}
+          className={`w-full bg-[#FFC400] text-[#212121] font-semibold py-3 px-4 rounded-xl ${
+            isLoading ? "opacity-50" : ""
+          }`}
+          accessibilityRole="button"
+          accessibilityLabel={isLoading ? "ログイン処理中" : "ログインボタン"}
+          accessibilityHint={
+            isLoading ? "ログイン処理を実行中です" : "タップしてログインします"
+          }
+          accessibilityState={{
+            disabled: isLoading,
+            busy: isLoading,
+          }}
+        >
+          <View className="flex-row items-center justify-center">
+            {isLoading && (
+              <ActivityIndicator
+                size="small"
+                color="#212121"
+                className="mr-2"
+                accessibilityLabel="ローディング中"
+              />
+            )}
+            <Text className="text-[#212121] font-semibold text-sm text-center">
+              {isLoading ? "ログイン中..." : "ログイン"}
+            </Text>
+          </View>
+        </Pressable>
+
+        {/* サインアップボタン */}
+        <Link href="/auth/signup" asChild>
+          <Pressable
+            accessibilityRole="link"
+            accessibilityLabel="サインアップページに移動"
+            accessibilityHint="新しいアカウントを作成するページに移動します"
+            className="w-full border border-gray-300 text-[#212121] font-semibold py-3 px-4 rounded-xl"
+          >
+            <Text className="text-[#212121] font-semibold text-sm text-center">
+              新規登録
+            </Text>
+          </Pressable>
+        </Link>
+
+        {/* パスワードを忘れた */}
+        <View className="items-center">
+          <Pressable className="text-[#212121] underline text-xs">
+            <Text className="text-[#212121] underline text-xs">
+              パスワードをお忘れですか？
+            </Text>
+          </Pressable>
         </View>
       </View>
     </SafeAreaView>

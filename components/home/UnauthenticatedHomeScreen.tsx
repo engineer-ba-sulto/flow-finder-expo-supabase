@@ -11,70 +11,101 @@ const UnauthenticatedHomeScreen: React.FC<UnauthenticatedHomeScreenProps> = ({
   router,
 }) => (
   <ScrollView
-    className="flex-1 bg-gray-50"
+    className="flex-1 bg-white"
     showsVerticalScrollIndicator={false}
-    accessibilityLabel="ログイン案内画面"
+    accessibilityLabel="ログイン前ホーム画面"
   >
-    <View className="flex-1 px-4 pt-12 pb-6">
-      {/* メインウェルカムセクション */}
-      <View className="bg-white rounded-xl p-6 mb-6 shadow-sm">
-        <Text
-          className="text-3xl font-bold text-center mb-4 text-gray-800"
-          accessibilityRole="header"
-          accessibilityLabel="Flow Finderへようこそ"
-        >
-          Flow Finderへようこそ
+    <View className="flex-1 p-6 justify-between">
+      <View className="items-center">
+        {/* メインアイコン */}
+        <Text className="text-6xl mb-4" accessibilityLabel="Flow Finderアイコン">
+          🎯
         </Text>
+        
+        {/* アプリタイトル */}
+        <Text
+          className="text-2xl font-bold text-center mb-4 text-gray-800"
+          accessibilityRole="header"
+          accessibilityLabel="Flow Finder"
+        >
+          Flow Finder
+        </Text>
+        
         {/* アプリ説明 */}
         <Text
-          className="text-center text-gray-600 mb-6 leading-6 text-base"
+          className="text-center text-gray-800 text-sm leading-relaxed mb-6"
           accessibilityLabel={APP_DESCRIPTION}
         >
           {APP_DESCRIPTION}
         </Text>
-        {/* 特徴紹介 */}
-        <View className="bg-blue-50 rounded-lg p-4">
+
+        {/* 機能紹介セクション */}
+        <View className="bg-gray-50 rounded-xl p-6 mb-6 w-full">
           <Text
-            className="text-center text-blue-700 font-medium"
-            accessibilityLabel="成長の障壁を特定し、具体的な解決策を提案するパーソナルコーチングアプリです"
+            className="text-sm font-medium text-gray-800 mb-3 text-center"
+            accessibilityLabel="Flow Finderができること"
           >
-            成長の障壁を特定し、具体的な解決策を提案する{`\n`}
-            パーソナルコーチングアプリです
+            Flow Finderができること
+          </Text>
+          <View className="gap-3">
+            <View className="flex-row items-center">
+              <Text className="text-lg mr-3">🎯</Text>
+              <View className="flex-1">
+                <Text className="text-xs font-medium">ゴール設定</Text>
+                <Text className="text-xs text-gray-600">目標を明確にする</Text>
+              </View>
+            </View>
+            <View className="flex-row items-center">
+              <Text className="text-lg mr-3">📊</Text>
+              <View className="flex-1">
+                <Text className="text-xs font-medium">進捗管理</Text>
+                <Text className="text-xs text-gray-600">達成までの道のりを可視化</Text>
+              </View>
+            </View>
+            <View className="flex-row items-center">
+              <Text className="text-lg mr-3">✅</Text>
+              <View className="flex-1">
+                <Text className="text-xs font-medium">簡単管理</Text>
+                <Text className="text-xs text-gray-600">シンプルな操作で継続</Text>
+              </View>
+            </View>
+          </View>
+        </View>
+
+        {/* MVP1段階での機能説明 */}
+        <View className="bg-blue-50 border border-blue-200 rounded-xl p-4 mb-6 w-full">
+          <Text
+            className="text-xs text-blue-800 font-medium mb-2"
+            accessibilityLabel="MVP1段目：基本機能"
+          >
+            🚀 MVP1段目：基本機能
+          </Text>
+          <Text className="text-xs text-blue-600">
+            • ゴール設定・管理{`\n`}
+            • 進捗の可視化{`\n`}
+            • シンプルな完了機能
           </Text>
         </View>
       </View>
-      {/* ログイン案内セクション */}
-      <View className="bg-white rounded-xl p-6 shadow-sm">
-        <Text
-          className="text-xl font-semibold text-center mb-6 text-gray-800"
-          accessibilityRole="header"
-        >
-          ログインして始めましょう
-        </Text>
+
+      {/* ボタンセクション */}
+      <View className="w-full gap-3">
         <Button
           variant="primary"
-          onPress={() => router.push("/auth/login")}
-          accessibilityLabel="ログイン画面に移動"
-          accessibilityHint="既存のアカウントでログインします"
-          className="mb-4"
+          onPress={() => router.push("/auth/signup")}
+          accessibilityLabel="今すぐ始める"
+          accessibilityHint="新しいアカウントを作成して始めます"
         >
-          ログイン
+          今すぐ始める
         </Button>
         <Button
           variant="secondary"
-          onPress={() => router.push("/auth/signup")}
-          accessibilityLabel="新規登録画面に移動"
-          accessibilityHint="新しいアカウントを作成します"
+          onPress={() => router.push("/auth/login")}
+          accessibilityLabel="ログイン"
+          accessibilityHint="既存のアカウントでログインします"
         >
-          新規登録
+          ログイン
         </Button>
-        {/* 追加情報 */}
-        <Text
-          className="text-center text-gray-500 text-sm mt-4"
-          accessibilityLabel="無料で始められます"
-        >
-          無料で始められます
-        </Text>
       </View>
     </View>
   </ScrollView>

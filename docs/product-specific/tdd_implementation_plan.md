@@ -165,17 +165,16 @@ Flow Finder の **TDD 実装計画** です。基本的な TDD 手法につい�
 | 2.31 | **Red**      | 設定画面のテスト作成                | `app/(tabs)/__tests__/`  | [x]  |
 | 2.32 | **Green**    | 設定画面の実装                      | `app/(tabs)/settings.tsx`| [x]  |
 | 2.33 | **Refactor** | 設定画面の改善                      | `app/(tabs)/settings.tsx`| [x]  |
-| 2.34 | **Deploy**   | MVP 1段目 デプロイ設定・実行        | `eas.json`設定           | [ ]  |
 
 #### Week 3: MVP 1段目完成・リリース
 
 | Task | TDD Phase    | 説明                                | 配置場所                 | 完了 |
 | ---- | ------------ | ----------------------------------- | ------------------------ | ---- |
-| 3.0  | **Red**      | 簡易ゴール完了機能のテスト作成      | `components/ui/`         | [ ]  |
-| 3.1  | **Green**    | 簡易ゴール完了機能の実装            | `components/ui/`         | [ ]  |
-| 3.2  | **Refactor** | 簡易ゴール完了機能の改善            | `components/ui/`         | [ ]  |
-| 3.3  | **Release**  | App Store/Google Play 登録準備      | `app.json`, `eas.json`   | [ ]  |
-| 3.4  | **Release**  | MVP 1段目リリース実行               | EAS Build & Submit       | [ ]  |
+| 3.1  | **Red**      | 簡易ゴール完了機能のテスト作成      | `components/ui/`         | [x]  |
+| 3.2  | **Green**    | 簡易ゴール完了機能の実装            | `components/ui/`         | [ ]  |
+| 3.3  | **Refactor** | 簡易ゴール完了機能の改善            | `components/ui/`         | [ ]  |
+| 3.4  | **Release**  | App Store/Google Play 登録準備      | `app.json`, `eas.json`   | [ ]  |
+| 3.5  | **Release**  | MVP 1段目リリース実行               | EAS Build & Submit       | [ ]  |
 
 ---
 
@@ -538,7 +537,7 @@ describe("Goal API", () => {
   - Week 1 完了: Task 1.1〜1.9（全て[x]）
   - Week 2 完了: Task 2.1〜2.33（全て[x]）
   - Week 2-3 残り: Task 2.34, 3.0〜3.4（[ ]）
-  - **次の実装**: Task 2.34（MVP 1段目 デプロイ設定・実行）が最優先
+  - **次の実装**: Task 3.2（簡易ゴール完了機能の実装 - Green Phase）が最優先
 
 - **MVP 2段目（Week 4-6）**: Task 4.1〜6.10
   - 点検セッション機能（AI機能なし）、制限機能、プレミアム誘導UI

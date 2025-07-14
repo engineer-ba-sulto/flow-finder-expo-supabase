@@ -6,7 +6,7 @@ Flow Finder の **TDD 実装計画** です。基本的な TDD 手法につい�
 
 ## 2. プロジェクト目標
 
-- **MVP 3段階リリース**: 段階的な市場検証と収益化
+- **MVP 3 段階リリース**: 段階的な市場検証と収益化
 - **品質保証**: TDD アプローチによる高品質コード
 - **早期フィードバック**: 各段階でのデプロイ・検証・改善
 
@@ -23,49 +23,55 @@ Flow Finder の **TDD 実装計画** です。基本的な TDD 手法につい�
 
 > 重要なプロンプトは `prompts/<日付>-<機能>.md` に保存し、ナレッジベースとして再利用します。
 
-## 4. MVP 3段階リリース戦略
+## 4. MVP 3 段階リリース戦略
 
 ### 🎯 リリース戦略概要
 
-**MVP 1段目：ゴール機能**（3週間目リリース）
-- ゴールのCRUD機能のみ
-- 最小限のMVPで市場検証
+**MVP 1 段目：ゴール機能**（3 週間目リリース）
 
-**MVP 2段目：無料プラン完全版**（6週間目リリース）  
-- 点検セッション機能追加（AI機能なし）
+- ゴールの CRUD 機能のみ
+- 最小限の MVP で市場検証
+
+**MVP 2 段目：無料プラン完全版**（6 週間目リリース）
+
+- 点検セッション機能追加（AI 機能なし）
 - 無料プランの制限機能実装
 
-**MVP 3段目：プレミアム機能**（8週間目リリース）
-- AI機能・課金システム
+**MVP 3 段目：プレミアム機能**（8 週間目リリース）
+
+- AI 機能・課金システム
 - 本格的な収益化開始
 
 ### 📱 各段階の詳細
 
-#### 🚀 MVP 1段目：ゴール機能（Week 3完了目標）
+#### 🚀 MVP 1 段目：ゴール機能（Week 3 完了目標）
 
 **実装範囲**：
-- ✅ 完了済み機能：認証・ゴールCRUD・基本UI
+
+- ✅ 完了済み機能：認証・ゴール CRUD・基本 UI
 - 🔄 追加必要機能：デプロイ設定・簡易ゴール完了機能
 
-**成功指標**：ユーザー獲得100名以上、週1回以上のアクティブ利用
+**成功指標**：ユーザー獲得 100 名以上、週 1 回以上のアクティブ利用
 
-#### 📊 MVP 2段目：無料プラン完全版（Week 6完了目標）
-
-**新規実装**：
-- 点検セッション機能（5ステップウィザード、AI機能なし）
-- 制限機能（ゴール1件、点検月2回、履歴3回分）
-- プレミアム誘導UI
-
-**成功指標**：MAU 500名以上、点検セッション完了率80%以上
-
-#### 💎 MVP 3段目：プレミアム機能（Week 8完了目標）
+#### 📊 MVP 2 段目：無料プラン完全版（Week 6 完了目標）
 
 **新規実装**：
-- AI提案機能（OpenAI GPT-4）
-- 課金システム（RevenueCat、月額¥600）
+
+- 点検セッション機能（5 ステップウィザード、AI 機能なし）
+- 制限機能（ゴール 1 件、点検月 2 回、履歴 3 回分）
+- プレミアム誘導 UI
+
+**成功指標**：MAU 500 名以上、点検セッション完了率 80%以上
+
+#### 💎 MVP 3 段目：プレミアム機能（Week 8 完了目標）
+
+**新規実装**：
+
+- AI 提案機能（OpenAI GPT-4）
+- 課金システム（RevenueCat、月額 ¥600）
 - プレミアム限定機能・分析ダッシュボード
 
-**成功指標**：転換率5%以上、MRR ¥30,000以上
+**成功指標**：転換率 5%以上、MRR ¥30,000 以上
 
 各機能を Red-Green-Refactor サイクルで実装し、テストファーストで品質を保証します。
 
@@ -98,15 +104,15 @@ Flow Finder の **TDD 実装計画** です。基本的な TDD 手法につい�
 - テストファイル名は `ComponentName.test.tsx` 形式
 - 画面テストは `app/(tabs)/__tests__/` に配置
 
-### MVP 1段目（Week 1–3）: ゴール機能 - 最初のリリース
+### MVP 1 段目（Week 1–3）: ゴール機能 - 最初のリリース
 
-**MVP 1段目の目標**:
+**MVP 1 段目の目標**:
 
 - ゴール設定機能のみを実装（CRUD + 認証）
-- 最小限のMVPで市場検証とユーザーフィードバック獲得
+- 最小限の MVP で市場検証とユーザーフィードバック獲得
 - 基盤技術の検証（React Native + Supabase + EAS）
 
-**MVP 1段目完了後の成果物**:
+**MVP 1 段目完了後の成果物**:
 
 - ユーザー認証機能（Supabase Auth）
 - ゴール作成・編集・削除・一覧表示
@@ -130,66 +136,74 @@ Flow Finder の **TDD 実装計画** です。基本的な TDD 手法につい�
 
 #### Week 2: データレイヤーとゴール管理・デプロイ
 
-| Task | TDD Phase    | 説明                                | 配置場所                 | 完了 |
-| ---- | ------------ | ----------------------------------- | ------------------------ | ---- |
-| 2.1  | **Red**      | Goal データ型のテスト作成           | `types/`                 | [x]  |
-| 2.2  | **Green**    | Goal データ型の実装                 | `types/goal.types.ts`    | [x]  |
-| 2.3  | **Refactor** | Goal データ型の改善                 | `types/goal.types.ts`    | [x]  |
-| 2.4  | **Red**      | Supabase クライアントのテスト作成   | `lib/`                   | [x]  |
-| 2.5  | **Green**    | Supabase クライアントの実装         | `lib/supabase.ts`        | [x]  |
-| 2.6  | **Refactor** | Supabase クライアントの改善         | `lib/supabase.ts`        | [x]  |
-| 2.7  | **Red**      | GoalForm コンポーネントのテスト作成 | `components/forms/`      | [x]  |
-| 2.8  | **Green**    | GoalForm コンポーネントの実装       | `components/forms/`      | [x]  |
-| 2.9  | **Refactor** | GoalForm コンポーネントの改善       | `components/forms/`      | [x]  |
-| 2.10 | **Red**      | ゴール管理画面のテスト作成          | `app/(tabs)/__tests__/`  | [x]  |
-| 2.11 | **Green**    | ゴール管理画面の実装                | `app/(tabs)/goals.tsx`   | [x]  |
-| 2.12 | **Refactor** | ゴール管理画面の改善                | `app/(tabs)/goals.tsx`   | [x]  |
-| 2.13 | **Red**      | 認証機能のテスト作成                | `hooks/`                 | [x]  |
-| 2.14 | **Green**    | 認証機能の実装                      | `hooks/useAuth.ts`       | [x]  |
-| 2.15 | **Refactor** | 認証機能の改善                      | `hooks/useAuth.ts`       | [x]  |
-| 2.16 | **Red**      | goals タブ追加のテスト作成          | `app/(tabs)/__tests__/`  | [x]  |
-| 2.17 | **Green**    | \_layout.tsx に goals タブを追加    | `app/(tabs)/_layout.tsx` | [x]  |
-| 2.18 | **Refactor** | タブ UI・アクセシビリティ改善       | `app/(tabs)/_layout.tsx` | [x]  |
-| 2.19 | **Red**      | ログイン画面のテスト作成            | `app/auth/__tests__/`    | [x]  |
-| 2.20 | **Green**    | ログイン画面の実装                  | `app/auth/login.tsx`     | [x]  |
-| 2.21 | **Refactor** | ログイン画面の改善                  | `app/auth/login.tsx`     | [x]  |
-| 2.22 | **Red**      | サインアップ画面のテスト作成        | `app/auth/__tests__/`    | [x]  |
-| 2.23 | **Green**    | サインアップ画面の実装              | `app/auth/signup.tsx`    | [x]  |
-| 2.24 | **Refactor** | サインアップ画面の改善              | `app/auth/signup.tsx`    | [x]  |
-| 2.25 | **Red**      | 認証ガードのテスト作成              | `app/__tests__/`         | [x]  |
-| 2.26 | **Green**    | 認証ガードの実装                    | `app/_layout.tsx`        | [x]  |
-| 2.27 | **Refactor** | 認証ガードの改善                    | `app/_layout.tsx`        | [x]  |
-| 2.28 | **Red**      | ホーム画面のテスト作成              | `app/(tabs)/__tests__/`  | [x]  |
-| 2.29 | **Green**    | ホーム画面の最小実装                | `app/(tabs)/index.tsx`   | [x]  |
-| 2.30 | **Refactor** | ホーム画面の改善                    | `app/(tabs)/index.tsx`   | [x]  |
-| 2.31 | **Red**      | 設定画面のテスト作成                | `app/(tabs)/__tests__/`  | [x]  |
-| 2.32 | **Green**    | 設定画面の実装                      | `app/(tabs)/settings.tsx`| [x]  |
-| 2.33 | **Refactor** | 設定画面の改善                      | `app/(tabs)/settings.tsx`| [x]  |
+| Task | TDD Phase    | 説明                                | 配置場所                  | 完了 |
+| ---- | ------------ | ----------------------------------- | ------------------------- | ---- |
+| 2.1  | **Red**      | Goal データ型のテスト作成           | `types/`                  | [x]  |
+| 2.2  | **Green**    | Goal データ型の実装                 | `types/goal.types.ts`     | [x]  |
+| 2.3  | **Refactor** | Goal データ型の改善                 | `types/goal.types.ts`     | [x]  |
+| 2.4  | **Red**      | Supabase クライアントのテスト作成   | `lib/`                    | [x]  |
+| 2.5  | **Green**    | Supabase クライアントの実装         | `lib/supabase.ts`         | [x]  |
+| 2.6  | **Refactor** | Supabase クライアントの改善         | `lib/supabase.ts`         | [x]  |
+| 2.7  | **Red**      | GoalForm コンポーネントのテスト作成 | `components/forms/`       | [x]  |
+| 2.8  | **Green**    | GoalForm コンポーネントの実装       | `components/forms/`       | [x]  |
+| 2.9  | **Refactor** | GoalForm コンポーネントの改善       | `components/forms/`       | [x]  |
+| 2.10 | **Red**      | ゴール管理画面のテスト作成          | `app/(tabs)/__tests__/`   | [x]  |
+| 2.11 | **Green**    | ゴール管理画面の実装                | `app/(tabs)/goals.tsx`    | [x]  |
+| 2.12 | **Refactor** | ゴール管理画面の改善                | `app/(tabs)/goals.tsx`    | [x]  |
+| 2.13 | **Red**      | 認証機能のテスト作成                | `hooks/`                  | [x]  |
+| 2.14 | **Green**    | 認証機能の実装                      | `hooks/useAuth.ts`        | [x]  |
+| 2.15 | **Refactor** | 認証機能の改善                      | `hooks/useAuth.ts`        | [x]  |
+| 2.16 | **Red**      | goals タブ追加のテスト作成          | `app/(tabs)/__tests__/`   | [x]  |
+| 2.17 | **Green**    | \_layout.tsx に goals タブを追加    | `app/(tabs)/_layout.tsx`  | [x]  |
+| 2.18 | **Refactor** | タブ UI・アクセシビリティ改善       | `app/(tabs)/_layout.tsx`  | [x]  |
+| 2.19 | **Red**      | ログイン画面のテスト作成            | `app/auth/__tests__/`     | [x]  |
+| 2.20 | **Green**    | ログイン画面の実装                  | `app/auth/login.tsx`      | [x]  |
+| 2.21 | **Refactor** | ログイン画面の改善                  | `app/auth/login.tsx`      | [x]  |
+| 2.22 | **Red**      | サインアップ画面のテスト作成        | `app/auth/__tests__/`     | [x]  |
+| 2.23 | **Green**    | サインアップ画面の実装              | `app/auth/signup.tsx`     | [x]  |
+| 2.24 | **Refactor** | サインアップ画面の改善              | `app/auth/signup.tsx`     | [x]  |
+| 2.25 | **Red**      | 認証ガードのテスト作成              | `app/__tests__/`          | [x]  |
+| 2.26 | **Green**    | 認証ガードの実装                    | `app/_layout.tsx`         | [x]  |
+| 2.27 | **Refactor** | 認証ガードの改善                    | `app/_layout.tsx`         | [x]  |
+| 2.28 | **Red**      | ホーム画面のテスト作成              | `app/(tabs)/__tests__/`   | [x]  |
+| 2.29 | **Green**    | ホーム画面の最小実装                | `app/(tabs)/index.tsx`    | [x]  |
+| 2.30 | **Refactor** | ホーム画面の改善                    | `app/(tabs)/index.tsx`    | [x]  |
+| 2.31 | **Red**      | 設定画面のテスト作成                | `app/(tabs)/__tests__/`   | [x]  |
+| 2.32 | **Green**    | 設定画面の実装                      | `app/(tabs)/settings.tsx` | [x]  |
+| 2.33 | **Refactor** | 設定画面の改善                      | `app/(tabs)/settings.tsx` | [x]  |
 
-#### Week 3: MVP 1段目完成・リリース
+#### Week 3: MVP 1 段目完成・リリース
 
-| Task | TDD Phase    | 説明                                | 配置場所                 | 完了 |
-| ---- | ------------ | ----------------------------------- | ------------------------ | ---- |
-| 3.1  | **Red**      | 簡易ゴール完了機能のテスト作成      | `components/ui/`         | [x]  |
-| 3.2  | **Green**    | 簡易ゴール完了機能の実装            | `components/ui/`         | [x]  |
-| 3.3  | **Refactor** | 簡易ゴール完了機能の改善            | `components/ui/`         | [x]  |
-| 3.4  | **UI/UX**    | 認証画面の画面カタログ適用          | `app/auth/`              | [x]  |
-| 3.5  | **UI/UX**    | ホーム画面の画面カタログ適用        | `app/(tabs)/index.tsx`   | [x]  |
-| 3.6  | **UI/UX**    | ゴール管理画面の画面カタログ適用    | `app/(tabs)/goals.tsx`   | [x]  |
-| 3.7  | **UI/UX**    | 設定画面の画面カタログ適用          | `app/(tabs)/settings.tsx`| [x]  |
-| 3.8  | **UI/UX**    | ゴール作成モーダルの画面カタログ適用| `app/modal/`             | [x]  |
-| 3.9  | **Release**  | App Store/Google Play 登録準備      | `app.json`, `eas.json`   | [ ]  |
-| 3.10 | **Release**  | MVP 1段目リリース実行               | EAS Build & Submit       | [ ]  |
+| Task | TDD Phase    | 説明                                 | 配置場所                  | 完了 |
+| ---- | ------------ | ------------------------------------ | ------------------------- | ---- |
+| 3.1  | **Red**      | 簡易ゴール完了機能のテスト作成       | `components/ui/`          | [x]  |
+| 3.2  | **Green**    | 簡易ゴール完了機能の実装             | `components/ui/`          | [x]  |
+| 3.3  | **Refactor** | 簡易ゴール完了機能の改善             | `components/ui/`          | [x]  |
+| 3.4  | **UI/UX**    | 認証画面の画面カタログ適用           | `app/auth/`               | [x]  |
+| 3.5  | **UI/UX**    | ホーム画面の画面カタログ適用         | `app/(tabs)/index.tsx`    | [x]  |
+| 3.6  | **UI/UX**    | ゴール管理画面の画面カタログ適用     | `app/(tabs)/goals.tsx`    | [x]  |
+| 3.7  | **UI/UX**    | 設定画面の画面カタログ適用           | `app/(tabs)/settings.tsx` | [x]  |
+| 3.8  | **UI/UX**    | ゴール作成モーダルの画面カタログ適用 | `app/modal/`              | [x]  |
+| 3.9  | **Red**      | ゴール完了モーダルのテスト作成       | `app/modal/`              | [ ]  |
+| 3.10 | **Green**    | ゴール完了モーダルの実装             | `app/modal/`              | [ ]  |
+| 3.11 | **Refactor** | ゴール完了モーダルの改善             | `app/modal/`              | [ ]  |
+| 3.12 | **Red**      | GoalList/GoalCardコンポーネントの共通化テスト作成      | `components/ui/`         | [ ]  |
+| 3.13 | **Green**    | GoalList/GoalCardコンポーネントの共通化実装            | `components/ui/`         | [ ]  |
+| 3.14 | **Refactor** | GoalList/GoalCardコンポーネントの共通化善            | `components/ui/`         | [ ]  |
+| 3.15 | **Release**  | App Store/Google Play 登録準備       | `app.json`, `eas.json`    | [ ]  |
+| 3.16 | **Release**  | MVP 1 段目リリース実行               | EAS Build & Submit        | [ ]  |
 
 #### 画面カタログ適用タスクの詳細
 
 **Task 3.4-3.8 の目的**：
-- MVP1段目画面カタログ（`html/mvp1-screen-catalog.html`）に従った統一されたUI/UXの実装
-- Flow Finderブランドカラー（#FFC400, #212121）の正確な適用
-- NativeWind + React Native互換スタイルの統一
+
+- MVP1 段目画面カタログ（`html/mvp1-screen-catalog.html`）に従った統一された UI/UX の実装
+- Flow Finder ブランドカラー（#FFC400, #212121）の正確な適用
+- NativeWind + React Native 互換スタイルの統一
 - アクセシビリティ対応とユーザビリティ向上
 
 **適用する主要デザイン要素**：
+
 - **ブランドカラー**: primary="#FFC400", secondary="#212121"
 - **タイポグラフィ**: Font weight, size, color の統一
 - **レイアウト**: Padding, margin, border-radius の統一
@@ -197,6 +211,7 @@ Flow Finder の **TDD 実装計画** です。基本的な TDD 手法につい�
 - **ナビゲーション**: Tab bar デザインの統一
 
 **実装アプローチ**：
+
 1. 画面カタログの該当セクションを参照
 2. 現在の実装と比較してスタイルギャップを特定
 3. NativeWind クラスで統一されたスタイルに更新
@@ -204,34 +219,34 @@ Flow Finder の **TDD 実装計画** です。基本的な TDD 手法につい�
 
 ---
 
-## MVP 2段目以降の追加機能
+## MVP 2 段目以降の追加機能
 
-### MVP 2段目（Week 4–6）: 無料プラン完全版（点検セッション機能）
+### MVP 2 段目（Week 4–6）: 無料プラン完全版（点検セッション機能）
 
 #### Week 4: オンボーディング・セッションステップ 1-3
 
-| Task | TDD Phase    | 説明                                    | 配置場所                       | 完了 |
-| ---- | ------------ | --------------------------------------- | ------------------------------ | ---- |
-| 4.1  | **Red**      | ProgressBar コンポーネントのテスト作成  | `components/ui/`               | [ ]  |
-| 4.2  | **Green**    | ProgressBar コンポーネントの実装        | `components/ui/`               | [ ]  |
-| 4.3  | **Refactor** | ProgressBar コンポーネントの改善        | `components/ui/`               | [ ]  |
-| 4.4  | **Red**      | SessionStep1 コンポーネントのテスト作成 | `components/features/session/` | [ ]  |
-| 4.5  | **Green**    | SessionStep1 コンポーネントの実装       | `components/features/session/` | [ ]  |
-| 4.6  | **Refactor** | SessionStep1 コンポーネントの改善       | `components/features/session/` | [ ]  |
-| 4.7  | **Red**      | SessionStep2 コンポーネントのテスト作成 | `components/features/session/` | [ ]  |
-| 4.8  | **Green**    | SessionStep2 コンポーネントの実装       | `components/features/session/` | [ ]  |
-| 4.9  | **Refactor** | SessionStep2 コンポーネントの改善       | `components/features/session/` | [ ]  |
-| 4.10 | **Red**      | SessionStep3 コンポーネントのテスト作成 | `components/features/session/` | [ ]  |
-| 4.11 | **Green**    | SessionStep3 コンポーネントの実装       | `components/features/session/` | [ ]  |
-| 4.12 | **Refactor** | SessionStep3 コンポーネントの改善       | `components/features/session/` | [ ]  |
+| Task | TDD Phase    | 説明                                    | 配置場所                          | 完了 |
+| ---- | ------------ | --------------------------------------- | --------------------------------- | ---- |
+| 4.1  | **Red**      | ProgressBar コンポーネントのテスト作成  | `components/ui/`                  | [ ]  |
+| 4.2  | **Green**    | ProgressBar コンポーネントの実装        | `components/ui/`                  | [ ]  |
+| 4.3  | **Refactor** | ProgressBar コンポーネントの改善        | `components/ui/`                  | [ ]  |
+| 4.4  | **Red**      | SessionStep1 コンポーネントのテスト作成 | `components/features/session/`    | [ ]  |
+| 4.5  | **Green**    | SessionStep1 コンポーネントの実装       | `components/features/session/`    | [ ]  |
+| 4.6  | **Refactor** | SessionStep1 コンポーネントの改善       | `components/features/session/`    | [ ]  |
+| 4.7  | **Red**      | SessionStep2 コンポーネントのテスト作成 | `components/features/session/`    | [ ]  |
+| 4.8  | **Green**    | SessionStep2 コンポーネントの実装       | `components/features/session/`    | [ ]  |
+| 4.9  | **Refactor** | SessionStep2 コンポーネントの改善       | `components/features/session/`    | [ ]  |
+| 4.10 | **Red**      | SessionStep3 コンポーネントのテスト作成 | `components/features/session/`    | [ ]  |
+| 4.11 | **Green**    | SessionStep3 コンポーネントの実装       | `components/features/session/`    | [ ]  |
+| 4.12 | **Refactor** | SessionStep3 コンポーネントの改善       | `components/features/session/`    | [ ]  |
 | 4.13 | **Red**      | Onboarding コンポーネントのテスト作成   | `components/features/onboarding/` | [ ]  |
 | 4.14 | **Green**    | Onboarding コンポーネントの実装         | `components/features/onboarding/` | [ ]  |
 | 4.15 | **Refactor** | Onboarding コンポーネントの改善         | `components/features/onboarding/` | [ ]  |
-| 4.16 | **Red**      | Onboarding フロー管理のテスト作成       | `hooks/`                       | [ ]  |
-| 4.17 | **Green**    | useOnboarding カスタムフックの実装      | `hooks/useOnboarding.ts`       | [ ]  |
-| 4.18 | **Refactor** | useOnboarding カスタムフックの改善      | `hooks/useOnboarding.ts`       | [ ]  |
+| 4.16 | **Red**      | Onboarding フロー管理のテスト作成       | `hooks/`                          | [ ]  |
+| 4.17 | **Green**    | useOnboarding カスタムフックの実装      | `hooks/useOnboarding.ts`          | [ ]  |
+| 4.18 | **Refactor** | useOnboarding カスタムフックの改善      | `hooks/useOnboarding.ts`          | [ ]  |
 
-#### Week 5: セッションステップ 4-5（AI機能なし）とまとめ
+#### Week 5: セッションステップ 4-5（AI 機能なし）とまとめ
 
 | Task | TDD Phase    | 説明                                    | 配置場所                       | 完了 |
 | ---- | ------------ | --------------------------------------- | ------------------------------ | ---- |
@@ -248,96 +263,96 @@ Flow Finder の **TDD 実装計画** です。基本的な TDD 手法につい�
 | 5.11 | **Green**    | SessionWizard 統合実装                  | `components/features/session/` | [ ]  |
 | 5.12 | **Refactor** | SessionWizard 統合改善                  | `components/features/session/` | [ ]  |
 
-#### Week 6: 制限機能・プレミアム誘導UI・MVP 2段目リリース
+#### Week 6: 制限機能・プレミアム誘導 UI・MVP 2 段目リリース
 
-| Task | TDD Phase    | 説明                                  | 配置場所                     | 完了 |
-| ---- | ------------ | ------------------------------------- | ---------------------------- | ---- |
-| 6.1  | **Red**      | 制限管理システムのテスト作成          | `lib/subscription/`          | [ ]  |
-| 6.2  | **Green**    | 制限管理システムの実装                | `lib/subscription/limits.ts` | [ ]  |
-| 6.3  | **Refactor** | 制限管理システムの改善                | `lib/subscription/limits.ts` | [ ]  |
-| 6.4  | **Red**      | プレミアム誘導UIのテスト作成          | `components/ui/`             | [ ]  |
-| 6.5  | **Green**    | プレミアム誘導UIの実装                | `components/ui/UpgradePrompt.tsx` | [ ]  |
-| 6.6  | **Refactor** | プレミアム誘導UIの改善                | `components/ui/UpgradePrompt.tsx` | [ ]  |
-| 6.7  | **Red**      | 基本ダッシュボードのテスト作成        | `app/(tabs)/__tests__/`      | [ ]  |
-| 6.8  | **Green**    | 基本ダッシュボード画面の実装          | `app/(tabs)/dashboard.tsx`   | [ ]  |
-| 6.9  | **Refactor** | 基本ダッシュボード画面の改善          | `app/(tabs)/dashboard.tsx`   | [ ]  |
-| 6.10 | **Release**  | MVP 2段目リリース実行                 | EAS Build & Submit           | [ ]  |
+| Task | TDD Phase    | 説明                           | 配置場所                          | 完了 |
+| ---- | ------------ | ------------------------------ | --------------------------------- | ---- |
+| 6.1  | **Red**      | 制限管理システムのテスト作成   | `lib/subscription/`               | [ ]  |
+| 6.2  | **Green**    | 制限管理システムの実装         | `lib/subscription/limits.ts`      | [ ]  |
+| 6.3  | **Refactor** | 制限管理システムの改善         | `lib/subscription/limits.ts`      | [ ]  |
+| 6.4  | **Red**      | プレミアム誘導 UI のテスト作成 | `components/ui/`                  | [ ]  |
+| 6.5  | **Green**    | プレミアム誘導 UI の実装       | `components/ui/UpgradePrompt.tsx` | [ ]  |
+| 6.6  | **Refactor** | プレミアム誘導 UI の改善       | `components/ui/UpgradePrompt.tsx` | [ ]  |
+| 6.7  | **Red**      | 基本ダッシュボードのテスト作成 | `app/(tabs)/__tests__/`           | [ ]  |
+| 6.8  | **Green**    | 基本ダッシュボード画面の実装   | `app/(tabs)/dashboard.tsx`        | [ ]  |
+| 6.9  | **Refactor** | 基本ダッシュボード画面の改善   | `app/(tabs)/dashboard.tsx`        | [ ]  |
+| 6.10 | **Release**  | MVP 2 段目リリース実行         | EAS Build & Submit                | [ ]  |
 
 ---
 
-### MVP 3段目（Week 7–8）: プレミアム機能（AI・課金システム）
+### MVP 3 段目（Week 7–8）: プレミアム機能（AI・課金システム）
 
-#### Week 7: AI機能実装
+#### Week 7: AI 機能実装
 
-| Task | TDD Phase    | 説明                                    | 配置場所                       | 完了 |
-| ---- | ------------ | --------------------------------------- | ------------------------------ | ---- |
-| 7.1  | **Red**      | AI 提案機能のテスト作成                 | `lib/api/ai.ts`                | [ ]  |
-| 7.2  | **Green**    | AI 提案機能の実装                       | `lib/api/ai.ts`                | [ ]  |
-| 7.3  | **Refactor** | AI 提案機能の改善                       | `lib/api/ai.ts`                | [ ]  |
-| 7.4  | **Red**      | AI次のゴール提案機能のテスト作成        | `lib/api/__tests__/`           | [ ]  |
-| 7.5  | **Green**    | AI次のゴール提案機能の実装              | `lib/api/ai.ts`                | [ ]  |
-| 7.6  | **Refactor** | AI次のゴール提案機能の改善              | `lib/api/ai.ts`                | [ ]  |
+| Task | TDD Phase    | 説明                              | 配置場所             | 完了 |
+| ---- | ------------ | --------------------------------- | -------------------- | ---- |
+| 7.1  | **Red**      | AI 提案機能のテスト作成           | `lib/api/ai.ts`      | [ ]  |
+| 7.2  | **Green**    | AI 提案機能の実装                 | `lib/api/ai.ts`      | [ ]  |
+| 7.3  | **Refactor** | AI 提案機能の改善                 | `lib/api/ai.ts`      | [ ]  |
+| 7.4  | **Red**      | AI 次のゴール提案機能のテスト作成 | `lib/api/__tests__/` | [ ]  |
+| 7.5  | **Green**    | AI 次のゴール提案機能の実装       | `lib/api/ai.ts`      | [ ]  |
+| 7.6  | **Refactor** | AI 次のゴール提案機能の改善       | `lib/api/ai.ts`      | [ ]  |
 
-#### Week 8: 課金システム・プレミアム機能・MVP 3段目リリース
+#### Week 8: 課金システム・プレミアム機能・MVP 3 段目リリース
 
-| Task | TDD Phase    | 説明                                  | 配置場所                     | 完了 |
-| ---- | ------------ | ------------------------------------- | ---------------------------- | ---- |
-| 8.1  | **Red**      | 課金機能のテスト作成                  | `lib/revenue-cat.ts`         | [ ]  |
-| 8.2  | **Green**    | 課金機能の実装                        | `lib/revenue-cat.ts`         | [ ]  |
-| 8.3  | **Refactor** | 課金機能の改善                        | `lib/revenue-cat.ts`         | [ ]  |
-| 8.4  | **Red**      | プレミアム機能統合のテスト作成        | `hooks/`                     | [ ]  |
-| 8.5  | **Green**    | プレミアム機能統合の実装              | `hooks/usePremium.ts`        | [ ]  |
-| 8.6  | **Refactor** | プレミアム機能統合の改善              | `hooks/usePremium.ts`        | [ ]  |
-| 8.7  | **Red**      | 詳細分析ダッシュボードのテスト作成    | `components/charts/`         | [ ]  |
-| 8.8  | **Green**    | 詳細分析ダッシュボードの実装          | `components/charts/`         | [ ]  |
-| 8.9  | **Refactor** | 詳細分析ダッシュボードの改善          | `components/charts/`         | [ ]  |
-| 8.10 | **Release**  | MVP 3段目リリース実行                 | EAS Build & Submit           | [ ]  |
+| Task | TDD Phase    | 説明                               | 配置場所              | 完了 |
+| ---- | ------------ | ---------------------------------- | --------------------- | ---- |
+| 8.1  | **Red**      | 課金機能のテスト作成               | `lib/revenue-cat.ts`  | [ ]  |
+| 8.2  | **Green**    | 課金機能の実装                     | `lib/revenue-cat.ts`  | [ ]  |
+| 8.3  | **Refactor** | 課金機能の改善                     | `lib/revenue-cat.ts`  | [ ]  |
+| 8.4  | **Red**      | プレミアム機能統合のテスト作成     | `hooks/`              | [ ]  |
+| 8.5  | **Green**    | プレミアム機能統合の実装           | `hooks/usePremium.ts` | [ ]  |
+| 8.6  | **Refactor** | プレミアム機能統合の改善           | `hooks/usePremium.ts` | [ ]  |
+| 8.7  | **Red**      | 詳細分析ダッシュボードのテスト作成 | `components/charts/`  | [ ]  |
+| 8.8  | **Green**    | 詳細分析ダッシュボードの実装       | `components/charts/`  | [ ]  |
+| 8.9  | **Refactor** | 詳細分析ダッシュボードの改善       | `components/charts/`  | [ ]  |
+| 8.10 | **Release**  | MVP 3 段目リリース実行             | EAS Build & Submit    | [ ]  |
 
 ---
 
 ## 🗑️ 旧実装計画（参考）
 
-以下は3段階MVPに再編前の旧実装計画です。参考として残しています。
+以下は 3 段階 MVP に再編前の旧実装計画です。参考として残しています。
 
 #### 旧 Week 5: ダッシュボードとアクション管理
 
-| Task | TDD Phase    | 説明                                  | 配置場所                     | 完了 |
-| ---- | ------------ | ------------------------------------- | ---------------------------- | ---- |
-| OLD5.1  | **Red**      | ActionList コンポーネントのテスト作成 | `components/features/goals/` | [ ]  |
-| 5.2  | **Green**    | ActionList コンポーネントの実装       | `components/features/goals/` | [ ]  |
-| 5.3  | **Refactor** | ActionList コンポーネントの改善       | `components/features/goals/` | [ ]  |
-| 5.4  | **Red**      | Chart コンポーネントのテスト作成      | `components/charts/`         | [ ]  |
-| 5.5  | **Green**    | Chart コンポーネントの実装            | `components/charts/`         | [ ]  |
-| 5.6  | **Refactor** | Chart コンポーネントの改善            | `components/charts/`         | [ ]  |
-| 5.7  | **Red**      | Dashboard 画面のテスト作成            | `app/(tabs)/__tests__/`      | [ ]  |
-| 5.8  | **Green**    | Dashboard 画面の実装                  | `app/(tabs)/dashboard.tsx`   | [ ]  |
-| 5.9  | **Refactor** | Dashboard 画面の改善                  | `app/(tabs)/dashboard.tsx`   | [ ]  |
+| Task   | TDD Phase    | 説明                                  | 配置場所                     | 完了 |
+| ------ | ------------ | ------------------------------------- | ---------------------------- | ---- |
+| OLD5.1 | **Red**      | ActionList コンポーネントのテスト作成 | `components/features/goals/` | [ ]  |
+| 5.2    | **Green**    | ActionList コンポーネントの実装       | `components/features/goals/` | [ ]  |
+| 5.3    | **Refactor** | ActionList コンポーネントの改善       | `components/features/goals/` | [ ]  |
+| 5.4    | **Red**      | Chart コンポーネントのテスト作成      | `components/charts/`         | [ ]  |
+| 5.5    | **Green**    | Chart コンポーネントの実装            | `components/charts/`         | [ ]  |
+| 5.6    | **Refactor** | Chart コンポーネントの改善            | `components/charts/`         | [ ]  |
+| 5.7    | **Red**      | Dashboard 画面のテスト作成            | `app/(tabs)/__tests__/`      | [ ]  |
+| 5.8    | **Green**    | Dashboard 画面の実装                  | `app/(tabs)/dashboard.tsx`   | [ ]  |
+| 5.9    | **Refactor** | Dashboard 画面の改善                  | `app/(tabs)/dashboard.tsx`   | [ ]  |
 
 #### Week 5.5: ゴール完了機能（Phase 2.5）
 
-| Task | TDD Phase    | 説明                                      | 配置場所                         | 完了 |
-| ---- | ------------ | ----------------------------------------- | -------------------------------- | ---- |
-| 5.10 | **Red**      | ゴール完了APIクライアントのテスト作成     | `lib/api/__tests__/`             | [ ]  |
-| 5.11 | **Green**    | ゴール完了APIクライアントの実装           | `lib/api/goals.ts`               | [ ]  |
-| 5.12 | **Refactor** | ゴール完了APIクライアントの改善           | `lib/api/goals.ts`               | [ ]  |
-| 5.13 | **Red**      | Achievement記録機能のテスト作成           | `lib/api/__tests__/`             | [ ]  |
-| 5.14 | **Green**    | Achievement記録機能の実装                 | `lib/api/achievements.ts`        | [ ]  |
-| 5.15 | **Refactor** | Achievement記録機能の改善                 | `lib/api/achievements.ts`        | [ ]  |
-| 5.16 | **Red**      | ゴール完了モーダルのテスト作成            | `app/modal/__tests__/`           | [ ]  |
-| 5.17 | **Green**    | ゴール完了モーダルの実装                  | `app/modal/goal-completion.tsx`  | [ ]  |
-| 5.18 | **Refactor** | ゴール完了モーダルの改善                  | `app/modal/goal-completion.tsx`  | [ ]  |
-| 5.19 | **Red**      | RatingStarsコンポーネントのテスト作成     | `components/ui/__tests__/`       | [ ]  |
-| 5.20 | **Green**    | RatingStarsコンポーネントの実装           | `components/ui/RatingStars.tsx`  | [ ]  |
-| 5.21 | **Refactor** | RatingStarsコンポーネントの改善           | `components/ui/RatingStars.tsx`  | [ ]  |
-| 5.22 | **Red**      | 達成済みゴール表示のテスト作成            | `components/features/goals/__tests__/` | [ ]  |
-| 5.23 | **Green**    | AchievedGoalsListコンポーネントの実装     | `components/features/goals/`     | [ ]  |
-| 5.24 | **Refactor** | AchievedGoalsListコンポーネントの改善     | `components/features/goals/`     | [ ]  |
-| 5.25 | **Red**      | 成長レベルシステムのテスト作成            | `lib/__tests__/`                 | [ ]  |
-| 5.26 | **Green**    | 成長レベルシステムの実装                  | `lib/growth-level.ts`            | [ ]  |
-| 5.27 | **Refactor** | 成長レベルシステムの改善                  | `lib/growth-level.ts`            | [ ]  |
-| 5.28 | **Red**      | AI次のゴール提案機能のテスト作成（Premium）| `lib/api/__tests__/`             | [ ]  |
-| 5.29 | **Green**    | AI次のゴール提案機能の実装（Premium）     | `lib/api/ai.ts`                  | [ ]  |
-| 5.30 | **Refactor** | AI次のゴール提案機能の改善（Premium）     | `lib/api/ai.ts`                  | [ ]  |
+| Task | TDD Phase    | 説明                                         | 配置場所                               | 完了 |
+| ---- | ------------ | -------------------------------------------- | -------------------------------------- | ---- |
+| 5.10 | **Red**      | ゴール完了 API クライアントのテスト作成      | `lib/api/__tests__/`                   | [ ]  |
+| 5.11 | **Green**    | ゴール完了 API クライアントの実装            | `lib/api/goals.ts`                     | [ ]  |
+| 5.12 | **Refactor** | ゴール完了 API クライアントの改善            | `lib/api/goals.ts`                     | [ ]  |
+| 5.13 | **Red**      | Achievement 記録機能のテスト作成             | `lib/api/__tests__/`                   | [ ]  |
+| 5.14 | **Green**    | Achievement 記録機能の実装                   | `lib/api/achievements.ts`              | [ ]  |
+| 5.15 | **Refactor** | Achievement 記録機能の改善                   | `lib/api/achievements.ts`              | [ ]  |
+| 5.16 | **Red**      | ゴール完了モーダルのテスト作成               | `app/modal/__tests__/`                 | [ ]  |
+| 5.17 | **Green**    | ゴール完了モーダルの実装                     | `app/modal/goal-completion.tsx`        | [ ]  |
+| 5.18 | **Refactor** | ゴール完了モーダルの改善                     | `app/modal/goal-completion.tsx`        | [ ]  |
+| 5.19 | **Red**      | RatingStars コンポーネントのテスト作成       | `components/ui/__tests__/`             | [ ]  |
+| 5.20 | **Green**    | RatingStars コンポーネントの実装             | `components/ui/RatingStars.tsx`        | [ ]  |
+| 5.21 | **Refactor** | RatingStars コンポーネントの改善             | `components/ui/RatingStars.tsx`        | [ ]  |
+| 5.22 | **Red**      | 達成済みゴール表示のテスト作成               | `components/features/goals/__tests__/` | [ ]  |
+| 5.23 | **Green**    | AchievedGoalsList コンポーネントの実装       | `components/features/goals/`           | [ ]  |
+| 5.24 | **Refactor** | AchievedGoalsList コンポーネントの改善       | `components/features/goals/`           | [ ]  |
+| 5.25 | **Red**      | 成長レベルシステムのテスト作成               | `lib/__tests__/`                       | [ ]  |
+| 5.26 | **Green**    | 成長レベルシステムの実装                     | `lib/growth-level.ts`                  | [ ]  |
+| 5.27 | **Refactor** | 成長レベルシステムの改善                     | `lib/growth-level.ts`                  | [ ]  |
+| 5.28 | **Red**      | AI 次のゴール提案機能のテスト作成（Premium） | `lib/api/__tests__/`                   | [ ]  |
+| 5.29 | **Green**    | AI 次のゴール提案機能の実装（Premium）       | `lib/api/ai.ts`                        | [ ]  |
+| 5.30 | **Refactor** | AI 次のゴール提案機能の改善（Premium）       | `lib/api/ai.ts`                        | [ ]  |
 
 ### Phase 3（Week 6）: App Store リリース準備
 
@@ -557,35 +572,39 @@ describe("Goal API", () => {
 
 ### 7.3 進捗管理
 
-#### 🎯 MVP 3段階リリース進捗
+#### 🎯 MVP 3 段階リリース進捗
 
-- **MVP 1段目（Week 1-3）**: Task 1.1〜3.4
+- **MVP 1 段目（Week 1-3）**: Task 1.1〜3.4
+
   - Week 1 完了: Task 1.1〜1.9（全て[x]）
   - Week 2 完了: Task 2.1〜2.33（全て[x]）
   - Week 3 残り: Task 3.5,3.7〜3.10（[ ]）
   - **次の実装**: Task 3.9（App Store/Google Play 登録準備 - Release Phase）が最優先
 
-- **MVP 2段目（Week 4-6）**: Task 4.1〜6.10
-  - 点検セッション機能（AI機能なし）、制限機能、プレミアム誘導UI
-  - **目標**: Week 6でMVP 2段目リリース
+- **MVP 2 段目（Week 4-6）**: Task 4.1〜6.10
 
-- **MVP 3段目（Week 7-8）**: Task 7.1〜8.10
-  - AI機能、課金システム、プレミアム機能
-  - **目標**: Week 8でMVP 3段目リリース（本格収益化）
+  - 点検セッション機能（AI 機能なし）、制限機能、プレミアム誘導 UI
+  - **目標**: Week 6 で MVP 2 段目リリース
 
-#### 🔄 3段階MVP再編による変更点
+- **MVP 3 段目（Week 7-8）**: Task 7.1〜8.10
+  - AI 機能、課金システム、プレミアム機能
+  - **目標**: Week 8 で MVP 3 段目リリース（本格収益化）
 
-**変更前**：6週間で β版リリース（単一リリース）
-**変更後**：8週間で3段階MVPリリース（段階的リリース）
+#### 🔄 3 段階 MVP 再編による変更点
+
+**変更前**：6 週間で β 版リリース（単一リリース）
+**変更後**：8 週間で 3 段階 MVP リリース（段階的リリース）
 
 **利点**：
+
 - リスク分散：段階的な市場検証
-- 早期フィードバック：MVP1段目（3週間目）で初回検証
-- 収益化検証：MVP2段目で無料プラン、MVP3段目でプレミアム機能
+- 早期フィードバック：MVP1 段目（3 週間目）で初回検証
+- 収益化検証：MVP2 段目で無料プラン、MVP3 段目でプレミアム機能
 
 **旧ゴール完了機能の再配置**:
-- MVP1段目：簡易ゴール完了機能（Task 3.0-3.2）
-- MVP3段目：高度なゴール完了機能（AI提案、成長レベル）
+
+- MVP1 段目：簡易ゴール完了機能（Task 3.0-3.2）
+- MVP3 段目：高度なゴール完了機能（AI 提案、成長レベル）
 
 **🚨 Claude Code 使用時の必須ルール**:
 
@@ -596,9 +615,9 @@ describe("Goal API", () => {
 
 **⚠️ 重要**: タスク実装後にドキュメント更新を忘れた場合、次のタスクに進む前に必ず更新すること。
 
-#### 🚨 必須TODOリスト項目（Claude Code用）
+#### 🚨 必須 TODO リスト項目（Claude Code 用）
 
-**Week 2以降のタスク実行時は、必ず以下のTODO項目をすべて含めてください**：
+**Week 2 以降のタスク実行時は、必ず以下の TODO 項目をすべて含めてください**：
 
 ```
 1. GitHub Issue 作成: [Task X.Y] タスク名 (TDD Phase)
@@ -614,4 +633,4 @@ describe("Goal API", () => {
 11. 最新状態取得: git pull origin develop実行
 ```
 
-**⚠️ 重要**: これらのTODO項目を省略することは絶対に禁止です。すべてのステップを完了してからタスク完了とみなします。
+**⚠️ 重要**: これらの TODO 項目を省略することは絶対に禁止です。すべてのステップを完了してからタスク完了とみなします。

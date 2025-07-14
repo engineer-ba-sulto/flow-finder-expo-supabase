@@ -1,8 +1,14 @@
-import React, { useState, useCallback } from "react";
-import { Text, View, SafeAreaView, Pressable, ActivityIndicator } from "react-native";
 import { Link, useRouter } from "expo-router";
-import { useAuth } from "../../hooks/useAuth";
+import React, { useCallback, useState } from "react";
+import {
+  ActivityIndicator,
+  Pressable,
+  SafeAreaView,
+  Text,
+  View,
+} from "react-native";
 import { Input } from "../../components/ui/Input";
+import { useAuth } from "../../hooks/useAuth";
 
 // 定数定義
 const BRAND_COLOR = "#FFC400";
@@ -36,7 +42,8 @@ const ERROR_MESSAGES = {
 // 成功メッセージ
 const SUCCESS_MESSAGES = {
   EMAIL_SENT: "確認メールを送信しました",
-  ACTIVATION_INSTRUCTION: "メールに記載されたリンクをクリックして、アカウントを有効化してください",
+  ACTIVATION_INSTRUCTION:
+    "メールに記載されたリンクをクリックして、アカウントを有効化してください",
 } as const;
 
 export default function Signup() {
@@ -100,25 +107,33 @@ export default function Signup() {
   const validateEmail = useCallback((emailValue: string) => {
     const trimmed = emailValue.trim();
     if (!trimmed) return VALIDATION_MESSAGES.EMAIL_REQUIRED;
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trimmed)) return VALIDATION_MESSAGES.EMAIL_INVALID;
-    if (trimmed.length > EMAIL_MAX_LENGTH) return VALIDATION_MESSAGES.EMAIL_TOO_LONG;
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trimmed))
+      return VALIDATION_MESSAGES.EMAIL_INVALID;
+    if (trimmed.length > EMAIL_MAX_LENGTH)
+      return VALIDATION_MESSAGES.EMAIL_TOO_LONG;
     return null;
   }, []);
 
   // パスワードバリデーション
   const validatePassword = useCallback((passwordValue: string) => {
     if (!passwordValue) return VALIDATION_MESSAGES.PASSWORD_REQUIRED;
-    if (passwordValue.length < PASSWORD_MIN_LENGTH) return VALIDATION_MESSAGES.PASSWORD_TOO_SHORT;
-    if (passwordValue.length > PASSWORD_MAX_LENGTH) return VALIDATION_MESSAGES.PASSWORD_TOO_LONG;
+    if (passwordValue.length < PASSWORD_MIN_LENGTH)
+      return VALIDATION_MESSAGES.PASSWORD_TOO_SHORT;
+    if (passwordValue.length > PASSWORD_MAX_LENGTH)
+      return VALIDATION_MESSAGES.PASSWORD_TOO_LONG;
     return null;
   }, []);
 
   // パスワード確認バリデーション
-  const validateConfirmPassword = useCallback((confirmValue: string, originalPassword: string) => {
-    if (!confirmValue) return VALIDATION_MESSAGES.CONFIRM_PASSWORD_REQUIRED;
-    if (originalPassword !== confirmValue) return VALIDATION_MESSAGES.PASSWORDS_NOT_MATCH;
-    return null;
-  }, []);
+  const validateConfirmPassword = useCallback(
+    (confirmValue: string, originalPassword: string) => {
+      if (!confirmValue) return VALIDATION_MESSAGES.CONFIRM_PASSWORD_REQUIRED;
+      if (originalPassword !== confirmValue)
+        return VALIDATION_MESSAGES.PASSWORDS_NOT_MATCH;
+      return null;
+    },
+    []
+  );
 
   // フォーム全体のバリデーション
   const validateForm = useCallback(() => {
@@ -130,7 +145,10 @@ export default function Signup() {
     const passwordError = validatePassword(password);
     if (passwordError) newErrors.password = passwordError;
 
-    const confirmPasswordError = validateConfirmPassword(confirmPassword, password);
+    const confirmPasswordError = validateConfirmPassword(
+      confirmPassword,
+      password
+    );
     if (confirmPasswordError) newErrors.confirmPassword = confirmPasswordError;
 
     if (!agreedToTerms) {
@@ -139,7 +157,15 @@ export default function Signup() {
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
-  }, [email, password, confirmPassword, agreedToTerms, validateEmail, validatePassword, validateConfirmPassword]);
+  }, [
+    email,
+    password,
+    confirmPassword,
+    agreedToTerms,
+    validateEmail,
+    validatePassword,
+    validateConfirmPassword,
+  ]);
 
   // サインアップ処理
   const handleSignup = async () => {
@@ -154,7 +180,7 @@ export default function Signup() {
     try {
       const trimmedEmail = email.trim();
       const result = await signUp(trimmedEmail, password);
-      
+
       if (result.error) {
         const errorMessage = getSignupErrorMessage(result.error.message);
         setErrors({ general: errorMessage });
@@ -173,21 +199,30 @@ export default function Signup() {
   };
 
   return (
-    <SafeAreaView className="flex-1 bg-white" accessibilityLabel="アカウント作成画面">
+    <SafeAreaView
+      className="flex-1 bg-white"
+      accessibilityLabel="アカウント作成画面"
+    >
       {/* ヘッダー部分 - 画面カタログに従ったデザイン */}
       <View className="bg-[#FFC400] p-4">
-        <Text className="text-xl font-bold text-[#212121]" accessibilityRole="text">
+        <Text
+          className="text-xl font-bold text-[#212121]"
+          accessibilityRole="text"
+        >
           📝 新規登録
         </Text>
       </View>
-      
+
       <View className="flex-1 p-6 justify-between">
         <View>
-
           {/* 成功メッセージ */}
           {showSuccessMessage && (
             <View className="bg-green-50 border border-green-200 rounded-md px-4 py-3 mb-6">
-              <Text className="text-green-700 text-sm font-medium text-center mb-1" accessibilityRole="alert" accessibilityLiveRegion="assertive">
+              <Text
+                className="text-green-700 text-sm font-medium text-center mb-1"
+                accessibilityRole="alert"
+                accessibilityLiveRegion="assertive"
+              >
                 {SUCCESS_MESSAGES.EMAIL_SENT}
               </Text>
               <Text className="text-green-600 text-sm text-center">
@@ -200,7 +235,9 @@ export default function Signup() {
           <View className="gap-4" accessibilityLabel="アカウント作成フォーム">
             {/* メールアドレス入力 */}
             <View>
-              <Text className="text-sm text-[#212121] font-medium mb-1">メールアドレス</Text>
+              <Text className="text-sm text-[#212121] font-medium mb-1">
+                メールアドレス
+              </Text>
               <Input
                 placeholder="example@email.com"
                 value={email}
@@ -217,7 +254,9 @@ export default function Signup() {
 
             {/* パスワード入力 */}
             <View className="relative">
-              <Text className="text-sm text-[#212121] font-medium mb-1">パスワード</Text>
+              <Text className="text-sm text-[#212121] font-medium mb-1">
+                パスワード
+              </Text>
               <Input
                 placeholder="••••••••••••"
                 value={password}
@@ -235,7 +274,11 @@ export default function Signup() {
                   onPress={() => setShowPassword(!showPassword)}
                   accessibilityLabel="パスワード表示切り替え"
                   accessibilityRole="button"
-                  accessibilityHint={showPassword ? "パスワードを隠します" : "パスワードを表示します"}
+                  accessibilityHint={
+                    showPassword
+                      ? "パスワードを隠します"
+                      : "パスワードを表示します"
+                  }
                   accessibilityState={{ expanded: showPassword }}
                 >
                   <Text className="text-xs text-[#FFC400] font-medium">
@@ -247,7 +290,9 @@ export default function Signup() {
 
             {/* パスワード確認入力 */}
             <View className="relative">
-              <Text className="text-sm text-[#212121] font-medium mb-1">パスワード確認</Text>
+              <Text className="text-sm text-[#212121] font-medium mb-1">
+                パスワード確認
+              </Text>
               <Input
                 placeholder="••••••••••••"
                 value={confirmPassword}
@@ -265,7 +310,11 @@ export default function Signup() {
                   onPress={() => setShowConfirmPassword(!showConfirmPassword)}
                   accessibilityLabel="パスワード確認表示切り替え"
                   accessibilityRole="button"
-                  accessibilityHint={showConfirmPassword ? "パスワードを隠します" : "パスワードを表示します"}
+                  accessibilityHint={
+                    showConfirmPassword
+                      ? "パスワードを隠します"
+                      : "パスワードを表示します"
+                  }
                   accessibilityState={{ expanded: showConfirmPassword }}
                 >
                   <Text className="text-xs text-[#FFC400] font-medium">
@@ -285,11 +334,13 @@ export default function Signup() {
                 accessibilityState={{ checked: agreedToTerms }}
                 accessibilityHint="タップして利用規約とプライバシーポリシーへの同意を切り替えます"
               >
-                <View className={`w-5 h-5 rounded border-2 mr-3 mt-0.5 ${
-                  agreedToTerms 
-                    ? "bg-[#FFC400] border-[#FFC400]" 
-                    : "bg-white border-gray-300"
-                } items-center justify-center`}>
+                <View
+                  className={`w-5 h-5 rounded border-2 mr-3 mt-0.5 ${
+                    agreedToTerms
+                      ? "bg-[#FFC400] border-[#FFC400]"
+                      : "bg-white border-gray-300"
+                  } items-center justify-center`}
+                >
                   {agreedToTerms && (
                     <Text className="text-white text-xs font-bold">✓</Text>
                   )}
@@ -298,13 +349,18 @@ export default function Signup() {
                   <Text className="text-gray-700 text-sm leading-5">
                     <Text className="text-[#FFC400] underline">利用規約</Text>
                     <Text>と</Text>
-                    <Text className="text-[#FFC400] underline">プライバシーポリシー</Text>
+                    <Text className="text-[#FFC400] underline">
+                      プライバシーポリシー
+                    </Text>
                     <Text>に同意する</Text>
                   </Text>
                 </View>
               </Pressable>
               {errors.terms && (
-                <Text className="text-red-500 text-sm mt-1" accessibilityRole="alert">
+                <Text
+                  className="text-red-500 text-sm mt-1"
+                  accessibilityRole="alert"
+                >
                   {errors.terms}
                 </Text>
               )}
@@ -313,7 +369,11 @@ export default function Signup() {
             {/* 一般的なエラーメッセージ */}
             {errors.general && (
               <View className="bg-red-50 border border-red-200 rounded-md px-3 py-2">
-                <Text className="text-red-600 text-sm text-center" accessibilityRole="alert" accessibilityLiveRegion="assertive">
+                <Text
+                  className="text-red-600 text-sm text-center"
+                  accessibilityRole="alert"
+                  accessibilityLiveRegion="assertive"
+                >
                   {errors.general}
                 </Text>
               </View>
@@ -327,21 +387,29 @@ export default function Signup() {
           <Pressable
             onPress={handleSignup}
             disabled={isLoading}
-            className={`w-full bg-[#FFC400] text-[#212121] font-semibold py-3 px-4 rounded-xl ${isLoading ? 'opacity-50' : ''}`}
+            className={`w-full bg-[#FFC400] text-[#212121] font-semibold py-3 px-4 rounded-xl ${
+              isLoading ? "opacity-50" : ""
+            }`}
             accessibilityRole="button"
-            accessibilityLabel={isLoading ? "アカウント作成処理中" : "アカウント作成ボタン"}
-            accessibilityHint={isLoading ? "アカウント作成処理を実行中です" : "タップしてアカウントを作成します"}
+            accessibilityLabel={
+              isLoading ? "アカウント作成処理中" : "アカウント作成ボタン"
+            }
+            accessibilityHint={
+              isLoading
+                ? "アカウント作成処理を実行中です"
+                : "タップしてアカウントを作成します"
+            }
             accessibilityState={{
               disabled: isLoading,
-              busy: isLoading
+              busy: isLoading,
             }}
           >
             <View className="flex-row items-center justify-center">
               {isLoading && (
-                <ActivityIndicator 
-                  size="small" 
-                  color="#212121" 
-                  className="mr-2" 
+                <ActivityIndicator
+                  size="small"
+                  color="#212121"
+                  className="mr-2"
                   accessibilityLabel="ローディング中"
                 />
               )}
@@ -353,7 +421,7 @@ export default function Signup() {
 
           {/* ログインボタン */}
           <Link href="/auth/login" asChild>
-            <Pressable 
+            <Pressable
               accessibilityRole="link"
               accessibilityLabel="ログインページに移動"
               accessibilityHint="既存のアカウントでログインするページに移動します"
@@ -364,13 +432,13 @@ export default function Signup() {
               </Text>
             </Pressable>
           </Link>
-          
+
           {/* パスワードを忘れた */}
-          <View className="items-center">
+          {/* <View className="items-center">
             <Pressable className="text-[#212121] underline text-xs">
               <Text className="text-[#212121] underline text-xs">パスワードをお忘れですか？</Text>
             </Pressable>
-          </View>
+          </View> */}
         </View>
       </View>
     </SafeAreaView>

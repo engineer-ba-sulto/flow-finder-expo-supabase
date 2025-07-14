@@ -194,63 +194,64 @@ export default function Login() {
             </View>
           )}
         </View>
-      </View>
-
-      {/* ボタンエリア */}
-      <View className="gap-3 mt-6">
-        {/* ログインボタン */}
-        <Pressable
-          onPress={handleLogin}
-          disabled={isLoading}
-          className={`w-full bg-[#FFC400] text-[#212121] font-semibold py-3 px-4 rounded-xl ${
-            isLoading ? "opacity-50" : ""
-          }`}
-          accessibilityRole="button"
-          accessibilityLabel={isLoading ? "ログイン処理中" : "ログインボタン"}
-          accessibilityHint={
-            isLoading ? "ログイン処理を実行中です" : "タップしてログインします"
-          }
-          accessibilityState={{
-            disabled: isLoading,
-            busy: isLoading,
-          }}
-        >
-          <View className="flex-row items-center justify-center">
-            {isLoading && (
-              <ActivityIndicator
-                size="small"
-                color="#212121"
-                className="mr-2"
-                accessibilityLabel="ローディング中"
-              />
-            )}
-            <Text className="text-[#212121] font-semibold text-sm text-center">
-              {isLoading ? "ログイン中..." : "ログイン"}
-            </Text>
-          </View>
-        </Pressable>
-
-        {/* サインアップボタン */}
-        <Link href="/auth/signup" asChild>
+        {/* ボタンエリア */}
+        <View className="gap-3 mt-6">
+          {/* ログインボタン */}
           <Pressable
-            accessibilityRole="link"
-            accessibilityLabel="サインアップページに移動"
-            accessibilityHint="新しいアカウントを作成するページに移動します"
-            className="w-full border border-gray-300 text-[#212121] font-semibold py-3 px-4 rounded-xl"
+            onPress={handleLogin}
+            disabled={isLoading}
+            className={`w-full bg-[#FFC400] text-[#212121] font-semibold py-3 px-4 rounded-xl ${
+              isLoading ? "opacity-50" : ""
+            }`}
+            accessibilityRole="button"
+            accessibilityLabel={isLoading ? "ログイン処理中" : "ログインボタン"}
+            accessibilityHint={
+              isLoading
+                ? "ログイン処理を実行中です"
+                : "タップしてログインします"
+            }
+            accessibilityState={{
+              disabled: isLoading,
+              busy: isLoading,
+            }}
           >
-            <Text className="text-[#212121] font-semibold text-sm text-center">
-              新規登録
-            </Text>
+            <View className="flex-row items-center justify-center">
+              {isLoading && (
+                <ActivityIndicator
+                  size="small"
+                  color="#212121"
+                  className="mr-2"
+                  accessibilityLabel="ローディング中"
+                />
+              )}
+              <Text className="text-[#212121] font-semibold text-sm text-center">
+                {isLoading ? "ログイン中..." : "ログイン"}
+              </Text>
+            </View>
           </Pressable>
-        </Link>
 
-        {/* パスワードを忘れた */}
-        <View className="items-center">
-          <Pressable className="text-[#212121] underline text-xs">
-            <Text className="text-[#212121] underline text-xs">
-              パスワードをお忘れですか？
-            </Text>
-          </Pressable>
+          {/* サインアップボタン */}
+          <Link href="/auth/signup" asChild>
+            <Pressable
+              accessibilityRole="link"
+              accessibilityLabel="サインアップページに移動"
+              accessibilityHint="新しいアカウントを作成するページに移動します"
+              className="w-full border border-gray-300 text-[#212121] font-semibold py-3 px-4 rounded-xl"
+            >
+              <Text className="text-[#212121] font-semibold text-sm text-center">
+                新規登録
+              </Text>
+            </Pressable>
+          </Link>
+
+          {/* パスワードを忘れた */}
+          {/* <View className="items-center">
+            <Pressable className="text-[#212121] underline text-xs">
+              <Text className="text-[#212121] underline text-xs">
+                パスワードをお忘れですか？
+              </Text>
+            </Pressable>
+          </View> */}
         </View>
       </View>
     </SafeAreaView>

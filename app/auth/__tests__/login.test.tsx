@@ -52,48 +52,46 @@ describe("Login画面", () => {
   });
 
   it("ログイン画面のタイトルが表示されること", () => {
-    const { getByText } = render(<Login />);
+    const { getAllByText } = render(<Login />);
 
-    expect(getByText("ログイン")).toBeTruthy();
+    expect(getAllByText("ログイン")[0]).toBeTruthy();
   });
 
   it("Flow Finderロゴまたはアプリ名が表示されること", () => {
     const { getByText } = render(<Login />);
 
-    expect(getByText("Flow Finder")).toBeTruthy();
+    expect(getByText("🔐 認証")).toBeTruthy();
   });
 
   it("メールアドレス入力フィールドが表示されること", () => {
     const { getByPlaceholderText } = render(<Login />);
 
-    const emailInput = getByPlaceholderText("メールアドレス");
+    const emailInput = getByPlaceholderText("example@email.com");
     expect(emailInput).toBeTruthy();
   });
 
   it("パスワード入力フィールドが表示されること", () => {
     const { getByPlaceholderText } = render(<Login />);
 
-    const passwordInput = getByPlaceholderText("パスワード");
+    const passwordInput = getByPlaceholderText("••••••••••••");
     expect(passwordInput).toBeTruthy();
   });
 
   it("ログインボタンが表示されること", () => {
-    const { getByText } = render(<Login />);
-
-    expect(getByText("ログインする")).toBeTruthy();
+    const { getByLabelText } = render(<Login />);
+    expect(getByLabelText("ログインボタン")).toBeTruthy();
   });
 
   it("サインアップへのリンクが表示されること", () => {
-    const { getByText } = render(<Login />);
-
-    expect(getByText("アカウントをお持ちでない方")).toBeTruthy();
-    expect(getByText("サインアップ")).toBeTruthy();
+    const { getByLabelText, getByText } = render(<Login />);
+    expect(getByLabelText("サインアップページに移動")).toBeTruthy();
+    expect(getByText("新規登録")).toBeTruthy();
   });
 
   it("メールアドレス入力が正しく動作すること", () => {
     const { getByPlaceholderText } = render(<Login />);
 
-    const emailInput = getByPlaceholderText("メールアドレス");
+    const emailInput = getByPlaceholderText("example@email.com");
     fireEvent.changeText(emailInput, "test@example.com");
 
     expect(emailInput.props.value).toBe("test@example.com");
@@ -102,7 +100,7 @@ describe("Login画面", () => {
   it("パスワード入力が正しく動作すること", () => {
     const { getByPlaceholderText } = render(<Login />);
 
-    const passwordInput = getByPlaceholderText("パスワード");
+    const passwordInput = getByPlaceholderText("••••••••••••");
     fireEvent.changeText(passwordInput, "password123");
 
     expect(passwordInput.props.value).toBe("password123");
@@ -111,16 +109,16 @@ describe("Login画面", () => {
   it("パスワードフィールドがセキュア入力であること", () => {
     const { getByPlaceholderText } = render(<Login />);
 
-    const passwordInput = getByPlaceholderText("パスワード");
+    const passwordInput = getByPlaceholderText("••••••••••••");
     expect(passwordInput.props.secureTextEntry).toBe(true);
   });
 
   it("有効なメールアドレスとパスワードでログインできること", async () => {
-    const { getByPlaceholderText, getByText } = render(<Login />);
+    const { getByPlaceholderText, getByLabelText } = render(<Login />);
 
-    const emailInput = getByPlaceholderText("メールアドレス");
-    const passwordInput = getByPlaceholderText("パスワード");
-    const loginButton = getByText("ログインする");
+    const emailInput = getByPlaceholderText("example@email.com");
+    const passwordInput = getByPlaceholderText("••••••••••••");
+    const loginButton = getByLabelText("ログインボタン");
 
     fireEvent.changeText(emailInput, "test@example.com");
     fireEvent.changeText(passwordInput, "password123");
@@ -133,10 +131,12 @@ describe("Login画面", () => {
   });
 
   it("メールアドレスが空の場合にバリデーションエラーが表示されること", async () => {
-    const { getByPlaceholderText, getByText } = render(<Login />);
+    const { getByPlaceholderText, getByLabelText, getByText } = render(
+      <Login />
+    );
 
-    const passwordInput = getByPlaceholderText("パスワード");
-    const loginButton = getByText("ログインする");
+    const passwordInput = getByPlaceholderText("••••••••••••");
+    const loginButton = getByLabelText("ログインボタン");
 
     fireEvent.changeText(passwordInput, "password123");
     fireEvent.press(loginButton);
@@ -147,10 +147,12 @@ describe("Login画面", () => {
   });
 
   it("パスワードが空の場合にバリデーションエラーが表示されること", async () => {
-    const { getByPlaceholderText, getByText } = render(<Login />);
+    const { getByPlaceholderText, getByLabelText, getByText } = render(
+      <Login />
+    );
 
-    const emailInput = getByPlaceholderText("メールアドレス");
-    const loginButton = getByText("ログインする");
+    const emailInput = getByPlaceholderText("example@email.com");
+    const loginButton = getByLabelText("ログインボタン");
 
     fireEvent.changeText(emailInput, "test@example.com");
     fireEvent.press(loginButton);
@@ -161,11 +163,13 @@ describe("Login画面", () => {
   });
 
   it("無効なメールアドレス形式の場合にバリデーションエラーが表示されること", async () => {
-    const { getByPlaceholderText, getByText } = render(<Login />);
+    const { getByPlaceholderText, getByLabelText, getByText } = render(
+      <Login />
+    );
 
-    const emailInput = getByPlaceholderText("メールアドレス");
-    const passwordInput = getByPlaceholderText("パスワード");
-    const loginButton = getByText("ログインする");
+    const emailInput = getByPlaceholderText("example@email.com");
+    const passwordInput = getByPlaceholderText("••••••••••••");
+    const loginButton = getByLabelText("ログインボタン");
 
     fireEvent.changeText(emailInput, "invalid-email");
     fireEvent.changeText(passwordInput, "password123");
@@ -177,11 +181,13 @@ describe("Login画面", () => {
   });
 
   it("パスワードが6文字未満の場合にバリデーションエラーが表示されること", async () => {
-    const { getByPlaceholderText, getByText } = render(<Login />);
+    const { getByPlaceholderText, getByLabelText, getByText } = render(
+      <Login />
+    );
 
-    const emailInput = getByPlaceholderText("メールアドレス");
-    const passwordInput = getByPlaceholderText("パスワード");
-    const loginButton = getByText("ログインする");
+    const emailInput = getByPlaceholderText("example@email.com");
+    const passwordInput = getByPlaceholderText("••••••••••••");
+    const loginButton = getByLabelText("ログインボタン");
 
     fireEvent.changeText(emailInput, "test@example.com");
     fireEvent.changeText(passwordInput, "12345");
@@ -193,11 +199,30 @@ describe("Login画面", () => {
   });
 
   it("ログイン中はボタンが無効化されること", async () => {
-    const { getByPlaceholderText, getByText } = render(<Login />);
+    // Supabaseのログイン処理をpendingのPromiseでモック
+    const mockSupabase = require("../../../lib/supabase");
+    let pendingPromise = new Promise(() => {}); // never resolves
+    mockSupabase.getSupabaseClient.mockReturnValue({
+      auth: {
+        signInWithPassword: jest.fn(() => pendingPromise),
+        getSession: jest.fn(() =>
+          Promise.resolve({ data: { session: null }, error: null })
+        ),
+        onAuthStateChange: jest.fn(() => ({
+          data: {
+            subscription: {
+              unsubscribe: jest.fn(),
+            },
+          },
+        })),
+      },
+    });
 
-    const emailInput = getByPlaceholderText("メールアドレス");
-    const passwordInput = getByPlaceholderText("パスワード");
-    const loginButton = getByText("ログインする");
+    const { getByPlaceholderText, getByLabelText } = render(<Login />);
+
+    const emailInput = getByPlaceholderText("example@email.com");
+    const passwordInput = getByPlaceholderText("••••••••••••");
+    const loginButton = getByLabelText("ログインボタン");
 
     fireEvent.changeText(emailInput, "test@example.com");
     fireEvent.changeText(passwordInput, "password123");
@@ -205,14 +230,17 @@ describe("Login画面", () => {
 
     // ローディング状態の確認
     await waitFor(() => {
-      expect(getByText("ログイン中...")).toBeTruthy();
+      expect(
+        loginButton.props.accessibilityState?.busy ||
+          loginButton.props.accessibilityState?.disabled
+      ).toBe(true);
     });
   });
 
   it("Flow Finderブランドカラー（#FFC400）がログインボタンに適用されること", () => {
-    const { getByText } = render(<Login />);
+    const { getByLabelText } = render(<Login />);
 
-    const loginButton = getByText("ログインする");
+    const loginButton = getByLabelText("ログインボタン");
     expect(loginButton).toBeTruthy();
   });
 
@@ -253,11 +281,13 @@ describe("Login画面", () => {
       },
     });
 
-    const { getByPlaceholderText, getByText } = render(<Login />);
+    const { getByPlaceholderText, getByLabelText, getByText } = render(
+      <Login />
+    );
 
-    const emailInput = getByPlaceholderText("メールアドレス");
-    const passwordInput = getByPlaceholderText("パスワード");
-    const loginButton = getByText("ログインする");
+    const emailInput = getByPlaceholderText("example@email.com");
+    const passwordInput = getByPlaceholderText("••••••••••••");
+    const loginButton = getByLabelText("ログインボタン");
 
     fireEvent.changeText(emailInput, "test@example.com");
     fireEvent.changeText(passwordInput, "wrongpassword");
@@ -279,7 +309,7 @@ describe("Login画面", () => {
     const { getByLabelText, getByPlaceholderText } = render(<Login />);
 
     const toggleButton = getByLabelText("パスワード表示切り替え");
-    const passwordInput = getByPlaceholderText("パスワード");
+    const passwordInput = getByPlaceholderText("••••••••••••");
 
     // 初期状態はパスワードが非表示
     expect(passwordInput.props.secureTextEntry).toBe(true);

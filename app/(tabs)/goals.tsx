@@ -7,6 +7,38 @@ import { GoalForm } from "../../components/forms/GoalForm";
 import { CreateGoalInput } from "../../types/goal.types";
 
 /**
+ * ヘルパー関数
+ */
+const getGoalIcon = (category: string) => {
+  const iconMap: { [key: string]: string } = {
+    "学習・スキルアップ": "💼",
+    "健康・フィットネス": "🏃",
+    "仕事・キャリア": "💼",
+    "お金・投資": "💰",
+  };
+  return iconMap[category] || "🎯";
+};
+
+const getPriorityText = (priority: number) => {
+  const priorityMap: { [key: number]: string } = {
+    1: "高",
+    2: "中", 
+    3: "低",
+  };
+  return priorityMap[priority] || "中";
+};
+
+const getProgressPercentage = (goal: any) => {
+  // MVP1段目では固定値を返す（MVP2段目以降で実装）
+  const progressMap: { [key: string]: number } = {
+    "英語学習マスター": 60,
+    "健康的な生活習慣": 30,
+    "副業収入月10万円": 10,
+  };
+  return progressMap[goal.title] || 0;
+};
+
+/**
  * ゴール管理画面コンポーネント（段階的復旧中）
  *
  * 安全にゴール管理機能を段階的に復旧しています。
@@ -276,6 +308,29 @@ const Goals: React.FC = () => {
     setShowCreateForm(false); // 作成フォームが開いている場合は閉じる
   }, []);
 
+  // ゴールオプション表示
+  const showGoalOptions = useCallback((goal: any) => {
+    Alert.alert(
+      goal.title,
+      "ゴールの操作を選択してください",
+      [
+        {
+          text: "編集",
+          onPress: () => startEditGoal(goal),
+        },
+        {
+          text: "削除",
+          style: "destructive",
+          onPress: () => deleteGoal(goal),
+        },
+        {
+          text: "キャンセル",
+          style: "cancel",
+        },
+      ]
+    );
+  }, [startEditGoal, deleteGoal]);
+
   // フォームリセット
   const resetForm = useCallback(() => {
     setShowCreateForm(false);
@@ -304,101 +359,76 @@ const Goals: React.FC = () => {
 
   // 認証済みユーザー向けの画面
   return (
-    <ScrollView className="flex-1 bg-gray-50">
-      <View className="flex-1 px-4 pt-8 pb-6">
-        {/* ヘッダー */}
-        <View className="bg-white rounded-xl p-6 mb-6 shadow-sm">
-          <Text className="text-2xl font-bold text-center mb-2 text-gray-800">
-            ゴール管理
-          </Text>
-          <Text className="text-center text-gray-600">
-            あなたの目標を管理しましょう
-          </Text>
+    <View className="flex-1 bg-white">
+      {/* ヘッダー */}
+      <View className="bg-[#FFC400] p-4">
+        <Text className="text-xl font-bold text-[#212121]">🎯 ゴール管理</Text>
+      </View>
+
+      <ScrollView className="flex-1 p-6">
+        <View className="flex-row justify-between items-center mb-4">
+          <Text className="text-lg font-bold text-[#212121]">ゴール管理</Text>
+          <Pressable
+            onPress={() => setShowCreateForm(true)}
+            className="bg-[#FFC400] text-[#212121] text-sm font-semibold py-2 px-3 rounded-lg"
+            accessibilityRole="button"
+            testID="add-goal-button"
+          >
+            <Text className="text-[#212121] font-semibold">+ 追加</Text>
+          </Pressable>
         </View>
 
-        {/* ゴール一覧プレビュー */}
+        {/* ゴール一覧 */}
         {!isLoading && !error && goals.length > 0 && (
-          <View className="bg-white rounded-xl p-6 mb-6 shadow-sm">
-            <Text className="text-lg font-semibold mb-3 text-gray-800">
-              最近のゴール
-            </Text>
-            {goals.slice(0, 3).map((goal, index) => (
-              <View key={goal.id || index} className="bg-gray-50 rounded-lg p-3 mb-2">
+          <View className="gap-3">
+            {goals.map((goal, index) => (
+              <View key={goal.id || index} className="bg-gray-50 rounded-xl p-4">
                 <View className="flex-row justify-between items-start">
-                  <View className="flex-1 mr-3">
-                    <Text className="font-medium text-gray-800" numberOfLines={1}>
-                      {goal.title || "無題のゴール"}
+                  <View className="flex-1">
+                    <Text className="text-sm font-semibold" numberOfLines={1}>
+                      {getGoalIcon(goal.category)} {goal.title || "無題のゴール"}
                     </Text>
-                    <Text className="text-sm text-gray-600 mt-1" numberOfLines={2}>
-                      {goal.description || "説明なし"}
+                    <Text className="text-xs text-gray-600 mt-1">
+                      優先度: {getPriorityText(goal.priority)} 📊 {getProgressPercentage(goal)}%
                     </Text>
                   </View>
-                  
-                  {/* 編集・削除ボタン */}
-                  <View className="flex-row gap-2">
-                    <Pressable
-                      testID={`goal-edit-button-${goal.id}`}
-                      onPress={() => startEditGoal(goal)}
-                      className="bg-blue-500 px-2 py-1 rounded"
-                    >
-                      <Text className="text-white text-xs font-medium">編集</Text>
-                    </Pressable>
-                    <Pressable
-                      testID={`goal-delete-button-${goal.id}`}
-                      onPress={() => deleteGoal(goal)}
-                      className="bg-red-500 px-2 py-1 rounded"
-                    >
-                      <Text className="text-white text-xs font-medium">削除</Text>
-                    </Pressable>
-                  </View>
+                  <Pressable 
+                    onPress={() => showGoalOptions(goal)}
+                    className="text-gray-400"
+                    testID={`goal-options-${goal.id}`}
+                    accessibilityRole="button"
+                    accessibilityLabel="ゴールオプション"
+                  >
+                    <Text className="text-gray-400">⋮</Text>
+                  </Pressable>
                 </View>
               </View>
             ))}
-            {goals.length > 3 && (
-              <Text className="text-center text-gray-500 text-sm mt-2">
-                他 {goals.length - 3} 件のゴール
-              </Text>
-            )}
           </View>
         )}
 
         {/* データなしの場合 */}
         {!isLoading && !error && goals.length === 0 && (
-          <View className="bg-white rounded-xl p-6 mb-6 shadow-sm">
-            <Text className="text-lg font-semibold text-center mb-3 text-gray-800">
-              ゴールがありません
+          <View className="bg-gray-50 rounded-xl p-4">
+            <Text className="text-center text-gray-600">
+              まだゴールがありません。最初のゴールを作成しましょう！
             </Text>
-            <Text className="text-center text-gray-600 leading-6 mb-4">
-              最初のゴールを作成して{'\n'}成長の旅を始めましょう！
-            </Text>
-            <Pressable
-              onPress={() => setShowCreateForm(true)}
-              className="bg-[#FFC400] px-4 py-3 rounded-lg"
-            >
-              <Text className="text-black font-medium text-center">
-                新しいゴールを作成
-              </Text>
-            </Pressable>
           </View>
         )}
 
-        {/* ゴール作成ボタン（データがある場合） */}
-        {!isLoading && !error && goals.length > 0 && (
-          <View className="bg-white rounded-xl p-6 mb-6 shadow-sm">
-            <Pressable
-              onPress={() => setShowCreateForm(true)}
-              className="bg-[#FFC400] px-4 py-3 rounded-lg"
-            >
-              <Text className="text-black font-medium text-center">
-                新しいゴールを作成
-              </Text>
-            </Pressable>
-          </View>
-        )}
+        {/* MVP1段目注記エリア */}
+        <View className="mt-6 p-3 bg-blue-50 rounded-xl">
+          <Text className="text-xs text-blue-600">
+            💡 MVP1: 基本CRUD機能のみ実装済み
+          </Text>
+        </View>
 
         {/* ゴール作成フォーム */}
         {showCreateForm && (
-          <View className="bg-white rounded-xl p-6 mb-6 shadow-sm">
+          <View className="mt-6 bg-white rounded-xl p-6 shadow-sm">
+            <Text className="text-lg font-bold text-[#212121] mb-4 text-center">
+              新しいゴール
+            </Text>
             <GoalForm
               onSubmit={createGoal}
               onCancel={resetForm}
@@ -409,7 +439,10 @@ const Goals: React.FC = () => {
 
         {/* ゴール編集フォーム */}
         {showEditForm && editingGoal && (
-          <View className="bg-white rounded-xl p-6 mb-6 shadow-sm">
+          <View className="mt-6 bg-white rounded-xl p-6 shadow-sm">
+            <Text className="text-lg font-bold text-[#212121] mb-4 text-center">
+              ゴール編集
+            </Text>
             <GoalForm
               onSubmit={updateGoal}
               onCancel={resetEditForm}
@@ -418,8 +451,23 @@ const Goals: React.FC = () => {
             />
           </View>
         )}
-      </View>
-    </ScrollView>
+
+        {/* エラー表示 */}
+        {error && (
+          <View className="mt-6 p-4 bg-red-50 rounded-xl">
+            <Text className="text-red-600 text-center">{error}</Text>
+          </View>
+        )}
+
+        {/* ローディング表示 */}
+        {isLoading && (
+          <View className="mt-6 items-center">
+            <ActivityIndicator size="large" color="#FFC400" />
+            <Text className="mt-2 text-gray-600">読み込み中...</Text>
+          </View>
+        )}
+      </ScrollView>
+    </View>
   );
 };
 

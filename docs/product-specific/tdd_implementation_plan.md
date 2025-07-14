@@ -173,8 +173,34 @@ Flow Finder の **TDD 実装計画** です。基本的な TDD 手法につい�
 | 3.1  | **Red**      | 簡易ゴール完了機能のテスト作成      | `components/ui/`         | [x]  |
 | 3.2  | **Green**    | 簡易ゴール完了機能の実装            | `components/ui/`         | [x]  |
 | 3.3  | **Refactor** | 簡易ゴール完了機能の改善            | `components/ui/`         | [x]  |
-| 3.4  | **Release**  | App Store/Google Play 登録準備      | `app.json`, `eas.json`   | [ ]  |
-| 3.5  | **Release**  | MVP 1段目リリース実行               | EAS Build & Submit       | [ ]  |
+| 3.4  | **UI/UX**    | 認証画面の画面カタログ適用          | `app/auth/`              | [ ]  |
+| 3.5  | **UI/UX**    | ホーム画面の画面カタログ適用        | `app/(tabs)/index.tsx`   | [ ]  |
+| 3.6  | **UI/UX**    | ゴール管理画面の画面カタログ適用    | `app/(tabs)/goals.tsx`   | [ ]  |
+| 3.7  | **UI/UX**    | 設定画面の画面カタログ適用          | `app/(tabs)/settings.tsx`| [ ]  |
+| 3.8  | **UI/UX**    | ゴール作成モーダルの画面カタログ適用| `app/modal/`             | [ ]  |
+| 3.9  | **Release**  | App Store/Google Play 登録準備      | `app.json`, `eas.json`   | [ ]  |
+| 3.10 | **Release**  | MVP 1段目リリース実行               | EAS Build & Submit       | [ ]  |
+
+#### 画面カタログ適用タスクの詳細
+
+**Task 3.4-3.8 の目的**：
+- MVP1段目画面カタログ（`html/mvp1-screen-catalog.html`）に従った統一されたUI/UXの実装
+- Flow Finderブランドカラー（#FFC400, #212121）の正確な適用
+- NativeWind + React Native互換スタイルの統一
+- アクセシビリティ対応とユーザビリティ向上
+
+**適用する主要デザイン要素**：
+- **ブランドカラー**: primary="#FFC400", secondary="#212121"
+- **タイポグラフィ**: Font weight, size, color の統一
+- **レイアウト**: Padding, margin, border-radius の統一
+- **フォーム要素**: Input, Button スタイルの統一
+- **ナビゲーション**: Tab bar デザインの統一
+
+**実装アプローチ**：
+1. 画面カタログの該当セクションを参照
+2. 現在の実装と比較してスタイルギャップを特定
+3. NativeWind クラスで統一されたスタイルに更新
+4. アクセシビリティ要素の追加・改善
 
 ---
 
@@ -536,8 +562,8 @@ describe("Goal API", () => {
 - **MVP 1段目（Week 1-3）**: Task 1.1〜3.4
   - Week 1 完了: Task 1.1〜1.9（全て[x]）
   - Week 2 完了: Task 2.1〜2.33（全て[x]）
-  - Week 2-3 残り: Task 2.34, 3.0〜3.4（[ ]）
-  - **次の実装**: Task 3.4（App Store/Google Play 登録準備 - Release Phase）が最優先
+  - Week 3 残り: Task 3.4〜3.10（[ ]）
+  - **次の実装**: Task 3.4（認証画面の画面カタログ適用 - UI/UX Phase）が最優先
 
 - **MVP 2段目（Week 4-6）**: Task 4.1〜6.10
   - 点検セッション機能（AI機能なし）、制限機能、プレミアム誘導UI

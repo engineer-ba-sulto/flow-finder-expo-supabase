@@ -2,6 +2,7 @@ import { Link, useRouter } from "expo-router";
 import React, { useCallback, useState } from "react";
 import {
   ActivityIndicator,
+  Linking,
   Pressable,
   SafeAreaView,
   Text,
@@ -347,11 +348,25 @@ export default function Signup() {
                 </View>
                 <View className="flex-1">
                   <Text className="text-gray-700 text-sm leading-5">
-                    <Text className={`text-[${BRAND_COLOR}] underline`}>
+                    <Text
+                      className={`text-[${BRAND_COLOR}] underline`}
+                      onPress={() =>
+                        Linking.openURL("https://jpstockminimemo.arafipro.com/")
+                      }
+                      accessibilityRole="link"
+                      accessibilityLabel="利用規約を開く"
+                    >
                       利用規約
                     </Text>
                     <Text>と</Text>
-                    <Text className={`text-[${BRAND_COLOR}] underline`}>
+                    <Text
+                      className={`text-[${BRAND_COLOR}] underline`}
+                      onPress={() =>
+                        Linking.openURL("https://jpstockminimemo.arafipro.com/")
+                      }
+                      accessibilityRole="link"
+                      accessibilityLabel="プライバシーポリシーを開く"
+                    >
                       プライバシーポリシー
                     </Text>
                     <Text>に同意する</Text>

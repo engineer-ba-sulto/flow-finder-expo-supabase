@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { View, Text, ScrollView, Alert, Pressable } from "react-native";
 import { Redirect } from "expo-router";
 import { useAuth } from "../../hooks/useAuth";
@@ -6,6 +6,7 @@ import { Button } from "../../components/ui/Button";
 
 export default function SettingsScreen() {
   const { user, loading, error, isAuthenticated, signOut } = useAuth();
+  const [isNotificationEnabled, setIsNotificationEnabled] = useState(true);
 
   const handleLogout = async () => {
     try {
@@ -13,6 +14,23 @@ export default function SettingsScreen() {
     } catch (err) {
       Alert.alert("エラー", "ログアウトに失敗しました");
     }
+  };
+
+  // 通知設定トグル
+  const toggleNotification = () => {
+    setIsNotificationEnabled(!isNotificationEnabled);
+  };
+
+  // ユーザー名を取得
+  const getUserDisplayName = () => {
+    if (user?.user_metadata?.name) {
+      return user.user_metadata.name;
+    }
+    if (user?.email) {
+      const name = user.email.split('@')[0];
+      return name.charAt(0).toUpperCase() + name.slice(1);
+    }
+    return "田中太郎";
   };
 
   // ローディング状態のUI改善
@@ -75,132 +93,118 @@ export default function SettingsScreen() {
     );
   }
 
-  // セクションアイテムコンポーネント
-  const SettingItem = ({ 
-    title, 
-    onPress, 
-    accessibilityHint 
-  }: { 
-    title: string; 
-    onPress?: () => void;
-    accessibilityHint?: string;
-  }) => (
-    <Pressable
-      className="py-3 px-1 border-b border-gray-100 active:bg-gray-50"
-      onPress={onPress}
-      accessibilityRole="button"
-      accessibilityHint={accessibilityHint}
-      disabled={!onPress}
-    >
-      <Text className="text-base text-gray-800">{title}</Text>
-    </Pressable>
-  );
 
   return (
-    <ScrollView 
-      className="flex-1 bg-gray-50"
-      accessibilityLabel="設定画面"
-      showsVerticalScrollIndicator={false}
-    >
-      <View className="p-4 pb-8">
-        {/* ヘッダー - ブランドカラーを使用 */}
-        <View className="bg-white rounded-xl p-6 mb-6 shadow-sm border-t-4 border-[#FFC400]">
-          <Text 
-            className="text-2xl font-bold text-center text-gray-800"
+    <View className="flex-1 bg-white">
+      {/* ヘッダー */}
+      <View className="bg-[#FFC400] p-4">
+        <Text className="text-xl font-bold text-[#212121]">⚙️ 設定</Text>
+      </View>
+
+      <ScrollView
+        className="flex-1"
+        accessibilityLabel="設定画面"
+        showsVerticalScrollIndicator={false}
+      >
+        <View className="p-6">
+          <Text
+            className="text-lg font-bold text-[#212121] mb-4"
             accessibilityRole="header"
           >
             設定
           </Text>
-        </View>
-        
-        {/* プロフィールセクション - 改善されたデザイン */}
-        <View className="mb-6">
-          <Text 
-            className="text-lg font-semibold mb-3 text-gray-800 px-2"
-            accessibilityRole="header"
-          >
-            プロフィール
-          </Text>
-          <View className="bg-white p-5 rounded-xl shadow-sm border border-gray-100">
-            <View className="flex-row items-center mb-4">
-              <View className="w-12 h-12 bg-[#FFC400] rounded-full justify-center items-center mr-4">
-                <Text className="text-white font-bold text-lg">
-                  {(user?.user_metadata?.name || "ユーザー").charAt(0).toUpperCase()}
-                </Text>
-              </View>
-              <View className="flex-1">
-                <Text 
-                  className="text-base font-semibold text-gray-800 mb-1"
-                  accessibilityLabel={`ユーザー名: ${user?.user_metadata?.name || "ユーザー"}`}
-                >
-                  {user?.user_metadata?.name || "ユーザー"}
-                </Text>
-                <Text 
-                  className="text-gray-600 text-sm"
-                  accessibilityLabel={`メールアドレス: ${user?.email}`}
-                >
-                  {user?.email}
-                </Text>
+
+          {/* プロフィールセクション */}
+          <View className="mb-4">
+            <Text
+              className="text-sm font-semibold text-[#212121] mb-2"
+              accessibilityRole="header"
+            >
+              👤 プロフィール
+            </Text>
+            <View className="bg-gray-50 rounded-xl p-4">
+              <View className="flex-row justify-between items-center">
+                <View className="flex-1">
+                  <Text className="text-sm font-medium">{getUserDisplayName()}</Text>
+                  <Text className="text-xs text-gray-600">{user?.email}</Text>
+                </View>
+                <Text className="text-gray-400">></Text>
               </View>
             </View>
-            <Button 
-              variant="secondary"
-              accessibilityHint="プロフィール編集画面に移動します"
+          </View>
+
+          {/* 通知設定セクション */}
+          <View className="mb-4">
+            <Text
+              className="text-sm font-semibold text-[#212121] mb-2"
+              accessibilityRole="header"
             >
-              プロフィール編集
-            </Button>
+              🔔 通知設定
+            </Text>
+            <View className="bg-gray-50 rounded-xl p-4">
+              <View className="flex-row justify-between items-center">
+                <Text className="text-sm">基本通知</Text>
+                <Pressable
+                  onPress={toggleNotification}
+                  className={`w-8 h-4 rounded-full ${
+                    isNotificationEnabled ? 'bg-[#FFC400]' : 'bg-gray-300'
+                  }`}
+                  accessibilityRole="switch"
+                  accessibilityState={{ checked: isNotificationEnabled }}
+                  accessibilityLabel="基本通知の設定"
+                >
+                  <View
+                    className={`w-3 h-3 rounded-full bg-white mt-0.5 ${
+                      isNotificationEnabled ? 'ml-4' : 'ml-0.5'
+                    }`}
+                  />
+                </Pressable>
+              </View>
+            </View>
           </View>
-        </View>
 
-        {/* アプリ設定セクション - アクセシビリティ改善 */}
-        <View className="mb-6">
-          <Text 
-            className="text-lg font-semibold mb-3 text-gray-800 px-2"
-            accessibilityRole="header"
-          >
-            アプリ設定
-          </Text>
-          <View className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
-            <SettingItem 
-              title="通知" 
-              accessibilityHint="通知設定を変更できます"
-            />
-            <SettingItem 
-              title="プライバシー" 
-              accessibilityHint="プライバシー設定を確認できます"
-            />
+          {/* MVP機能予告セクション */}
+          <View className="mb-6">
+            <Text
+              className="text-sm font-semibold text-[#212121] mb-2"
+              accessibilityRole="header"
+            >
+              💎 今後の機能
+            </Text>
+            <View className="bg-gray-100 rounded-xl p-4">
+              <Text className="text-sm text-gray-500 mb-2">
+                MVP 2段目で追加予定：
+              </Text>
+              <Text className="text-xs text-gray-500 leading-4 mb-2">
+                • 点検セッション機能{"\n"}
+                • 制限機能（無料プラン）{"\n"}
+                • プレミアム誘導UI
+              </Text>
+              <Text className="text-sm text-gray-500 mb-2">
+                MVP 3段目で追加予定：
+              </Text>
+              <Text className="text-xs text-gray-500 leading-4">
+                • AI提案機能{"\n"}
+                • 課金システム{"\n"}
+                • プレミアム機能
+              </Text>
+            </View>
           </View>
-        </View>
 
-        {/* サポートセクション - デザイン改善 */}
-        <View className="mb-6">
-          <Text 
-            className="text-lg font-semibold mb-3 text-gray-800 px-2"
-            accessibilityRole="header"
-          >
-            サポート
-          </Text>
-          <View className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
-            <SettingItem 
-              title="バージョン" 
-              accessibilityHint="アプリのバージョン情報を確認できます"
-            />
-          </View>
-        </View>
-
-        {/* ログアウトボタン - より目立つデザイン */}
-        <View className="mt-8">
-          <Button 
-            variant="secondary" 
+          {/* ログアウトボタン */}
+          <Pressable
             onPress={handleLogout}
-            className="border-2 border-red-200 bg-red-50 active:bg-red-100"
-            accessibilityHint="アプリからログアウトします"
+            className="w-full py-3 px-4 rounded-xl text-sm border border-[#F44336] text-center active:bg-red-50"
             accessibilityRole="button"
+            accessibilityLabel="ログアウト"
+            accessibilityHint="アプリからログアウトします"
           >
-            <Text className="text-red-600 font-medium">ログアウト</Text>
-          </Button>
+            <Text className="text-[#F44336] font-semibold text-center">
+              ログアウト
+            </Text>
+          </Pressable>
         </View>
-      </View>
-    </ScrollView>
+      </ScrollView>
+    </View>
   );
 }

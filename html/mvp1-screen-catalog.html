@@ -130,6 +130,27 @@
         },
       };
     </script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const tabSets = document.querySelectorAll(".goal-tab-set");
+        tabSets.forEach((set) => {
+          const tabs = set.querySelectorAll(".goal-tab");
+          const lists = set.querySelectorAll(".goal-list");
+          tabs.forEach((tab, idx) => {
+            tab.addEventListener("click", function () {
+              tabs.forEach((t, i) => {
+                t.classList.toggle("bg-primary", i === idx);
+                t.classList.toggle("text-secondary", i === idx);
+                t.classList.toggle("bg-gray-200", i !== idx);
+              });
+              lists.forEach((list, i) => {
+                list.style.display = i === idx ? "" : "none";
+              });
+            });
+          });
+        });
+      });
+    </script>
   </head>
   <body class="bg-gray-200 font-sans p-4">
     <!-- ヘッダー -->
@@ -327,9 +348,7 @@
                   新規登録
                 </div>
                 <div class="rn-view items-center">
-                  <div class="rn-touchable text-secondary underline text-xs"
-                    >パスワードをお忘れですか？</div
-                  >
+                  <!-- <div class="rn-touchable text-secondary underline text-xs">パスワードをお忘れですか？</div> -->
                 </div>
               </div>
             </div>
@@ -435,9 +454,7 @@
                     ログイン
                   </div>
                   <div class="rn-view items-center">
-                    <div class="rn-touchable text-secondary underline text-xs"
-                      >パスワードをお忘れですか？</div
-                    >
+                    <!-- <div class="rn-touchable text-secondary underline text-xs">パスワードをお忘れですか？</div> -->
                   </div>
                 </div>
               </div>
@@ -469,36 +486,59 @@
                 </div>
 
                 <div class="rn-view mb-6">
-                  <h4 class="rn-text text-sm font-semibold text-secondary mb-2"
-                    >🎯 今日のゴール</h4
-                  >
-                  <div class="rn-view bg-gray-50 rounded-xl p-4">
-                    <div
-                      class="rn-view flex-row items-center justify-between mb-2"
+                  <div class="flex flex-row items-center justify-between mb-2">
+                    <h4 class="rn-text text-sm font-semibold text-secondary"
+                      >🎯 未達成のゴール</h4
                     >
-                      <span class="rn-text text-sm font-medium"
-                        >💼 英語学習マスター</span
+                    <button
+                      class="rn-touchable bg-primary text-secondary font-semibold py-2 px-3 rounded-lg text-sm text-center ml-2"
+                    >
+                      ＋ ゴール作成
+                    </button>
+                  </div>
+                  <div class="rn-view gap-3">
+                    <!-- 未完了ゴール1 -->
+                    <div
+                      class="rn-view bg-gray-50 rounded-xl p-4 flex-row items-center justify-between mb-2"
+                    >
+                      <div class="rn-view flex-1">
+                        <span class="rn-text text-sm font-medium"
+                          >💼 英語学習マスター</span
+                        >
+                        <div class="rn-text text-xs text-gray-600 mt-1"
+                          >優先度: 高</div
+                        >
+                      </div>
+                      <button
+                        class="rn-touchable bg-success text-white text-xs font-bold py-1 px-3 rounded-lg ml-2"
+                        >達成</button
                       >
                     </div>
-                    <div class="rn-text text-xs text-gray-600 mb-2"
-                      >優先度: 高</div
+                    <!-- 未完了ゴール2 -->
+                    <div
+                      class="rn-view bg-gray-50 rounded-xl p-4 flex-row items-center justify-between mb-2"
                     >
+                      <div class="rn-view flex-1">
+                        <span class="rn-text text-sm font-medium"
+                          >🏃 健康的な生活習慣</span
+                        >
+                        <div class="rn-text text-xs text-gray-600 mt-1"
+                          >優先度: 中</div
+                        >
+                      </div>
+                      <button
+                        class="rn-touchable bg-success text-white text-xs font-bold py-1 px-3 rounded-lg ml-2"
+                        >達成</button
+                      >
+                    </div>
                   </div>
                 </div>
 
                 <!-- MVP1段目: 簡易完了機能ボタン -->
                 <div class="rn-view mb-6">
-                  <h4 class="rn-text text-sm font-semibold text-secondary mb-2"
-                    >✅ ゴール管理</h4
-                  >
-                  <div
-                    class="rn-touchable w-full bg-success text-white font-semibold py-3 px-4 rounded-xl text-sm text-center mb-2"
-                  >
-                    ゴール完了マーク
-                  </div>
-                  <div class="rn-text text-xs text-gray-600 text-center">
+                  <h4 class="rn-text text-xs text-gray-600 text-center">
                     ※ MVP2段目でアクション機能追加予定
-                  </div>
+                  </h4>
                 </div>
 
                 <!-- MVP2段目予告エリア -->
@@ -553,19 +593,22 @@
             </div>
 
             <div class="rn-view rn-scroll-view flex-1 p-6">
-              <div class="rn-view flex-row justify-between items-center mb-4">
-                <h3 class="rn-text text-lg font-bold text-secondary"
-                  >ゴール管理</h3
-                >
-                <div
-                  class="rn-touchable bg-primary text-secondary text-sm font-semibold py-2 px-3 rounded-lg"
-                  >+ 追加</div
-                >
-              </div>
-
-              <div class="rn-view gap-3">
-                <div class="rn-view bg-gray-50 rounded-xl p-4">
-                  <div class="rn-view flex-row justify-between items-start">
+              <div class="goal-tab-set">
+                <div class="rn-view flex-row gap-2 mb-4">
+                  <button
+                    class="goal-tab rn-touchable flex-1 bg-primary text-secondary font-semibold py-2 px-3 rounded-lg text-sm text-center"
+                    >未達成</button
+                  >
+                  <button
+                    class="goal-tab rn-touchable flex-1 bg-gray-200 text-secondary font-semibold py-2 px-3 rounded-lg text-sm text-center"
+                    >達成済み</button
+                  >
+                </div>
+                <!-- 未達成ゴールリスト -->
+                <div class="goal-list rn-view gap-3 mb-6">
+                  <div
+                    class="rn-view bg-gray-50 rounded-xl p-4 flex-row items-center justify-between mb-2"
+                  >
                     <div class="rn-view flex-1">
                       <h4 class="rn-text text-sm font-semibold"
                         >💼 英語学習マスター</h4
@@ -574,12 +617,14 @@
                         >優先度: 高</div
                       >
                     </div>
-                    <div class="rn-touchable text-gray-400">⋮</div>
+                    <button
+                      class="rn-touchable bg-success text-white text-xs font-bold py-1 px-3 rounded-lg ml-2"
+                      >達成</button
+                    >
                   </div>
-                </div>
-
-                <div class="rn-view bg-gray-50 rounded-xl p-4">
-                  <div class="rn-view flex-row justify-between items-start">
+                  <div
+                    class="rn-view bg-gray-50 rounded-xl p-4 flex-row items-center justify-between mb-2"
+                  >
                     <div class="rn-view flex-1">
                       <h4 class="rn-text text-sm font-semibold"
                         >🏃 健康的な生活習慣</h4
@@ -588,21 +633,41 @@
                         >優先度: 中</div
                       >
                     </div>
-                    <div class="rn-touchable text-gray-400">⋮</div>
+                    <button
+                      class="rn-touchable bg-success text-white text-xs font-bold py-1 px-3 rounded-lg ml-2"
+                      >達成</button
+                    >
                   </div>
                 </div>
-
-                <div class="rn-view bg-gray-50 rounded-xl p-4">
-                  <div class="rn-view flex-row justify-between items-start">
+                <!-- 達成済みゴールリスト -->
+                <div class="goal-list rn-view gap-3 mb-6" style="display: none">
+                  <div
+                    class="rn-view bg-success/10 rounded-xl p-4 flex-row items-center justify-between mb-2"
+                  >
                     <div class="rn-view flex-1">
-                      <h4 class="rn-text text-sm font-semibold"
-                        >💰 副業収入月10万円</h4
+                      <h4
+                        class="rn-text text-sm font-semibold line-through text-success"
+                        >✅ 資格試験合格 2024/03/15</h4
                       >
-                      <div class="rn-text text-xs text-gray-600 mt-1"
-                        >優先度: 低</div
+                      <div class="rn-text text-xs text-success mt-1"
+                        >期間: 74日 💪 ボトルネック5個解消</div
                       >
                     </div>
-                    <div class="rn-touchable text-gray-400">⋮</div>
+                    <span class="text-success text-lg ml-2">🏆</span>
+                  </div>
+                  <div
+                    class="rn-view bg-success/10 rounded-xl p-4 flex-row items-center justify-between mb-2"
+                  >
+                    <div class="rn-view flex-1">
+                      <h4
+                        class="rn-text text-sm font-semibold line-through text-success"
+                        >✅ 副業収入月5万円 2024/02/28</h4
+                      >
+                      <div class="rn-text text-xs text-success mt-1"
+                        >期間: 120日 🚀 ボトルネック8個解消</div
+                      >
+                    </div>
+                    <span class="text-success text-lg ml-2">🏆</span>
                   </div>
                 </div>
               </div>
@@ -832,6 +897,75 @@
                 >
                   作成
                 </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ゴール完了モーダル例を新規追加 -->
+      <div class="mb-8">
+        <h3 class="text-lg font-bold text-center mb-4"
+          >🎉 ゴール完了モーダル</h3
+        >
+        <div class="mobile-container">
+          <div class="status-bar">
+            <span>9:41</span>
+            <span>📶 📶 100%</span>
+          </div>
+          <div class="rn-view rn-safe-area bg-white flex-1">
+            <div class="rn-view bg-success p-4">
+              <h2 class="rn-text text-xl font-bold text-white"
+                >🎉 ゴール達成！</h2
+              >
+            </div>
+            <div class="rn-view rn-scroll-view flex-1 p-6">
+              <div class="rn-view items-center mb-4">
+                <div class="text-4xl mb-2">🏆</div>
+                <h3 class="rn-text text-lg font-bold text-success mb-2"
+                  >「英語学習マスター」達成！</h3
+                >
+                <div class="rn-text text-xs text-gray-600 mb-2"
+                  >開始日: 2024/01/01　達成日: 2024/03/15</div
+                >
+                <div class="rn-text text-xs text-gray-600 mb-2"
+                  >期間: 74日間　解決ボトルネック: 5個</div
+                >
+              </div>
+              <div class="rn-view mb-4">
+                <label class="rn-text text-sm text-secondary font-medium mb-1"
+                  >振り返り（任意）</label
+                >
+                <textarea
+                  class="rn-input h-16 resize-none"
+                  placeholder="このゴールで学んだことや次に活かせる経験を記録..."
+                ></textarea>
+              </div>
+              <div class="rn-view mb-4">
+                <label class="rn-text text-sm text-secondary font-medium mb-1"
+                  >評価</label
+                >
+                <div class="flex-row items-center gap-2">
+                  <span class="rn-text text-xs">難しさ:</span>
+                  <span>⭐⭐⭐⭐⭐</span>
+                  <span class="rn-text text-xs ml-4">満足度:</span>
+                  <span>⭐⭐⭐⭐⭐</span>
+                </div>
+              </div>
+              <div class="rn-view flex-row gap-3 mt-6">
+                <button
+                  class="rn-touchable flex-1 bg-primary text-secondary font-semibold py-3 px-4 rounded-xl text-sm text-center"
+                  >成果をシェア</button
+                >
+                <button
+                  class="rn-touchable flex-1 bg-success text-white font-semibold py-3 px-4 rounded-xl text-sm text-center"
+                  >次のゴールを設定</button
+                >
+              </div>
+              <div class="rn-view items-center mt-4">
+                <button class="rn-touchable text-secondary underline text-xs"
+                  >後で設定</button
+                >
               </div>
             </div>
           </div>

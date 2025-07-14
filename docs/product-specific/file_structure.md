@@ -144,32 +144,31 @@ components/
 │   │   ├── GoalList.tsx
 │   │   ├── __tests__/
 │   │   │   └── GoalList.test.tsx
-│   │   ├── GoalCard.tsx
+│   │   ├── AchievedGoalsList.tsx: 達成済みゴール一覧表示
+│   │   ├── GoalCard.tsx: ゴールカード（完了状態の見た目対応）
+│   │   ├── GoalPriorityPicker.tsx
 │   │   ├── __tests__/
-│   │   │   └── GoalCard.test.tsx
-│   │   └── GoalPriorityPicker.tsx
-│   │       └── __tests__/
-│   │           └── GoalPriorityPicker.test.tsx
-│   ├── dashboard/
-│   │   ├── StatsCard.tsx
-│   │   ├── __tests__/
-│   │   │   └── StatsCard.test.tsx
-│   │   ├── RecentActivity.tsx
-│   │   ├── __tests__/
-│   │   │   └── RecentActivity.test.tsx
-│   │   └── AchievementBadge.tsx
-│   │       └── __tests__/
-│   │           └── AchievementBadge.test.tsx
-│   └── actions/
-│       ├── ActionList.tsx
-│       ├── __tests__/
-│       │   └── ActionList.test.tsx
-│       ├── ActionItem.tsx
-│       ├── __tests__/
-│       │   └── ActionItem.test.tsx
-│       └── ActionCompletedModal.tsx
-│           └── __tests__/
-│               └── ActionCompletedModal.test.tsx
+│   │   │   └── GoalPriorityPicker.test.tsx
+│   │   ├── dashboard/
+│   │   │   ├── StatsCard.tsx
+│   │   │   ├── __tests__/
+│   │   │   │   └── StatsCard.test.tsx
+│   │   │   ├── RecentActivity.tsx
+│   │   │   ├── __tests__/
+│   │   │   │   └── RecentActivity.test.tsx
+│   │   │   └── AchievementBadge.tsx
+│   │   │       └── __tests__/
+│   │   │           └── AchievementBadge.test.tsx
+│   │   └── actions/
+│   │       ├── ActionList.tsx
+│   │       ├── __tests__/
+│   │       │   └── ActionList.test.tsx
+│   │       ├── ActionItem.tsx
+│   │       ├── __tests__/
+│   │       │   └── ActionItem.test.tsx
+│   │       └── ActionCompletedModal.tsx
+│   │           └── __tests__/
+│   │               └── ActionCompletedModal.test.tsx
 └── layout/                      # レイアウト関連
     ├── AppHeader.tsx
     ├── __tests__/

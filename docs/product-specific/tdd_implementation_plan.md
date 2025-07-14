@@ -177,7 +177,7 @@ Flow Finder の **TDD 実装計画** です。基本的な TDD 手法につい�
 | 3.5  | **UI/UX**    | ホーム画面の画面カタログ適用        | `app/(tabs)/index.tsx`   | [x]  |
 | 3.6  | **UI/UX**    | ゴール管理画面の画面カタログ適用    | `app/(tabs)/goals.tsx`   | [x]  |
 | 3.7  | **UI/UX**    | 設定画面の画面カタログ適用          | `app/(tabs)/settings.tsx`| [x]  |
-| 3.8  | **UI/UX**    | ゴール作成モーダルの画面カタログ適用| `app/modal/`             | [ ]  |
+| 3.8  | **UI/UX**    | ゴール作成モーダルの画面カタログ適用| `app/modal/`             | [x]  |
 | 3.9  | **Release**  | App Store/Google Play 登録準備      | `app.json`, `eas.json`   | [ ]  |
 | 3.10 | **Release**  | MVP 1段目リリース実行               | EAS Build & Submit       | [ ]  |
 
@@ -563,7 +563,7 @@ describe("Goal API", () => {
   - Week 1 完了: Task 1.1〜1.9（全て[x]）
   - Week 2 完了: Task 2.1〜2.33（全て[x]）
   - Week 3 残り: Task 3.5,3.7〜3.10（[ ]）
-  - **次の実装**: Task 3.8（ゴール作成モーダルの画面カタログ適用 - UI/UX Phase）が最優先
+  - **次の実装**: Task 3.9（App Store/Google Play 登録準備 - Release Phase）が最優先
 
 - **MVP 2段目（Week 4-6）**: Task 4.1〜6.10
   - 点検セッション機能（AI機能なし）、制限機能、プレミアム誘導UI

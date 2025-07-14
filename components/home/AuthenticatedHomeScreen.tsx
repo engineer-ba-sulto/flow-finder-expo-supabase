@@ -1,6 +1,5 @@
 import React from "react";
 import { RefreshControl, ScrollView, Text, View } from "react-native";
-import { Button } from "../../components/ui/Button";
 import { SimpleGoalCompletion } from "../ui/SimpleGoalCompletion";
 
 interface AuthenticatedHomeScreenProps {
@@ -78,16 +77,9 @@ const AuthenticatedHomeScreen: React.FC<AuthenticatedHomeScreenProps> = ({
                   💼 英語学習マスター
                 </Text>
               </View>
-              <Text className="text-xs text-gray-600 mb-2">
+              <Text className="text-xs text-gray-600">
                 優先度: 高
               </Text>
-              <View className="w-full bg-gray-200 rounded-full h-2">
-                <View
-                  className="bg-[#4CAF50] h-2 rounded-full"
-                  style={{ width: '60%' }}
-                />
-              </View>
-              <Text className="text-xs text-gray-600 mt-1">60%</Text>
             </View>
           </View>
 

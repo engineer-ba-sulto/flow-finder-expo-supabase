@@ -28,15 +28,7 @@ const getPriorityText = (priority: number) => {
   return priorityMap[priority] || "中";
 };
 
-const getProgressPercentage = (goal: any) => {
-  // MVP1段目では固定値を返す（MVP2段目以降で実装）
-  const progressMap: { [key: string]: number } = {
-    "英語学習マスター": 60,
-    "健康的な生活習慣": 30,
-    "副業収入月10万円": 10,
-  };
-  return progressMap[goal.title] || 0;
-};
+// MVP1では達成度表示を使用しないため、関数を削除
 
 /**
  * ゴール管理画面コンポーネント（段階的復旧中）
@@ -389,7 +381,7 @@ const Goals: React.FC = () => {
                       {getGoalIcon(goal.category)} {goal.title || "無題のゴール"}
                     </Text>
                     <Text className="text-xs text-gray-600 mt-1">
-                      優先度: {getPriorityText(goal.priority)} 📊 {getProgressPercentage(goal)}%
+                      優先度: {getPriorityText(goal.priority)}
                     </Text>
                   </View>
                   <Pressable 

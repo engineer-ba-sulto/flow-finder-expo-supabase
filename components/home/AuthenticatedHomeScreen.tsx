@@ -2,7 +2,6 @@ import React from "react";
 import { RefreshControl, ScrollView, Text, View } from "react-native";
 import { Button } from "../../components/ui/Button";
 import { SimpleGoalCompletion } from "../ui/SimpleGoalCompletion";
-import { APP_DESCRIPTION } from "../../constants/app";
 
 interface AuthenticatedHomeScreenProps {
   goalData: any;
@@ -21,120 +20,113 @@ const AuthenticatedHomeScreen: React.FC<AuthenticatedHomeScreenProps> = ({
   router,
   user,
 }) => (
-  <ScrollView
-    className="flex-1 bg-gray-50"
-    showsVerticalScrollIndicator={false}
-    refreshControl={
-      <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-    }
-    accessibilityLabel="ホーム画面"
-  >
-    <View className="flex-1 px-4 pt-8 pb-6">
-      {/* ウェルカムセクション */}
-      <View className="bg-white rounded-xl p-6 mb-6 shadow-sm">
-        <Text
-          className="text-2xl font-bold text-center mb-2 text-gray-800"
-          accessibilityRole="header"
-          accessibilityLabel="Flow Finderへようこそ"
-        >
-          Flow Finderへようこそ
-        </Text>
-        <Text
-          className="text-lg text-center mb-4 text-[#FFC400] font-medium"
-          accessibilityLabel="おかえりなさい"
-        >
-          おかえりなさい
-        </Text>
-        {/* アプリ説明 */}
-        <Text
-          className="text-center text-gray-600 leading-6"
-          accessibilityLabel={APP_DESCRIPTION}
-        >
-          {APP_DESCRIPTION}
-        </Text>
-      </View>
-      {/* ゴール数表示セクション */}
-      <View className="bg-white rounded-xl p-6 mb-6 shadow-sm">
-        <Text
-          className="text-lg font-semibold text-center mb-3 text-gray-800"
-          accessibilityRole="header"
-        >
-          あなたの進捗
-        </Text>
-        {goalData.error ? (
-          <View className="items-center">
-            <Text
-              className="text-red-500 text-center mb-3"
-              accessibilityLabel={`ゴール数取得エラー: ${goalData.error}`}
-            >
-              {goalData.error}
-            </Text>
-            <Button
-              variant="secondary"
-              onPress={fetchGoalCount}
-              accessibilityLabel="ゴール数を再取得"
-              accessibilityHint="ゴール数の取得を再試行します"
-            >
-              再取得
-            </Button>
-          </View>
-        ) : (
-          <View className="bg-blue-50 rounded-lg p-4 items-center">
-            <Text
-              className="text-2xl font-bold text-blue-600 mb-1"
-              accessibilityLabel={`登録ゴール数: ${goalData.count}件`}
-            >
-              {goalData.loading ? "..." : goalData.count}
-            </Text>
-            <Text
-              className="text-blue-600 font-medium"
-              accessibilityLabel="ゴール数の単位"
-            >
-              {goalData.loading ? "読み込み中" : "登録ゴール"}
-            </Text>
-          </View>
-        )}
-      </View>
-      {/* 簡易ゴール完了機能セクション */}
-      <View className="bg-white rounded-xl p-6 mb-6 shadow-sm">
-        <SimpleGoalCompletion
-          goalId="current-goal"
-          isCompleted={false}
-          onToggle={(goalId) => {
-            console.log('ゴール完了切り替え:', goalId);
-            // MVP2段目で実際の完了機能を実装予定
-          }}
-        />
-      </View>
-
-      {/* クイックアクションセクション */}
-      <View className="bg-white rounded-xl p-6 shadow-sm">
-        <Text
-          className="text-lg font-semibold mb-4 text-gray-800"
-          accessibilityRole="header"
-        >
-          クイックアクション
-        </Text>
-        <Button
-          variant="primary"
-          onPress={() => router.push("/(tabs)/goals")}
-          accessibilityLabel="ゴール一覧に移動"
-          accessibilityHint="登録されているゴールの一覧を確認できます"
-          className="mb-3"
-        >
-          ゴールを確認
-        </Button>
-        <Button
-          variant="secondary"
-          onPress={() => router.push("/(tabs)/goals")}
-          accessibilityLabel="新しいゴールを追加"
-          accessibilityHint="新しいゴールの登録を開始します"
-        >
-          新しいゴールを追加
-        </Button>
-      </View>
+  <View className="flex-1 bg-white">
+    {/* ヘッダー */}
+    <View className="bg-[#FFC400] p-4">
+      <Text
+        className="text-xl font-bold text-[#212121]"
+        accessibilityRole="header"
+        accessibilityLabel="ホーム"
+      >
+        🏠 ホーム
+      </Text>
     </View>
-  </ScrollView>
+
+    <ScrollView
+      className="flex-1"
+      showsVerticalScrollIndicator={false}
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+      }
+      accessibilityLabel="ホーム画面"
+    >
+      <View className="flex-1 p-6">
+        {/* 挨拶セクション */}
+        <View className="mb-4">
+          <Text
+            className="text-lg font-bold text-[#212121]"
+            accessibilityLabel="挨拶メッセージ"
+          >
+            👋 おはよう、{user?.email?.split('@')[0] || 'ユーザー'}さん
+          </Text>
+        </View>
+
+        {/* 今日のゴール */}
+        <View className="mb-6">
+          <Text
+            className="text-sm font-semibold text-[#212121] mb-2"
+            accessibilityRole="header"
+          >
+            🎯 今日のゴール
+          </Text>
+          <View className="bg-gray-50 rounded-xl p-4">
+            <View className="flex-row items-center justify-between mb-2">
+              <Text
+                className="text-sm font-medium"
+                accessibilityLabel="ゴールタイトル"
+              >
+                💼 英語学習マスター
+              </Text>
+            </View>
+            <Text
+              className="text-xs text-gray-600 mb-2"
+              accessibilityLabel="優先度"
+            >
+              優先度: 高
+            </Text>
+            <View className="w-full bg-gray-200 rounded-full h-2">
+              <View
+                className="bg-[#4CAF50] h-2 rounded-full"
+                style={{ width: '60%' }}
+                accessibilityLabel="進捗60%"
+              />
+            </View>
+            <Text className="text-xs text-gray-600 mt-1">60%</Text>
+          </View>
+        </View>
+
+        {/* MVP1段目: 簡易完了機能ボタン */}
+        <View className="mb-6">
+          <Text
+            className="text-sm font-semibold text-[#212121] mb-2"
+            accessibilityRole="header"
+          >
+            ✅ ゴール管理
+          </Text>
+          <Button
+            variant="success"
+            onPress={() => {
+              console.log('ゴール完了マーク');
+              // MVP2段目でアクション機能追加予定
+            }}
+            accessibilityLabel="ゴール完了マーク"
+            accessibilityHint="ゴールの完了をマークします"
+            className="mb-2"
+          >
+            ゴール完了マーク
+          </Button>
+          <Text className="text-xs text-gray-600 text-center">
+            ※ MVP2段目でアクション機能追加予定
+          </Text>
+        </View>
+
+        {/* MVP2段目予告エリア */}
+        <View className="bg-blue-50 p-4 rounded-xl">
+          <Text
+            className="text-xs text-blue-800 font-medium mb-1"
+            accessibilityLabel="今後の機能予告"
+          >
+            🚀 MVP 2段目で追加予定
+          </Text>
+          <Text className="text-xs text-blue-600">
+            • 点検セッション機能{'\n'}
+            • アクションリスト管理{'\n'}
+            • 進捗ダッシュボード
+          </Text>
+        </View>
+      </View>
+    </ScrollView>
+  </View>
 );
 
 export default AuthenticatedHomeScreen;

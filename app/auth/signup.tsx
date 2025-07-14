@@ -8,10 +8,10 @@ import {
   View,
 } from "react-native";
 import { Input } from "../../components/ui/Input";
+import { BRAND_COLOR } from "../../constants/app";
 import { useAuth } from "../../hooks/useAuth";
 
 // 定数定義
-const BRAND_COLOR = "#FFC400";
 const EMAIL_MAX_LENGTH = 255;
 const PASSWORD_MIN_LENGTH = 6;
 const PASSWORD_MAX_LENGTH = 128;
@@ -204,7 +204,7 @@ export default function Signup() {
       accessibilityLabel="アカウント作成画面"
     >
       {/* ヘッダー部分 - 画面カタログに従ったデザイン */}
-      <View className="bg-[#FFC400] p-4">
+      <View className={`bg-[${BRAND_COLOR}] p-4`}>
         <Text
           className="text-xl font-bold text-[#212121]"
           accessibilityRole="text"
@@ -281,7 +281,7 @@ export default function Signup() {
                   }
                   accessibilityState={{ expanded: showPassword }}
                 >
-                  <Text className="text-xs text-[#FFC400] font-medium">
+                  <Text className={`text-xs text-[${BRAND_COLOR}] font-medium`}>
                     {showPassword ? "隠す" : "表示"}
                   </Text>
                 </Pressable>
@@ -317,7 +317,7 @@ export default function Signup() {
                   }
                   accessibilityState={{ expanded: showConfirmPassword }}
                 >
-                  <Text className="text-xs text-[#FFC400] font-medium">
+                  <Text className={`text-xs text-[${BRAND_COLOR}] font-medium`}>
                     {showConfirmPassword ? "隠す" : "表示"}
                   </Text>
                 </Pressable>
@@ -337,7 +337,7 @@ export default function Signup() {
                 <View
                   className={`w-5 h-5 rounded border-2 mr-3 mt-0.5 ${
                     agreedToTerms
-                      ? "bg-[#FFC400] border-[#FFC400]"
+                      ? `bg-[${BRAND_COLOR}] border-[${BRAND_COLOR}]`
                       : "bg-white border-gray-300"
                   } items-center justify-center`}
                 >
@@ -347,9 +347,11 @@ export default function Signup() {
                 </View>
                 <View className="flex-1">
                   <Text className="text-gray-700 text-sm leading-5">
-                    <Text className="text-[#FFC400] underline">利用規約</Text>
+                    <Text className={`text-[${BRAND_COLOR}] underline`}>
+                      利用規約
+                    </Text>
                     <Text>と</Text>
-                    <Text className="text-[#FFC400] underline">
+                    <Text className={`text-[${BRAND_COLOR}] underline`}>
                       プライバシーポリシー
                     </Text>
                     <Text>に同意する</Text>
@@ -387,7 +389,7 @@ export default function Signup() {
           <Pressable
             onPress={handleSignup}
             disabled={isLoading}
-            className={`w-full bg-[#FFC400] text-[#212121] font-semibold py-3 px-4 rounded-xl ${
+            className={`w-full bg-[${BRAND_COLOR}] text-[#212121] font-semibold py-3 px-4 rounded-xl ${
               isLoading ? "opacity-50" : ""
             }`}
             accessibilityRole="button"

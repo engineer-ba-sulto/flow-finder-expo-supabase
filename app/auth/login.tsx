@@ -8,6 +8,7 @@ import {
   View,
 } from "react-native";
 import { Input } from "../../components/ui/Input";
+import { BRAND_COLOR } from "../../constants/app";
 import { useAuth } from "../../hooks/useAuth";
 
 export default function Login() {
@@ -99,7 +100,7 @@ export default function Login() {
   return (
     <SafeAreaView className="flex-1 bg-white" accessibilityLabel="ログイン画面">
       {/* ヘッダー部分 - 画面カタログに従ったデザイン */}
-      <View className="bg-[#FFC400] p-4">
+      <View className={`bg-[${BRAND_COLOR}] p-4`}>
         <Text
           className="text-xl font-bold text-[#212121]"
           accessibilityRole="text"
@@ -174,7 +175,7 @@ export default function Login() {
                   expanded: showPassword,
                 }}
               >
-                <Text className="text-xs text-[#FFC400] font-medium">
+                <Text className={`text-xs text-[${BRAND_COLOR}] font-medium`}>
                   {showPassword ? "隠す" : "表示"}
                 </Text>
               </Pressable>
@@ -200,7 +201,7 @@ export default function Login() {
           <Pressable
             onPress={handleLogin}
             disabled={isLoading}
-            className={`w-full bg-[#FFC400] text-[#212121] font-semibold py-3 px-4 rounded-xl ${
+            className={`w-full bg-[${BRAND_COLOR}] text-[#212121] font-semibold py-3 px-4 rounded-xl ${
               isLoading ? "opacity-50" : ""
             }`}
             accessibilityRole="button"

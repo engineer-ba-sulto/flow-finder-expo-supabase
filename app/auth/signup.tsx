@@ -1,7 +1,6 @@
-import React, { useState, useCallback, useMemo } from "react";
+import React, { useState, useCallback } from "react";
 import { Text, View, SafeAreaView, Pressable, ActivityIndicator } from "react-native";
 import { Link, useRouter } from "expo-router";
-import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { useAuth } from "../../hooks/useAuth";
 import { Input } from "../../components/ui/Input";
 
@@ -95,29 +94,7 @@ export default function Signup() {
     setAgreedToTerms(false);
   }, []);
 
-  // パスワード表示切り替えボタンコンポーネント
-  const PasswordToggleButton = useCallback(({ 
-    isVisible, 
-    onToggle, 
-    accessibilityLabel 
-  }: { 
-    isVisible: boolean; 
-    onToggle: () => void; 
-    accessibilityLabel: string;
-  }) => (
-    <Pressable
-      className="absolute right-3 top-3 p-1 rounded-md"
-      onPress={onToggle}
-      accessibilityLabel={accessibilityLabel}
-      accessibilityRole="button"
-      accessibilityHint={isVisible ? "パスワードを隠します" : "パスワードを表示します"}
-      accessibilityState={{ expanded: isVisible }}
-    >
-      <Text className={`text-[${BRAND_COLOR}] font-medium text-sm`}>
-        {isVisible ? "隠す" : "表示"}
-      </Text>
-    </Pressable>
-  ), []);
+  // パスワード表示切り替えボタンコンポーネントは直接インラインで実装
 
   // メールアドレスバリデーション
   const validateEmail = useCallback((emailValue: string) => {
@@ -197,164 +174,160 @@ export default function Signup() {
 
   return (
     <SafeAreaView className="flex-1 bg-white" accessibilityLabel="アカウント作成画面">
-      {/* 戻るボタン */}
-      <View className="px-6 pt-4">
-        <Pressable
-          onPress={() => {
-            if (router.canGoBack()) {
-              router.back();
-            } else {
-              router.replace("/");
-            }
-          }}
-          className="flex-row items-center"
-          accessibilityRole="button"
-          accessibilityLabel="前の画面に戻る"
-          accessibilityHint="ホーム画面に戻ります"
-        >
-          <FontAwesome name="arrow-left" size={20} color="#666666" />
-          <Text className="ml-2 text-gray-600 text-base">戻る</Text>
-        </Pressable>
+      {/* ヘッダー部分 - 画面カタログに従ったデザイン */}
+      <View className="bg-[#FFC400] p-4">
+        <Text className="text-xl font-bold text-[#212121]" accessibilityRole="text">
+          📝 新規登録
+        </Text>
       </View>
       
-      <View className="flex-1 px-6 py-8 justify-center">
-        {/* ロゴ・アプリ名エリア */}
-        <View className="items-center mb-8">
-          <Text className={`text-3xl font-bold text-[${BRAND_COLOR}] mb-2`} accessibilityRole="text" accessibilityLabel="Flow Finder ロゴ">
-            Flow Finder
-          </Text>
-          <Text className="text-lg text-gray-600" accessibilityRole="text">
-            アカウント作成
-          </Text>
-        </View>
+      <View className="flex-1 p-6 justify-between">
+        <View>
 
-        {/* 成功メッセージ */}
-        {showSuccessMessage && (
-          <View className="bg-green-50 border border-green-200 rounded-md px-4 py-3 mb-6">
-            <Text className="text-green-700 text-sm font-medium text-center mb-1" accessibilityRole="alert" accessibilityLiveRegion="assertive">
-              {SUCCESS_MESSAGES.EMAIL_SENT}
-            </Text>
-            <Text className="text-green-600 text-sm text-center">
-              {SUCCESS_MESSAGES.ACTIVATION_INSTRUCTION}
-            </Text>
-          </View>
-        )}
-
-        {/* フォームエリア */}
-        <View className="mb-6" accessibilityLabel="アカウント作成フォーム">
-          {/* メールアドレス入力 */}
-          <Input
-            placeholder="メールアドレス"
-            value={email}
-            onChangeText={setEmail}
-            keyboardType="email-address"
-            autoCapitalize="none"
-            autoComplete="email"
-            error={!!errors.email}
-            errorMessage={errors.email}
-            accessibilityLabel="メールアドレス入力"
-            accessibilityHint="使用するメールアドレスを入力してください"
-          />
-
-          {/* パスワード入力 */}
-          <View className="relative">
-            <Input
-              placeholder="パスワード"
-              value={password}
-              onChangeText={setPassword}
-              secureTextEntry={!showPassword}
-              autoCapitalize="none"
-              autoComplete="new-password"
-              error={!!errors.password}
-              errorMessage={errors.password}
-              accessibilityLabel="パスワード入力"
-              accessibilityHint="6文字以上のパスワードを入力してください"
-            />
-            <PasswordToggleButton
-              isVisible={showPassword}
-              onToggle={() => setShowPassword(!showPassword)}
-              accessibilityLabel="パスワード表示切り替え"
-            />
-          </View>
-
-          {/* パスワード確認入力 */}
-          <View className="relative">
-            <Input
-              placeholder="パスワード確認"
-              value={confirmPassword}
-              onChangeText={setConfirmPassword}
-              secureTextEntry={!showConfirmPassword}
-              autoCapitalize="none"
-              autoComplete="new-password"
-              error={!!errors.confirmPassword}
-              errorMessage={errors.confirmPassword}
-              accessibilityLabel="パスワード確認入力"
-              accessibilityHint="同じパスワードをもう一度入力してください"
-            />
-            <PasswordToggleButton
-              isVisible={showConfirmPassword}
-              onToggle={() => setShowConfirmPassword(!showConfirmPassword)}
-              accessibilityLabel="パスワード確認表示切り替え"
-            />
-          </View>
-
-          {/* 利用規約同意チェックボックス */}
-          <View className="mb-4">
-            <Pressable
-              className="flex-row items-start py-3"
-              onPress={() => setAgreedToTerms(!agreedToTerms)}
-              accessibilityLabel="利用規約とプライバシーポリシーに同意"
-              accessibilityRole="checkbox"
-              accessibilityState={{ checked: agreedToTerms }}
-              accessibilityHint="タップして利用規約とプライバシーポリシーへの同意を切り替えます"
-            >
-              <View className={`w-5 h-5 rounded border-2 mr-3 mt-0.5 ${
-                agreedToTerms 
-                  ? `bg-[${BRAND_COLOR}] border-[${BRAND_COLOR}]` 
-                  : "bg-white border-gray-300"
-              } items-center justify-center`}>
-                {agreedToTerms && (
-                  <Text className="text-white text-xs font-bold">✓</Text>
-                )}
-              </View>
-              <View className="flex-1">
-                <Text className="text-gray-700 text-sm leading-5">
-                  <Link href="/terms" asChild>
-                    <Pressable accessibilityRole="link">
-                      <Text className={`text-[${BRAND_COLOR}] underline`}>利用規約</Text>
-                    </Pressable>
-                  </Link>
-                  <Text>と</Text>
-                  <Link href="/privacy" asChild>
-                    <Pressable accessibilityRole="link">
-                      <Text className={`text-[${BRAND_COLOR}] underline`}>プライバシーポリシー</Text>
-                    </Pressable>
-                  </Link>
-                  <Text>に同意する</Text>
-                </Text>
-              </View>
-            </Pressable>
-            {errors.terms && (
-              <Text className="text-red-500 text-sm mt-1" accessibilityRole="alert">
-                {errors.terms}
+          {/* 成功メッセージ */}
+          {showSuccessMessage && (
+            <View className="bg-green-50 border border-green-200 rounded-md px-4 py-3 mb-6">
+              <Text className="text-green-700 text-sm font-medium text-center mb-1" accessibilityRole="alert" accessibilityLiveRegion="assertive">
+                {SUCCESS_MESSAGES.EMAIL_SENT}
               </Text>
-            )}
-          </View>
-
-          {/* 一般的なエラーメッセージ */}
-          {errors.general && (
-            <View className="bg-red-50 border border-red-200 rounded-md px-3 py-2 mb-4">
-              <Text className="text-red-600 text-sm text-center" accessibilityRole="alert" accessibilityLiveRegion="assertive">
-                {errors.general}
+              <Text className="text-green-600 text-sm text-center">
+                {SUCCESS_MESSAGES.ACTIVATION_INSTRUCTION}
               </Text>
             </View>
           )}
 
+          {/* フォームエリア */}
+          <View className="gap-4" accessibilityLabel="アカウント作成フォーム">
+            {/* メールアドレス入力 */}
+            <View>
+              <Text className="text-sm text-[#212121] font-medium mb-1">メールアドレス</Text>
+              <Input
+                placeholder="example@email.com"
+                value={email}
+                onChangeText={setEmail}
+                keyboardType="email-address"
+                autoCapitalize="none"
+                autoComplete="email"
+                error={!!errors.email}
+                errorMessage={errors.email}
+                accessibilityLabel="メールアドレス入力"
+                accessibilityHint="使用するメールアドレスを入力してください"
+              />
+            </View>
+
+            {/* パスワード入力 */}
+            <View className="relative">
+              <Text className="text-sm text-[#212121] font-medium mb-1">パスワード</Text>
+              <Input
+                placeholder="••••••••••••"
+                value={password}
+                onChangeText={setPassword}
+                secureTextEntry={!showPassword}
+                autoCapitalize="none"
+                autoComplete="new-password"
+                error={!!errors.password}
+                errorMessage={errors.password}
+                accessibilityLabel="パスワード入力"
+                accessibilityHint="6文字以上のパスワードを入力してください"
+              />
+              <View className="absolute right-3 top-8 p-1">
+                <Pressable
+                  onPress={() => setShowPassword(!showPassword)}
+                  accessibilityLabel="パスワード表示切り替え"
+                  accessibilityRole="button"
+                  accessibilityHint={showPassword ? "パスワードを隠します" : "パスワードを表示します"}
+                  accessibilityState={{ expanded: showPassword }}
+                >
+                  <Text className="text-xs text-[#FFC400] font-medium">
+                    {showPassword ? "隠す" : "表示"}
+                  </Text>
+                </Pressable>
+              </View>
+            </View>
+
+            {/* パスワード確認入力 */}
+            <View className="relative">
+              <Text className="text-sm text-[#212121] font-medium mb-1">パスワード確認</Text>
+              <Input
+                placeholder="••••••••••••"
+                value={confirmPassword}
+                onChangeText={setConfirmPassword}
+                secureTextEntry={!showConfirmPassword}
+                autoCapitalize="none"
+                autoComplete="new-password"
+                error={!!errors.confirmPassword}
+                errorMessage={errors.confirmPassword}
+                accessibilityLabel="パスワード確認入力"
+                accessibilityHint="同じパスワードをもう一度入力してください"
+              />
+              <View className="absolute right-3 top-8 p-1">
+                <Pressable
+                  onPress={() => setShowConfirmPassword(!showConfirmPassword)}
+                  accessibilityLabel="パスワード確認表示切り替え"
+                  accessibilityRole="button"
+                  accessibilityHint={showConfirmPassword ? "パスワードを隠します" : "パスワードを表示します"}
+                  accessibilityState={{ expanded: showConfirmPassword }}
+                >
+                  <Text className="text-xs text-[#FFC400] font-medium">
+                    {showConfirmPassword ? "隠す" : "表示"}
+                  </Text>
+                </Pressable>
+              </View>
+            </View>
+
+            {/* 利用規約同意チェックボックス */}
+            <View className="mb-4">
+              <Pressable
+                className="flex-row items-start py-3"
+                onPress={() => setAgreedToTerms(!agreedToTerms)}
+                accessibilityLabel="利用規約とプライバシーポリシーに同意"
+                accessibilityRole="checkbox"
+                accessibilityState={{ checked: agreedToTerms }}
+                accessibilityHint="タップして利用規約とプライバシーポリシーへの同意を切り替えます"
+              >
+                <View className={`w-5 h-5 rounded border-2 mr-3 mt-0.5 ${
+                  agreedToTerms 
+                    ? "bg-[#FFC400] border-[#FFC400]" 
+                    : "bg-white border-gray-300"
+                } items-center justify-center`}>
+                  {agreedToTerms && (
+                    <Text className="text-white text-xs font-bold">✓</Text>
+                  )}
+                </View>
+                <View className="flex-1">
+                  <Text className="text-gray-700 text-sm leading-5">
+                    <Text className="text-[#FFC400] underline">利用規約</Text>
+                    <Text>と</Text>
+                    <Text className="text-[#FFC400] underline">プライバシーポリシー</Text>
+                    <Text>に同意する</Text>
+                  </Text>
+                </View>
+              </Pressable>
+              {errors.terms && (
+                <Text className="text-red-500 text-sm mt-1" accessibilityRole="alert">
+                  {errors.terms}
+                </Text>
+              )}
+            </View>
+
+            {/* 一般的なエラーメッセージ */}
+            {errors.general && (
+              <View className="bg-red-50 border border-red-200 rounded-md px-3 py-2">
+                <Text className="text-red-600 text-sm text-center" accessibilityRole="alert" accessibilityLiveRegion="assertive">
+                  {errors.general}
+                </Text>
+              </View>
+            )}
+          </View>
+        </View>
+
+        {/* ボタンエリア */}
+        <View className="gap-3 mt-6">
           {/* サインアップボタン */}
           <Pressable
             onPress={handleSignup}
             disabled={isLoading}
-            className={`bg-[#FFC400] px-4 py-3 rounded-lg mb-4 ${isLoading ? 'opacity-50' : ''}`}
+            className={`w-full bg-[#FFC400] text-[#212121] font-semibold py-3 px-4 rounded-xl ${isLoading ? 'opacity-50' : ''}`}
             accessibilityRole="button"
             accessibilityLabel={isLoading ? "アカウント作成処理中" : "アカウント作成ボタン"}
             accessibilityHint={isLoading ? "アカウント作成処理を実行中です" : "タップしてアカウントを作成します"}
@@ -367,35 +340,37 @@ export default function Signup() {
               {isLoading && (
                 <ActivityIndicator 
                   size="small" 
-                  color="#000000" 
+                  color="#212121" 
                   className="mr-2" 
                   accessibilityLabel="ローディング中"
                 />
               )}
-              <Text className="text-black font-medium text-center">
+              <Text className="text-[#212121] font-semibold text-sm text-center">
                 {isLoading ? "アカウント作成中..." : "アカウントを作成する"}
               </Text>
             </View>
           </Pressable>
-        </View>
 
-        {/* ログインリンク */}
-        <View className="items-center" accessibilityLabel="ログイン">
-          <Text className="text-gray-600 mb-2 text-center" accessibilityRole="text">
-            すでにアカウントをお持ちの方
-          </Text>
+          {/* ログインボタン */}
           <Link href="/auth/login" asChild>
             <Pressable 
               accessibilityRole="link"
               accessibilityLabel="ログインページに移動"
               accessibilityHint="既存のアカウントでログインするページに移動します"
-              className="px-4 py-2 rounded-md"
+              className="w-full border border-gray-300 text-[#212121] font-semibold py-3 px-4 rounded-xl"
             >
-              <Text className={`text-[${BRAND_COLOR}] font-medium underline text-center`}>
+              <Text className="text-[#212121] font-semibold text-sm text-center">
                 ログイン
               </Text>
             </Pressable>
           </Link>
+          
+          {/* パスワードを忘れた */}
+          <View className="items-center">
+            <Pressable className="text-[#212121] underline text-xs">
+              <Text className="text-[#212121] underline text-xs">パスワードをお忘れですか？</Text>
+            </Pressable>
+          </View>
         </View>
       </View>
     </SafeAreaView>

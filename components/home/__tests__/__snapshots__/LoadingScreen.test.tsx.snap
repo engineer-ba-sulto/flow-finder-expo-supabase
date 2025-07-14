@@ -1,0 +1,61 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`LoadingScreen アクセシビリティ アクセシビリティロールが正しく設定されている 1`] = `
+<View
+  accessibilityLabel="アプリを読み込み中です"
+  accessibilityRole="text"
+  className="flex-1 justify-center items-center bg-white"
+>
+  <Text
+    accessibilityLabel="読み込み中です"
+    className="text-lg"
+  >
+    読み込み中...
+  </Text>
+</View>
+`;
+
+exports[`LoadingScreen レイアウトとスタイル flex-1クラスが適用されている 1`] = `
+<View
+  accessibilityLabel="アプリを読み込み中です"
+  accessibilityRole="text"
+  className="flex-1 justify-center items-center bg-white"
+>
+  <Text
+    accessibilityLabel="読み込み中です"
+    className="text-lg"
+  >
+    読み込み中...
+  </Text>
+</View>
+`;
+
+exports[`LoadingScreen レイアウトとスタイル 背景色が白色に設定されている 1`] = `
+<View
+  accessibilityLabel="アプリを読み込み中です"
+  accessibilityRole="text"
+  className="flex-1 justify-center items-center bg-white"
+>
+  <Text
+    accessibilityLabel="読み込み中です"
+    className="text-lg"
+  >
+    読み込み中...
+  </Text>
+</View>
+`;
+
+exports[`LoadingScreen 基本表示 適切な構造でレンダリングされる 1`] = `
+<View
+  accessibilityLabel="アプリを読み込み中です"
+  accessibilityRole="text"
+  className="flex-1 justify-center items-center bg-white"
+>
+  <Text
+    accessibilityLabel="読み込み中です"
+    className="text-lg"
+  >
+    読み込み中...
+  </Text>
+</View>
+`;

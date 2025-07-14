@@ -1,6 +1,7 @@
 import React from "react";
 import { RefreshControl, ScrollView, Text, View } from "react-native";
 import { Button } from "../../components/ui/Button";
+import { SimpleGoalCompletion } from "../ui/SimpleGoalCompletion";
 import { APP_DESCRIPTION } from "../../constants/app";
 
 interface AuthenticatedHomeScreenProps {
@@ -94,6 +95,18 @@ const AuthenticatedHomeScreen: React.FC<AuthenticatedHomeScreenProps> = ({
           </View>
         )}
       </View>
+      {/* 簡易ゴール完了機能セクション */}
+      <View className="bg-white rounded-xl p-6 mb-6 shadow-sm">
+        <SimpleGoalCompletion
+          goalId="current-goal"
+          isCompleted={false}
+          onToggle={(goalId) => {
+            console.log('ゴール完了切り替え:', goalId);
+            // MVP2段目で実際の完了機能を実装予定
+          }}
+        />
+      </View>
+
       {/* クイックアクションセクション */}
       <View className="bg-white rounded-xl p-6 shadow-sm">
         <Text

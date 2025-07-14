@@ -1,0 +1,275 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`UnauthenticatedHomeScreen アクセシビリティ ヘッダーロールが正しく設定されている 1`] = `
+<RCTScrollView
+  accessibilityLabel="ログイン案内画面"
+  className="flex-1 bg-gray-50"
+  showsVerticalScrollIndicator={false}
+>
+  <View>
+    <View
+      className="flex-1 px-4 pt-12 pb-6"
+    >
+      <View
+        className="bg-white rounded-xl p-6 mb-6 shadow-sm"
+      >
+        <Text
+          accessibilityLabel="Flow Finderへようこそ"
+          accessibilityRole="header"
+          className="text-3xl font-bold text-center mb-4 text-gray-800"
+        >
+          Flow Finderへようこそ
+        </Text>
+        <Text
+          accessibilityLabel="あなたの成長を妨げる「見えない壁」を見つけ、壊すためのパーソナルコーチング アプリ"
+          className="text-center text-gray-600 mb-6 leading-6 text-base"
+        >
+          あなたの成長を妨げる「見えない壁」を見つけ、壊すためのパーソナルコーチング アプリ
+        </Text>
+        <View
+          className="bg-blue-50 rounded-lg p-4"
+        >
+          <Text
+            accessibilityLabel="成長の障壁を特定し、具体的な解決策を提案するパーソナルコーチングアプリです"
+            className="text-center text-blue-700 font-medium"
+          >
+            成長の障壁を特定し、具体的な解決策を提案する
+            
+
+            パーソナルコーチングアプリです
+          </Text>
+        </View>
+      </View>
+      <View
+        className="bg-white rounded-xl p-6 shadow-sm"
+      >
+        <Text
+          accessibilityRole="header"
+          className="text-xl font-semibold text-center mb-6 text-gray-800"
+        >
+          ログインして始めましょう
+        </Text>
+        <View
+          accessibilityState={
+            {
+              "busy": undefined,
+              "checked": undefined,
+              "disabled": undefined,
+              "expanded": undefined,
+              "selected": undefined,
+            }
+          }
+          accessibilityValue={
+            {
+              "max": undefined,
+              "min": undefined,
+              "now": undefined,
+              "text": undefined,
+            }
+          }
+          accessible={true}
+          collapsable={false}
+          focusable={true}
+          onClick={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            {
+              "opacity": 1,
+            }
+          }
+        >
+          <Text>
+            ログイン
+          </Text>
+        </View>
+        <View
+          accessibilityState={
+            {
+              "busy": undefined,
+              "checked": undefined,
+              "disabled": undefined,
+              "expanded": undefined,
+              "selected": undefined,
+            }
+          }
+          accessibilityValue={
+            {
+              "max": undefined,
+              "min": undefined,
+              "now": undefined,
+              "text": undefined,
+            }
+          }
+          accessible={true}
+          collapsable={false}
+          focusable={true}
+          onClick={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            {
+              "opacity": 1,
+            }
+          }
+        >
+          <Text>
+            新規登録
+          </Text>
+        </View>
+        <Text
+          accessibilityLabel="無料で始められます"
+          className="text-center text-gray-500 text-sm mt-4"
+        >
+          無料で始められます
+        </Text>
+      </View>
+    </View>
+  </View>
+</RCTScrollView>
+`;
+
+exports[`UnauthenticatedHomeScreen レイアウトとスタイル ScrollViewが正しく設定されている 1`] = `
+<RCTScrollView
+  accessibilityLabel="ログイン案内画面"
+  className="flex-1 bg-gray-50"
+  showsVerticalScrollIndicator={false}
+>
+  <View>
+    <View
+      className="flex-1 px-4 pt-12 pb-6"
+    >
+      <View
+        className="bg-white rounded-xl p-6 mb-6 shadow-sm"
+      >
+        <Text
+          accessibilityLabel="Flow Finderへようこそ"
+          accessibilityRole="header"
+          className="text-3xl font-bold text-center mb-4 text-gray-800"
+        >
+          Flow Finderへようこそ
+        </Text>
+        <Text
+          accessibilityLabel="あなたの成長を妨げる「見えない壁」を見つけ、壊すためのパーソナルコーチング アプリ"
+          className="text-center text-gray-600 mb-6 leading-6 text-base"
+        >
+          あなたの成長を妨げる「見えない壁」を見つけ、壊すためのパーソナルコーチング アプリ
+        </Text>
+        <View
+          className="bg-blue-50 rounded-lg p-4"
+        >
+          <Text
+            accessibilityLabel="成長の障壁を特定し、具体的な解決策を提案するパーソナルコーチングアプリです"
+            className="text-center text-blue-700 font-medium"
+          >
+            成長の障壁を特定し、具体的な解決策を提案する
+            
+
+            パーソナルコーチングアプリです
+          </Text>
+        </View>
+      </View>
+      <View
+        className="bg-white rounded-xl p-6 shadow-sm"
+      >
+        <Text
+          accessibilityRole="header"
+          className="text-xl font-semibold text-center mb-6 text-gray-800"
+        >
+          ログインして始めましょう
+        </Text>
+        <View
+          accessibilityState={
+            {
+              "busy": undefined,
+              "checked": undefined,
+              "disabled": undefined,
+              "expanded": undefined,
+              "selected": undefined,
+            }
+          }
+          accessibilityValue={
+            {
+              "max": undefined,
+              "min": undefined,
+              "now": undefined,
+              "text": undefined,
+            }
+          }
+          accessible={true}
+          collapsable={false}
+          focusable={true}
+          onClick={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            {
+              "opacity": 1,
+            }
+          }
+        >
+          <Text>
+            ログイン
+          </Text>
+        </View>
+        <View
+          accessibilityState={
+            {
+              "busy": undefined,
+              "checked": undefined,
+              "disabled": undefined,
+              "expanded": undefined,
+              "selected": undefined,
+            }
+          }
+          accessibilityValue={
+            {
+              "max": undefined,
+              "min": undefined,
+              "now": undefined,
+              "text": undefined,
+            }
+          }
+          accessible={true}
+          collapsable={false}
+          focusable={true}
+          onClick={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            {
+              "opacity": 1,
+            }
+          }
+        >
+          <Text>
+            新規登録
+          </Text>
+        </View>
+        <Text
+          accessibilityLabel="無料で始められます"
+          className="text-center text-gray-500 text-sm mt-4"
+        >
+          無料で始められます
+        </Text>
+      </View>
+    </View>
+  </View>
+</RCTScrollView>
+`;

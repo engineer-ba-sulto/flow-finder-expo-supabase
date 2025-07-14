@@ -1,0 +1,147 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ErrorScreen アクセシビリティ ヘッダーロールが正しく設定されている 1`] = `
+<RCTScrollView
+  accessibilityLabel="エラー画面"
+  className="flex-1 bg-white"
+  contentContainerStyle={
+    {
+      "alignItems": "center",
+      "flexGrow": 1,
+      "justifyContent": "center",
+      "paddingHorizontal": 16,
+    }
+  }
+>
+  <View>
+    <View
+      className="items-center"
+    >
+      <Text
+        accessibilityLabel="エラーが発生しました"
+        accessibilityRole="header"
+        className="text-xl font-semibold text-red-500 mb-4 text-center"
+      >
+        エラーが発生しました
+      </Text>
+      <Text
+        accessibilityLabel="エラー詳細: テストエラーメッセージ"
+        className="text-center text-gray-600 mb-6 leading-6"
+      >
+        テストエラーメッセージ
+      </Text>
+      <View
+        accessibilityState={
+          {
+            "busy": undefined,
+            "checked": undefined,
+            "disabled": undefined,
+            "expanded": undefined,
+            "selected": undefined,
+          }
+        }
+        accessibilityValue={
+          {
+            "max": undefined,
+            "min": undefined,
+            "now": undefined,
+            "text": undefined,
+          }
+        }
+        accessible={true}
+        collapsable={false}
+        focusable={true}
+        onClick={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          {
+            "opacity": 1,
+          }
+        }
+      >
+        <Text>
+          再読み込み
+        </Text>
+      </View>
+    </View>
+  </View>
+</RCTScrollView>
+`;
+
+exports[`ErrorScreen レイアウトとスタイル ScrollViewが正しく設定されている 1`] = `
+<RCTScrollView
+  accessibilityLabel="エラー画面"
+  className="flex-1 bg-white"
+  contentContainerStyle={
+    {
+      "alignItems": "center",
+      "flexGrow": 1,
+      "justifyContent": "center",
+      "paddingHorizontal": 16,
+    }
+  }
+>
+  <View>
+    <View
+      className="items-center"
+    >
+      <Text
+        accessibilityLabel="エラーが発生しました"
+        accessibilityRole="header"
+        className="text-xl font-semibold text-red-500 mb-4 text-center"
+      >
+        エラーが発生しました
+      </Text>
+      <Text
+        accessibilityLabel="エラー詳細: テストエラーメッセージ"
+        className="text-center text-gray-600 mb-6 leading-6"
+      >
+        テストエラーメッセージ
+      </Text>
+      <View
+        accessibilityState={
+          {
+            "busy": undefined,
+            "checked": undefined,
+            "disabled": undefined,
+            "expanded": undefined,
+            "selected": undefined,
+          }
+        }
+        accessibilityValue={
+          {
+            "max": undefined,
+            "min": undefined,
+            "now": undefined,
+            "text": undefined,
+          }
+        }
+        accessible={true}
+        collapsable={false}
+        focusable={true}
+        onClick={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          {
+            "opacity": 1,
+          }
+        }
+      >
+        <Text>
+          再読み込み
+        </Text>
+      </View>
+    </View>
+  </View>
+</RCTScrollView>
+`;

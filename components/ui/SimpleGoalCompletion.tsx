@@ -38,11 +38,11 @@ export const SimpleGoalCompletion: React.FC<SimpleGoalCompletionProps> = React.m
   // Flow Finderブランドカラーを使用した動的スタイル
   const buttonBackgroundClass = isCompleted 
     ? 'bg-gray-400' // 完了済み: グレー
-    : 'bg-[#FFC400]'; // 未完了: Flow Finderプライマリカラー
+    : 'bg-[#4CAF50]'; // 未完了: Success色（緑）
 
   const buttonTextClass = isCompleted
     ? 'text-white' // 完了済み: 白文字
-    : 'text-[#212121]'; // 未完了: セカンダリカラー（黒系）
+    : 'text-white'; // 未完了: 白文字（緑背景に対して）
 
   // より詳細なアクセシビリティ情報
   const accessibilityLabel = `ゴール完了マーク。現在の状態: ${isCompleted ? '完了済み' : '未完了'}`;

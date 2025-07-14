@@ -58,8 +58,8 @@ const UnauthenticatedHomeScreen: React.FC<UnauthenticatedHomeScreenProps> = ({
             <View className="flex-row items-center">
               <Text className="text-lg mr-3">📊</Text>
               <View className="flex-1">
-                <Text className="text-xs font-medium">進捗管理</Text>
-                <Text className="text-xs text-gray-600">達成までの道のりを可視化</Text>
+                <Text className="text-xs font-medium">ゴール管理</Text>
+                <Text className="text-xs text-gray-600">目標を整理・管理</Text>
               </View>
             </View>
             <View className="flex-row items-center">
@@ -82,8 +82,8 @@ const UnauthenticatedHomeScreen: React.FC<UnauthenticatedHomeScreenProps> = ({
           </Text>
           <Text className="text-xs text-blue-600">
             • ゴール設定・管理{`\n`}
-            • 進捗の可視化{`\n`}
-            • シンプルな完了機能
+            • シンプルな管理{`\n`}
+            • 簡単な完了機能
           </Text>
         </View>
       </View>

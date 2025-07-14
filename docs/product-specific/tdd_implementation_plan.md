@@ -172,7 +172,7 @@ Flow Finder の **TDD 実装計画** です。基本的な TDD 手法につい�
 | ---- | ------------ | ----------------------------------- | ------------------------ | ---- |
 | 3.1  | **Red**      | 簡易ゴール完了機能のテスト作成      | `components/ui/`         | [x]  |
 | 3.2  | **Green**    | 簡易ゴール完了機能の実装            | `components/ui/`         | [x]  |
-| 3.3  | **Refactor** | 簡易ゴール完了機能の改善            | `components/ui/`         | [ ]  |
+| 3.3  | **Refactor** | 簡易ゴール完了機能の改善            | `components/ui/`         | [x]  |
 | 3.4  | **Release**  | App Store/Google Play 登録準備      | `app.json`, `eas.json`   | [ ]  |
 | 3.5  | **Release**  | MVP 1段目リリース実行               | EAS Build & Submit       | [ ]  |
 
@@ -537,7 +537,7 @@ describe("Goal API", () => {
   - Week 1 完了: Task 1.1〜1.9（全て[x]）
   - Week 2 完了: Task 2.1〜2.33（全て[x]）
   - Week 2-3 残り: Task 2.34, 3.0〜3.4（[ ]）
-  - **次の実装**: Task 3.3（簡易ゴール完了機能の改善 - Refactor Phase）が最優先
+  - **次の実装**: Task 3.4（App Store/Google Play 登録準備 - Release Phase）が最優先
 
 - **MVP 2段目（Week 4-6）**: Task 4.1〜6.10
   - 点検セッション機能（AI機能なし）、制限機能、プレミアム誘導UI

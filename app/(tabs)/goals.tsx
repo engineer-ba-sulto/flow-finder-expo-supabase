@@ -1,5 +1,5 @@
 import { Redirect } from "expo-router";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   ActivityIndicator,
   Pressable,
@@ -17,14 +17,21 @@ import { MvpNote } from "../../components/goals/MvpNote";
 import { useAuth } from "../../hooks/useAuth";
 import { useGoals } from "../../hooks/useGoals";
 import { getGoalIcon, getPriorityText } from "../../utils/goalHelpers";
+import { GoalStatus } from "../../types/goal.types";
 
 /**
  * ゴール管理画面コンポーネント（段階的復旧中）
  *
  * 安全にゴール管理機能を段階的に復旧しています。
  */
+// タブの種類を定義
+type TabType = 'uncompleted' | 'completed';
+
 export default function Goals() {
   const { isAuthenticated, loading: authLoading, user } = useAuth();
+  
+  // タブ状態管理
+  const [activeTab, setActiveTab] = useState<TabType>('uncompleted');
 
   // useGoalsフックでゴール管理ロジックを取得
   const {
@@ -51,6 +58,15 @@ export default function Goals() {
   useEffect(() => {
     fetchGoals();
   }, [fetchGoals]);
+  
+  // タブに応じてゴールをフィルタリング
+  const filteredGoals = goals.filter(goal => {
+    if (activeTab === 'uncompleted') {
+      return goal.status !== GoalStatus.COMPLETED;
+    } else {
+      return goal.status === GoalStatus.COMPLETED;
+    }
+  });
 
   // 認証状態の初期化中はローディング表示
   if (authLoading) {
@@ -86,10 +102,50 @@ export default function Goals() {
           </Pressable>
         </View>
 
+        {/* タブ切り替え */}
+        <View className="flex-row gap-2 mb-4">
+          <Pressable
+            onPress={() => setActiveTab('uncompleted')}
+            className={`flex-1 py-2 px-3 rounded-lg ${
+              activeTab === 'uncompleted' 
+                ? 'bg-primary' 
+                : 'bg-gray-200'
+            }`}
+            accessibilityRole="button"
+            testID="uncompleted-tab"
+          >
+            <Text className={`text-sm font-semibold text-center ${
+              activeTab === 'uncompleted'
+                ? 'text-secondary'
+                : 'text-secondary'
+            }`}>
+              未達成
+            </Text>
+          </Pressable>
+          <Pressable
+            onPress={() => setActiveTab('completed')}
+            className={`flex-1 py-2 px-3 rounded-lg ${
+              activeTab === 'completed' 
+                ? 'bg-primary' 
+                : 'bg-gray-200'
+            }`}
+            accessibilityRole="button"
+            testID="completed-tab"
+          >
+            <Text className={`text-sm font-semibold text-center ${
+              activeTab === 'completed'
+                ? 'text-secondary'
+                : 'text-secondary'
+            }`}>
+              達成済み
+            </Text>
+          </Pressable>
+        </View>
+
         {/* ゴール一覧 */}
-        {!isLoading && !error && goals.length > 0 && (
+        {!isLoading && !error && filteredGoals.length > 0 && (
           <GoalList
-            goals={goals}
+            goals={filteredGoals}
             onOptionsPress={showGoalOptions}
             getGoalIcon={getGoalIcon}
             getPriorityText={getPriorityText}
@@ -97,6 +153,24 @@ export default function Goals() {
         )}
 
         {/* データなしの場合 */}
+        {!isLoading && !error && filteredGoals.length === 0 && goals.length > 0 && (
+          <View className="flex-1 justify-center items-center py-12">
+            <Text className="text-6xl mb-4">
+              {activeTab === 'uncompleted' ? '🎯' : '🏆'}
+            </Text>
+            <Text className="text-lg font-semibold text-gray-700 mb-2">
+              {activeTab === 'uncompleted' ? '未達成のゴールがありません' : '達成済みのゴールがありません'}
+            </Text>
+            <Text className="text-sm text-gray-500 text-center">
+              {activeTab === 'uncompleted' 
+                ? '新しいゴールを追加して目標を設定しましょう！' 
+                : 'ゴールを達成してここに表示させましょう！'
+              }
+            </Text>
+          </View>
+        )}
+
+        {/* 全体でデータなしの場合 */}
         {!isLoading && !error && goals.length === 0 && <EmptyGoalsMessage />}
 
         {/* MVP1段目注記エリア */}

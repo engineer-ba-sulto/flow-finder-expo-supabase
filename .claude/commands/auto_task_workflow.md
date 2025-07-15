@@ -1,7 +1,7 @@
 docs/product-specific/tdd_implementation_plan.md の進捗表を確認し、次に着手すべきタスクを特定してください。
 また、特定したタスクから、引数で指定したタスクまでタスクごとに以下の手順に沿って実行してください: $ARGUMENTS
 指定された引数を知らせてから進めてください。
-指定されたタスクが終わったら、それ以降は実装しないでください！
+指定されたタスク$ARGUMENTSまで終わったら、それ以降は実装しないでください！
 
 1. 必ず GitHub Issue を [Task X.Y] タスク名 (TDD Phase) 形式で作成し、Phase ラベルを付与してください
 2. feat/X.Y-feature-name 形式でブランチを作成してください

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback, useMemo } from "react";
 import { 
   ActivityIndicator, 
   Pressable, 
@@ -19,7 +19,7 @@ interface GoalListProps {
   onRefresh?: () => void;
 }
 
-const GoalList: React.FC<GoalListProps> = ({ 
+const GoalList: React.FC<GoalListProps> = React.memo(({ 
   loading = false, 
   error,
   onRefresh 
@@ -30,9 +30,9 @@ const GoalList: React.FC<GoalListProps> = ({
   const [refreshing, setRefreshing] = useState(false);
   const { user } = useAuth();
 
-  // ゴールデータの取得
-  const fetchGoals = async () => {
-    if (!user) return;
+  // ゴールデータの取得（最適化）
+  const fetchGoals = useCallback(async () => {
+    if (!user?.id) return;
 
     try {
       const supabase = getSupabaseClient();
@@ -44,65 +44,93 @@ const GoalList: React.FC<GoalListProps> = ({
 
       if (error) throw error;
       
-      // Date型に変換
-      const goalsWithDates = data?.map(goal => ({
-        ...goal,
-        created_at: new Date(goal.created_at),
-        updated_at: new Date(goal.updated_at),
-      })) || [];
+      // Date型に変換（エラーハンドリング強化）
+      const goalsWithDates = data?.map(goal => {
+        try {
+          return {
+            ...goal,
+            created_at: new Date(goal.created_at),
+            updated_at: new Date(goal.updated_at),
+          };
+        } catch (dateError) {
+          console.warn("Date conversion error for goal:", goal.id, dateError);
+          return {
+            ...goal,
+            created_at: new Date(),
+            updated_at: new Date(),
+          };
+        }
+      }) || [];
 
       setGoals(goalsWithDates);
     } catch (err) {
       console.error('Failed to fetch goals:', err);
     }
-  };
+  }, [user?.id]);
 
   useEffect(() => {
     fetchGoals();
-  }, [user]);
+  }, [fetchGoals]);
 
-  // プルトゥリフレッシュハンドラ
-  const handleRefresh = async () => {
+  // プルトゥリフレッシュハンドラ（最適化）
+  const handleRefresh = useCallback(async () => {
     setRefreshing(true);
-    await fetchGoals();
-    if (onRefresh) onRefresh();
-    setRefreshing(false);
-  };
-
-  // ゴールのフィルタリング
-  const filteredGoals = goals.filter(goal => {
-    if (activeTab === 'active') {
-      return goal.status === GoalStatus.ACTIVE;
-    } else {
-      return goal.status === GoalStatus.COMPLETED;
+    try {
+      await fetchGoals();
+      if (onRefresh) onRefresh();
+    } catch (error) {
+      console.warn("Refresh error:", error);
+    } finally {
+      setRefreshing(false);
     }
-  });
+  }, [fetchGoals, onRefresh]);
 
-  // ゴールのソート
-  const sortedGoals = [...filteredGoals].sort((a, b) => {
-    if (sortBy === 'priority') {
-      // 優先度順（高→中→低）
-      return b.priority - a.priority;
-    } else {
-      // 作成日順（新しい→古い）
-      return b.created_at.getTime() - a.created_at.getTime();
+  // ゴールのフィルタリングとソート（メモ化）
+  const sortedGoals = useMemo(() => {
+    // フィルタリング
+    const filteredGoals = goals.filter(goal => {
+      if (activeTab === 'active') {
+        return goal.status === GoalStatus.ACTIVE;
+      } else {
+        return goal.status === GoalStatus.COMPLETED;
+      }
+    });
+
+    // ソート
+    return [...filteredGoals].sort((a, b) => {
+      if (sortBy === 'priority') {
+        // 優先度順（高→中→低）
+        return b.priority - a.priority;
+      } else {
+        // 作成日順（新しい→古い）
+        try {
+          return b.created_at.getTime() - a.created_at.getTime();
+        } catch (error) {
+          console.warn("Date comparison error:", error);
+          return 0;
+        }
+      }
+    });
+  }, [goals, activeTab, sortBy]);
+
+  // ゴール作成ボタンのハンドラ（最適化）
+  const handleCreateGoal = useCallback(() => {
+    try {
+      router.push("/modal/create-goal");
+    } catch (error) {
+      console.warn("Navigation error:", error);
     }
-  });
+  }, []);
 
-  // ゴール作成ボタンのハンドラ
-  const handleCreateGoal = () => {
-    router.push("/modal/create-goal");
-  };
-
-  // タブ切り替えハンドラ
-  const handleTabPress = (tab: 'active' | 'completed') => {
+  // タブ切り替えハンドラ（最適化）
+  const handleTabPress = useCallback((tab: 'active' | 'completed') => {
     setActiveTab(tab);
-  };
+  }, []);
 
-  // ソート切り替えハンドラ
-  const handleSortPress = () => {
-    setSortBy(sortBy === 'priority' ? 'created' : 'priority');
-  };
+  // ソート切り替えハンドラ（最適化）
+  const handleSortPress = useCallback(() => {
+    setSortBy(prev => prev === 'priority' ? 'created' : 'priority');
+  }, []);
 
   // ローディング表示
   if (loading) {
@@ -247,6 +275,9 @@ const GoalList: React.FC<GoalListProps> = ({
       </Pressable>
     </View>
   );
-};
+});
+
+// コンポーネントの表示名を設定（デバッグ用）
+GoalList.displayName = 'GoalList';
 
 export default GoalList;

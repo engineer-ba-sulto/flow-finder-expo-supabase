@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback, useMemo } from "react";
 import { Pressable, Text, View } from "react-native";
 import { router } from "expo-router";
 import { Goal, GoalPriority, GoalStatus } from "../../types/goal.types";
@@ -9,10 +9,10 @@ interface GoalCardProps {
   onDelete?: (id: string) => void;
 }
 
-const GoalCard: React.FC<GoalCardProps> = ({ goal, onComplete, onDelete }) => {
-  // 優先度の文字列表示を取得
-  const getPriorityText = (priority: GoalPriority): string => {
-    switch (priority) {
+const GoalCard: React.FC<GoalCardProps> = React.memo(({ goal, onComplete, onDelete }) => {
+  // 優先度の文字列表示を取得（メモ化）
+  const priorityText = useMemo(() => {
+    switch (goal.priority) {
       case GoalPriority.HIGH:
         return "高";
       case GoalPriority.MEDIUM:
@@ -22,11 +22,11 @@ const GoalCard: React.FC<GoalCardProps> = ({ goal, onComplete, onDelete }) => {
       default:
         return "中";
     }
-  };
+  }, [goal.priority]);
 
-  // 優先度による色を取得
-  const getPriorityColor = (priority: GoalPriority): string => {
-    switch (priority) {
+  // 優先度による色を取得（メモ化）
+  const priorityColor = useMemo(() => {
+    switch (goal.priority) {
       case GoalPriority.HIGH:
         return "#ef4444"; // text-red-500
       case GoalPriority.MEDIUM:
@@ -36,10 +36,10 @@ const GoalCard: React.FC<GoalCardProps> = ({ goal, onComplete, onDelete }) => {
       default:
         return "#6b7280";
     }
-  };
+  }, [goal.priority]);
 
-  // ゴールアイコンの取得
-  const getGoalIcon = (): string => {
+  // ゴールアイコンの取得（メモ化）
+  const goalIcon = useMemo(() => {
     if (goal.status === GoalStatus.COMPLETED) {
       return "✅";
     }
@@ -51,56 +51,77 @@ const GoalCard: React.FC<GoalCardProps> = ({ goal, onComplete, onDelete }) => {
     return goal.title.includes("健康") || goal.title.includes("運動") 
       ? "🏃" 
       : "💼"; // デフォルト
-  };
+  }, [goal.status, goal.title]);
 
-  // 作成日のフォーマット
-  const formatDate = (date: Date): string => {
-    return new Intl.DateTimeFormat("ja-JP", {
-      year: "numeric",
-      month: "numeric",
-      day: "numeric",
-    }).format(new Date(date));
-  };
+  // 作成日のフォーマット（メモ化）
+  const formattedDate = useMemo(() => {
+    try {
+      return new Intl.DateTimeFormat("ja-JP", {
+        year: "numeric",
+        month: "numeric",
+        day: "numeric",
+      }).format(new Date(goal.created_at));
+    } catch (error) {
+      console.warn("Date formatting error:", error);
+      return "日付不明";
+    }
+  }, [goal.created_at]);
 
-  // 背景色の取得
-  const getBackgroundColor = (): string => {
+  // 背景色の取得（メモ化）
+  const backgroundColor = useMemo(() => {
     return goal.status === GoalStatus.COMPLETED ? "#f0fdf4" : "#f9fafb"; // bg-success/10 or bg-gray-50
-  };
+  }, [goal.status]);
 
-  // ゴールカードのタップハンドラ
-  const handleCardPress = () => {
-    router.push({
-      pathname: "/modal/goal-detail",
-      params: { id: goal.id },
-    });
-  };
+  // ゴールカードのタップハンドラ（最適化）
+  const handleCardPress = useCallback(() => {
+    try {
+      router.push({
+        pathname: "/modal/goal-detail",
+        params: { id: goal.id },
+      });
+    } catch (error) {
+      console.warn("Navigation error:", error);
+    }
+  }, [goal.id]);
 
-  // 編集ボタンのタップハンドラ
-  const handleEditPress = () => {
-    router.push({
-      pathname: "/modal/edit-goal",
-      params: { id: goal.id },
-    });
-  };
+  // 編集ボタンのタップハンドラ（最適化）
+  const handleEditPress = useCallback(() => {
+    try {
+      router.push({
+        pathname: "/modal/edit-goal",
+        params: { id: goal.id },
+      });
+    } catch (error) {
+      console.warn("Navigation error:", error);
+    }
+  }, [goal.id]);
 
-  // 達成ボタンのタップハンドラ
-  const handleCompletePress = () => {
+  // 達成ボタンのタップハンドラ（最適化）
+  const handleCompletePress = useCallback(() => {
     if (onComplete) {
-      onComplete(goal.id);
+      try {
+        onComplete(goal.id);
+      } catch (error) {
+        console.warn("Complete action error:", error);
+      }
     }
-  };
+  }, [goal.id, onComplete]);
 
-  // 削除ボタンのタップハンドラ
-  const handleDeletePress = () => {
+  // 削除ボタンのタップハンドラ（最適化）
+  const handleDeletePress = useCallback(() => {
     if (onDelete) {
-      onDelete(goal.id);
+      try {
+        onDelete(goal.id);
+      } catch (error) {
+        console.warn("Delete action error:", error);
+      }
     }
-  };
+  }, [goal.id, onDelete]);
 
   return (
     <Pressable
       onPress={handleCardPress}
-      style={{ backgroundColor: getBackgroundColor() }}
+      style={{ backgroundColor }}
       className="rounded-xl p-4 mb-2"
       accessibilityRole="button"
       accessibilityLabel={`ゴール: ${goal.title}`}
@@ -110,7 +131,7 @@ const GoalCard: React.FC<GoalCardProps> = ({ goal, onComplete, onDelete }) => {
         <View className="flex-1">
           {/* ゴールタイトル */}
           <Text className="text-sm font-semibold" numberOfLines={1}>
-            {getGoalIcon()} {goal.title}
+            {goalIcon} {goal.title}
           </Text>
           
           {/* 説明 */}
@@ -123,15 +144,15 @@ const GoalCard: React.FC<GoalCardProps> = ({ goal, onComplete, onDelete }) => {
           {/* 優先度表示 */}
           <Text 
             className="text-xs mt-1"
-            style={{ color: getPriorityColor(goal.priority) }}
+            style={{ color: priorityColor }}
             testID="priority-indicator"
           >
-            優先度: {getPriorityText(goal.priority)}
+            優先度: {priorityText}
           </Text>
           
           {/* 作成日 */}
           <Text className="text-xs text-gray-500 mt-1">
-            {formatDate(goal.created_at)}
+            {formattedDate}
           </Text>
         </View>
 
@@ -181,6 +202,9 @@ const GoalCard: React.FC<GoalCardProps> = ({ goal, onComplete, onDelete }) => {
       </View>
     </Pressable>
   );
-};
+});
+
+// コンポーネントの表示名を設定（デバッグ用）
+GoalCard.displayName = 'GoalCard';
 
 export default GoalCard;

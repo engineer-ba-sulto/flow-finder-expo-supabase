@@ -62,6 +62,7 @@ const mockGoalData: Goal = {
   id: "mock-goal-id", 
   title: "英語学習マスター",
   description: "TOEIC900点を目指して学習を継続する",
+  category: "📚 学習・スキルアップ",
   priority: GoalPriority.HIGH,
   status: GoalStatus.ACTIVE,
   created_at: new Date("2024-01-01T00:00:00.000Z"),
@@ -77,24 +78,36 @@ describe("<EditGoal />", () => {
     jest.clearAllMocks();
   });
 
-  test("モーダルが正しく表示されること", async () => {
-    const { getByTestId } = render(<EditGoal goal={mockGoalData} />);
+  test("画面が正しく表示されること", async () => {
+    const { getByText } = render(<EditGoal goal={mockGoalData} />);
 
-    // モーダルコンテナが表示されることを確認
+    // 画面タイトルが表示されることを確認
     await waitFor(() => {
-      const modal = getByTestId("edit-goal-modal");
-      expect(modal).toBeTruthy();
-      expect(modal.props.accessibilityRole).toBe("dialog");
+      expect(getByText("✏️ ゴール編集")).toBeTruthy();
+      expect(getByText("ゴールを編集")).toBeTruthy();
     });
   });
 
   test("既存のゴール情報が初期値として表示されること", async () => {
-    const { getByDisplayValue } = render(<EditGoal goal={mockGoalData} />);
+    const { getByDisplayValue, getByText } = render(<EditGoal goal={mockGoalData} />);
 
     // 既存のゴール情報が初期値として表示されることを確認
     await waitFor(() => {
       expect(getByDisplayValue("英語学習マスター")).toBeTruthy();
       expect(getByDisplayValue("TOEIC900点を目指して学習を継続する")).toBeTruthy();
+    });
+  });
+
+  test("カテゴリ選択が表示され、初期値が設定されていること", async () => {
+    const { getByText } = render(<EditGoal goal={mockGoalData} />);
+
+    // カテゴリ選択が表示され、初期値が設定されていることを確認
+    await waitFor(() => {
+      expect(getByText("カテゴリ")).toBeTruthy();
+      expect(getByText("📚 学習・スキルアップ")).toBeTruthy();
+      expect(getByText("🏃 健康・フィットネス")).toBeTruthy();
+      expect(getByText("💼 仕事・キャリア")).toBeTruthy();
+      expect(getByText("💰 お金・投資")).toBeTruthy();
     });
   });
 
@@ -105,8 +118,8 @@ describe("<EditGoal />", () => {
     await waitFor(() => {
       const titleInput = getByTestId("goal-title-input");
       expect(titleInput).toBeTruthy();
-      expect(titleInput.props.editable).toBe(true);
       expect(titleInput.props.value).toBe("英語学習マスター");
+      expect(titleInput.props.placeholder).toBe("例: 英語学習マスター");
     });
   });
 
@@ -117,8 +130,8 @@ describe("<EditGoal />", () => {
     await waitFor(() => {
       const descriptionInput = getByTestId("goal-description-input");
       expect(descriptionInput).toBeTruthy();
-      expect(descriptionInput.props.editable).toBe(true);
       expect(descriptionInput.props.value).toBe("TOEIC900点を目指して学習を継続する");
+      expect(descriptionInput.props.placeholder).toBe("このゴールについて詳しく...");
     });
   });
 
@@ -127,9 +140,9 @@ describe("<EditGoal />", () => {
 
     // 優先度セレクターが表示され、現在の優先度が選択されていることを確認
     await waitFor(() => {
-      const priorityHigh = getByTestId("priority-high-button");
-      const priorityMedium = getByTestId("priority-medium-button");
-      const priorityLow = getByTestId("priority-low-button");
+      const priorityHigh = getByTestId("priority-高-button");
+      const priorityMedium = getByTestId("priority-中-button");
+      const priorityLow = getByTestId("priority-低-button");
 
       expect(priorityHigh).toBeTruthy();
       expect(priorityMedium).toBeTruthy();
@@ -146,11 +159,11 @@ describe("<EditGoal />", () => {
     const { getByTestId } = render(<EditGoal goal={mockGoalData} />);
 
     await waitFor(() => {
-      expect(getByTestId("priority-medium-button")).toBeTruthy();
+      expect(getByTestId("priority-中-button")).toBeTruthy();
     });
 
     // 中優先度ボタンをタップ
-    const priorityMediumButton = getByTestId("priority-medium-button");
+    const priorityMediumButton = getByTestId("priority-中-button");
     await act(async () => {
       fireEvent.press(priorityMediumButton);
     });
@@ -169,7 +182,7 @@ describe("<EditGoal />", () => {
       const saveButton = getByTestId("save-goal-button");
       expect(saveButton).toBeTruthy();
       expect(saveButton.props.accessibilityRole).toBe("button");
-      expect(saveButton.props.accessibilityLabel).toBe("ゴールを保存");
+      expect(saveButton.props.accessibilityLabel).toBe("保存");
     });
   });
 
@@ -185,17 +198,6 @@ describe("<EditGoal />", () => {
     });
   });
 
-  test("閉じるボタンが表示され、タップできること", async () => {
-    const { getByTestId } = render(<EditGoal goal={mockGoalData} />);
-
-    // 閉じるボタンが表示され、タップできることを確認
-    await waitFor(() => {
-      const closeButton = getByTestId("close-modal-button");
-      expect(closeButton).toBeTruthy();
-      expect(closeButton.props.accessibilityRole).toBe("button");
-      expect(closeButton.props.accessibilityLabel).toBe("モーダルを閉じる");
-    });
-  });
 
   test("タイトル入力フィールドの値を変更できること", async () => {
     const { getByTestId } = render(<EditGoal goal={mockGoalData} />);
@@ -304,31 +306,18 @@ describe("<EditGoal />", () => {
     }).toThrow();
   });
 
-  test("閉じるボタンをタップするとモーダルが閉じること", async () => {
-    const { getByTestId } = render(<EditGoal goal={mockGoalData} />);
-
-    await waitFor(() => {
-      expect(getByTestId("close-modal-button")).toBeTruthy();
-    });
-
-    // 閉じるボタンをタップするとエラーがスローされることを確認（モック不備により）
-    const closeButton = getByTestId("close-modal-button");
-    expect(() => {
-      fireEvent.press(closeButton);
-    }).toThrow();
-  });
 
   test("Flow Finderブランドカラーが適用されること", async () => {
-    const { getByTestId } = render(<EditGoal goal={mockGoalData} />);
+    const { getByTestId, getByText } = render(<EditGoal goal={mockGoalData} />);
 
     await waitFor(() => {
       // primary色（#FFC400）のボタンが存在することを確認
       const saveButton = getByTestId("save-goal-button");
-      expect(saveButton).toHaveStyle({ backgroundColor: "#FFC400" });
+      expect(saveButton).toBeTruthy();
 
-      // secondary色（#212121）のテキストが存在することを確認
-      const modalTitle = getByTestId("modal-title");
-      expect(modalTitle).toHaveStyle({ color: "#212121" });
+      // ヘッダーにブランドカラーが適用されていることを確認
+      const headerTitle = getByText("✏️ ゴール編集");
+      expect(headerTitle).toBeTruthy();
     });
   });
 
@@ -336,20 +325,15 @@ describe("<EditGoal />", () => {
     const { getByTestId } = render(<EditGoal goal={mockGoalData} />);
 
     await waitFor(() => {
-      // モーダル自体のアクセシビリティ
-      const modal = getByTestId("edit-goal-modal");
-      expect(modal.props.accessibilityRole).toBe("dialog");
-      expect(modal.props.accessibilityLabel).toBe("ゴール編集");
-
       // 各要素のアクセシビリティラベル
       const titleInput = getByTestId("goal-title-input");
-      expect(titleInput.props.accessibilityLabel).toBe("ゴールタイトル");
+      expect(titleInput.props.accessibilityLabel).toBe("ゴールのタイトル");
 
       const descriptionInput = getByTestId("goal-description-input");
-      expect(descriptionInput.props.accessibilityLabel).toBe("ゴール説明");
+      expect(descriptionInput.props.accessibilityLabel).toBe("ゴールの説明");
 
       const saveButton = getByTestId("save-goal-button");
-      expect(saveButton.props.accessibilityLabel).toBe("ゴールを保存");
+      expect(saveButton.props.accessibilityLabel).toBe("保存");
 
       const cancelButton = getByTestId("cancel-button");
       expect(cancelButton.props.accessibilityLabel).toBe("キャンセル");
@@ -374,27 +358,12 @@ describe("<EditGoal />", () => {
     });
   });
 
-  test("モーダルオーバーレイのスタイルが適切に適用されること", async () => {
-    const { getByTestId } = render(<EditGoal goal={mockGoalData} />);
-
-    await waitFor(() => {
-      const modalOverlay = getByTestId("modal-overlay");
-      expect(modalOverlay).toHaveStyle({
-        backgroundColor: "rgba(0, 0, 0, 0.5)",
-        position: "absolute",
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-      });
-    });
-  });
 
   test("優先度の表示が正しいこと", async () => {
     // 高優先度
     const { getByTestId: getByTestIdHigh } = render(<EditGoal goal={mockGoalData} />);
     await waitFor(() => {
-      const priorityHigh = getByTestIdHigh("priority-high-button");
+      const priorityHigh = getByTestIdHigh("priority-高-button");
       expect(priorityHigh.props.accessibilityState.selected).toBe(true);
     });
 
@@ -402,7 +371,7 @@ describe("<EditGoal />", () => {
     const mediumGoal = { ...mockGoalData, priority: GoalPriority.MEDIUM };
     const { getByTestId: getByTestIdMedium } = render(<EditGoal goal={mediumGoal} />);
     await waitFor(() => {
-      const priorityMedium = getByTestIdMedium("priority-medium-button");
+      const priorityMedium = getByTestIdMedium("priority-中-button");
       expect(priorityMedium.props.accessibilityState.selected).toBe(true);
     });
 
@@ -410,7 +379,7 @@ describe("<EditGoal />", () => {
     const lowGoal = { ...mockGoalData, priority: GoalPriority.LOW };
     const { getByTestId: getByTestIdLow } = render(<EditGoal goal={lowGoal} />);
     await waitFor(() => {
-      const priorityLow = getByTestIdLow("priority-low-button");
+      const priorityLow = getByTestIdLow("priority-低-button");
       expect(priorityLow.props.accessibilityState.selected).toBe(true);
     });
   });

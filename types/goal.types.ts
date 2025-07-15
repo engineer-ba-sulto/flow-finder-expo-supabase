@@ -54,6 +54,9 @@ export interface Goal {
   /** ゴールの詳細説明（任意、最大1000文字） */
   description?: string;
   
+  /** ゴールのカテゴリ（デフォルト: 📚 学習・スキルアップ） */
+  category?: string;
+  
   /** ゴールの優先度（1-5の数値、デフォルト: MEDIUM） */
   priority: GoalPriority;
   
@@ -83,6 +86,9 @@ export interface CreateGoalInput {
   /** ゴールの詳細説明（任意） */
   description?: string;
   
+  /** ゴールのカテゴリ（任意） */
+  category?: string;
+  
   /** ゴールの優先度（デフォルト: MEDIUM） */
   priority?: GoalPriority;
   
@@ -102,6 +108,9 @@ export interface UpdateGoalInput {
   
   /** ゴールの詳細説明（任意） */
   description?: string;
+  
+  /** ゴールのカテゴリ（任意） */
+  category?: string;
   
   /** ゴールの優先度（任意） */
   priority?: GoalPriority;

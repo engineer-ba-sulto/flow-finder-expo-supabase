@@ -1,136 +1,271 @@
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useState } from "react";
 import { Alert } from "react-native";
 import { getSupabaseClient } from "../lib/supabase";
-import { GoalService } from "../services/goalService";
-import { CreateGoalInput, Goal } from "../types/goal.types";
+import { CreateGoalInput } from "../types/goal.types";
 
-/**
- * エラー処理用の型定義
- */
-interface ErrorState {
-  message: string;
-  action?: string;
-}
+export const useGoals = (user: any, isAuthenticated: boolean) => {
+  // ローカル状態管理
+  const [isLoading, setIsLoading] = useState(false);
+  const [goals, setGoals] = useState<any[]>([]);
+  const [error, setError] = useState<string | null>(null);
 
-/**
- * ゴール管理の業務ロジックを担当するカスタムフック
- */
-export const useGoals = () => {
-  const [goals, setGoals] = useState<Goal[]>([]);
-  const [error, setError] = useState<ErrorState | null>(null);
+  // ゴール作成フォーム関連
+  const [showCreateForm, setShowCreateForm] = useState(false);
+  const [isCreating, setIsCreating] = useState(false);
 
-  // Supabaseクライアントとサービスの初期化（メモ化）
-  const supabase = useMemo(() => getSupabaseClient(), []);
-  const goalService = useMemo(() => new GoalService(supabase), [supabase]);
+  // ゴール編集フォーム関連
+  const [showEditForm, setShowEditForm] = useState(false);
+  const [editingGoal, setEditingGoal] = useState<any | null>(null);
+  const [isUpdating, setIsUpdating] = useState(false);
 
-  /**
-   * エラー状態をクリアする関数
-   */
-  const clearError = useCallback(() => {
+  // ゴール取得
+  const fetchGoals = useCallback(async () => {
+    if (!isAuthenticated || !user) return;
+    setIsLoading(true);
     setError(null);
-  }, []);
+    try {
+      const supabase = getSupabaseClient();
+      const { data, error: fetchError } = await supabase
+        .from("goals")
+        .select("*")
+        .eq("user_id", user.id)
+        .order("created_at", { ascending: false });
+      if (fetchError) {
+        setError("ゴールの取得に失敗しました");
+        setGoals([]);
+      } else {
+        setGoals(data || []);
+      }
+    } catch (err) {
+      setError("通信エラーが発生しました");
+      setGoals([]);
+    } finally {
+      setIsLoading(false);
+    }
+  }, [isAuthenticated, user]);
 
-  /**
-   * エラーハンドリング関数
-   */
-  const handleError = useCallback(
-    (error: any, action: string) => {
-      console.error(`${action}エラー:`, error);
-      setError({
-        message: `${action}に失敗しました。もう一度お試しください。`,
-        action,
-      });
-      // ユーザーにエラーを通知
+  // ゴール作成
+  const createGoal = useCallback(
+    async (goalData: CreateGoalInput) => {
+      if (!isAuthenticated || !user) {
+        Alert.alert("エラー", "認証が必要です");
+        return;
+      }
+      setIsCreating(true);
+      try {
+        const supabase = getSupabaseClient();
+        const { error: tableError } = await supabase
+          .from("goals")
+          .select("count", { count: "exact", head: true });
+        if (tableError) {
+          if (tableError.code === "42P01") {
+            Alert.alert(
+              "テーブルが存在しません",
+              "goalsテーブルが作成されていません。\n\nSupabaseダッシュボードで以下のSQLを実行してください：\n\nCREATE TABLE goals (\n  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,\n  user_id UUID REFERENCES users(id),\n  title TEXT NOT NULL,\n  description TEXT,\n  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),\n  updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()\n);"
+            );
+            return;
+          }
+        }
+        const { data: existingUser, error: userCheckError } = await supabase
+          .from("users")
+          .select("id")
+          .eq("id", user.id)
+          .single();
+        if (userCheckError && userCheckError.code !== "PGRST116") {
+          Alert.alert(
+            "エラー",
+            `ユーザー確認に失敗しました: ${userCheckError.message}`
+          );
+          return;
+        }
+        if (!existingUser) {
+          const { error: createUserError } = await supabase
+            .from("users")
+            .insert([
+              {
+                id: user.id,
+                email: user.email,
+              },
+            ]);
+          if (createUserError) {
+            Alert.alert(
+              "エラー",
+              `ユーザーの作成に失敗しました: ${createUserError.message}`
+            );
+            return;
+          }
+        }
+        const finalGoalData = {
+          ...goalData,
+          user_id: user.id,
+        };
+        const { error: createError } = await supabase
+          .from("goals")
+          .insert([finalGoalData])
+          .select();
+        if (createError) {
+          let errorMessage = `ゴールの作成に失敗しました\n\n詳細: ${
+            createError.message || createError.toString()
+          }`;
+          if (createError.code === "23503") {
+            errorMessage += `\n\n🔧 解決策：\n1. Supabaseダッシュボードで以下のSQLを実行：\n   ALTER TABLE goals DROP CONSTRAINT goals_user_id_fkey;\n\n2. または外部キー参照を変更：\n   ALTER TABLE goals ADD CONSTRAINT goals_user_id_fkey \n   FOREIGN KEY (user_id) REFERENCES users(id);`;
+          }
+          Alert.alert("エラー", errorMessage);
+        } else {
+          setShowCreateForm(false);
+          Alert.alert("成功", "ゴールを作成しました");
+          await fetchGoals();
+        }
+      } catch (err) {
+        Alert.alert("エラー", "通信エラーが発生しました");
+      } finally {
+        setIsCreating(false);
+      }
+    },
+    [isAuthenticated, user, fetchGoals]
+  );
+
+  // ゴール更新
+  const updateGoal = useCallback(
+    async (goalData: CreateGoalInput) => {
+      if (!isAuthenticated || !user || !editingGoal) {
+        Alert.alert("エラー", "更新対象のゴールが見つかりません");
+        return;
+      }
+      setIsUpdating(true);
+      try {
+        const supabase = getSupabaseClient();
+        const updateData = {
+          title: goalData.title,
+          description: goalData.description || null,
+          priority: goalData.priority,
+          updated_at: new Date().toISOString(),
+        };
+        const { error: updateError } = await supabase
+          .from("goals")
+          .update(updateData)
+          .eq("id", editingGoal.id)
+          .eq("user_id", user.id)
+          .select();
+        if (updateError) {
+          Alert.alert(
+            "エラー",
+            `ゴールの更新に失敗しました: ${updateError.message}`
+          );
+        } else {
+          resetEditForm();
+          Alert.alert("成功", "ゴールを更新しました");
+          await fetchGoals();
+        }
+      } catch (err) {
+        Alert.alert("エラー", "通信エラーが発生しました");
+      } finally {
+        setIsUpdating(false);
+      }
+    },
+    [isAuthenticated, user, editingGoal, fetchGoals]
+  );
+
+  // ゴール削除
+  const deleteGoal = useCallback(
+    async (goal: any) => {
+      if (!isAuthenticated || !user || !goal) return;
       Alert.alert(
-        "エラーが発生しました",
-        `${action}に失敗しました。もう一度お試しください。`,
-        [{ text: "OK", onPress: clearError }]
+        "ゴールを削除",
+        `本当に「${goal.title}」を削除しますか？この操作は取り消せません。`,
+        [
+          {
+            text: "キャンセル",
+            style: "cancel",
+          },
+          {
+            text: "削除",
+            style: "destructive",
+            onPress: async () => {
+              try {
+                const supabase = getSupabaseClient();
+                const { error: deleteError } = await supabase
+                  .from("goals")
+                  .delete()
+                  .eq("id", goal.id)
+                  .eq("user_id", user.id);
+                if (deleteError) {
+                  Alert.alert(
+                    "エラー",
+                    `ゴールの削除に失敗しました: ${deleteError.message}`
+                  );
+                } else {
+                  Alert.alert("成功", "ゴールを削除しました");
+                  await fetchGoals();
+                }
+              } catch (err) {
+                Alert.alert("エラー", "通信エラーが発生しました");
+              }
+            },
+          },
+        ]
       );
     },
-    [clearError]
+    [isAuthenticated, user, fetchGoals]
   );
 
-  /**
-   * ゴール一覧を取得
-   */
-  const loadGoals = useCallback(async (): Promise<boolean> => {
-    try {
-      clearError();
-      const goalList = await goalService.getGoals();
-      setGoals(goalList);
-      return true;
-    } catch (error) {
-      handleError(error, "ゴールの読み込み");
-      return false;
-    }
-  }, [goalService, clearError, handleError]);
+  // 編集開始
+  const startEditGoal = useCallback((goal: any) => {
+    setEditingGoal(goal);
+    setShowEditForm(true);
+    setShowCreateForm(false);
+  }, []);
 
-  /**
-   * ゴール作成処理
-   */
-  const createGoal = useCallback(
-    async (goalData: CreateGoalInput): Promise<boolean> => {
-      try {
-        clearError();
-        const newGoal = await goalService.createGoal(goalData);
-        setGoals((prev) => [newGoal, ...prev]);
-        Alert.alert("成功", "ゴールが作成されました。");
-        return true;
-      } catch (error) {
-        handleError(error, "ゴールの作成");
-        return false;
-      }
+  // ゴールオプション表示
+  const showGoalOptions = useCallback(
+    (goal: any) => {
+      Alert.alert(goal.title, "ゴールの操作を選択してください", [
+        {
+          text: "編集",
+          onPress: () => startEditGoal(goal),
+        },
+        {
+          text: "削除",
+          style: "destructive",
+          onPress: () => deleteGoal(goal),
+        },
+        {
+          text: "キャンセル",
+          style: "cancel",
+        },
+      ]);
     },
-    [goalService, clearError, handleError]
+    [startEditGoal, deleteGoal]
   );
 
-  /**
-   * ゴール更新処理
-   */
-  const updateGoal = useCallback(
-    async (goalId: string, goalData: CreateGoalInput): Promise<boolean> => {
-      try {
-        clearError();
-        const updatedGoal = await goalService.updateGoal(goalId, goalData);
-        setGoals((prev) =>
-          prev.map((goal) => (goal.id === goalId ? updatedGoal : goal))
-        );
-        Alert.alert("成功", "ゴールが更新されました。");
-        return true;
-      } catch (error) {
-        handleError(error, "ゴールの更新");
-        return false;
-      }
-    },
-    [goalService, clearError, handleError]
-  );
+  // フォームリセット
+  const resetForm = useCallback(() => {
+    setShowCreateForm(false);
+  }, []);
 
-  /**
-   * ゴール削除処理
-   */
-  const deleteGoal = useCallback(
-    async (goalId: string): Promise<boolean> => {
-      try {
-        clearError();
-        await goalService.deleteGoal(goalId);
-        setGoals((prev) => prev.filter((goal) => goal.id !== goalId));
-        Alert.alert("成功", "ゴールが削除されました。");
-        return true;
-      } catch (error) {
-        handleError(error, "ゴールの削除");
-        return false;
-      }
-    },
-    [goalService, clearError, handleError]
-  );
+  // 編集フォームリセット
+  const resetEditForm = useCallback(() => {
+    setEditingGoal(null);
+    setShowEditForm(false);
+  }, []);
 
   return {
+    isLoading,
     goals,
     error,
-    loadGoals,
+    showCreateForm,
+    setShowCreateForm,
+    isCreating,
     createGoal,
+    showEditForm,
+    editingGoal,
+    startEditGoal,
+    resetEditForm,
+    isUpdating,
     updateGoal,
     deleteGoal,
-    clearError,
+    showGoalOptions,
+    fetchGoals,
+    resetForm,
   };
 };

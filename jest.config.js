@@ -8,7 +8,7 @@ module.exports = {
     // NativeWind CSS imports を無視
     '\\.(css)$': 'identity-obj-proxy',
   },
-  testEnvironment: 'node',
+  testEnvironment: 'jsdom',
   collectCoverageFrom: [
     '**/*.{ts,tsx,js,jsx}',
     '!**/coverage/**',

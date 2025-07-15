@@ -26,6 +26,8 @@ interface GoalDetailProps {
  */
 export default function GoalDetail({ goal, isLoading = false }: GoalDetailProps) {
   const [isDeleting, setIsDeleting] = useState(false);
+  const [showToast, setShowToast] = useState(false);
+  const [toastMessage, setToastMessage] = useState("");
 
   /**
    * 優先度の数値を日本語に変換
@@ -121,9 +123,13 @@ export default function GoalDetail({ goal, isLoading = false }: GoalDetailProps)
     try {
       // TODO: 実際の削除API呼び出し
       // await deleteGoal(goal.id);
-      router.back();
+      showToastMessage("ゴールを削除しました");
+      setTimeout(() => {
+        router.back();
+      }, 1000);
     } catch (error) {
       console.error("ゴール削除エラー:", error);
+      showToastMessage("削除に失敗しました");
     } finally {
       setIsDeleting(false);
     }
@@ -136,30 +142,66 @@ export default function GoalDetail({ goal, isLoading = false }: GoalDetailProps)
     router.back();
   };
 
-  // ローディング中の表示
+  /**
+   * トースト表示のヘルパー関数
+   */
+  const showToastMessage = (message: string) => {
+    setToastMessage(message);
+    setShowToast(true);
+    setTimeout(() => {
+      setShowToast(false);
+    }, 3000);
+  };
+
+  // ローディング中の表示 - 画面カタログ準拠
   if (isLoading) {
     return (
       <View 
-        className="flex-1 justify-center items-center bg-black/50"
+        className="flex-1 justify-center items-center"
         testID="modal-overlay"
+        style={{
+          backgroundColor: "rgba(0, 0, 0, 0.5)",
+          position: "absolute",
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+        }}
       >
-        <View className="bg-white rounded-xl p-6 mx-4 min-w-[300px]">
+        <View className="bg-white rounded-xl p-6 mx-4 min-w-[300px] items-center">
           <ActivityIndicator size="large" color={BRAND_COLORS.PRIMARY} testID="loading-indicator" />
-          <Text className="text-center mt-4 text-gray-600">読み込み中...</Text>
+          <Text 
+            className="text-center mt-4 text-sm font-medium"
+            style={{ color: BRAND_COLORS.SECONDARY }}
+          >
+            読み込み中...
+          </Text>
         </View>
       </View>
     );
   }
 
-  // ゴールデータが見つからない場合のエラー表示
+  // ゴールデータが見つからない場合のエラー表示 - 画面カタログ準拠
   if (!goal) {
     return (
       <View 
-        className="flex-1 justify-center items-center bg-black/50"
+        className="flex-1 justify-center items-center"
         testID="modal-overlay"
+        style={{
+          backgroundColor: "rgba(0, 0, 0, 0.5)",
+          position: "absolute",
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+        }}
       >
-        <View className="bg-white rounded-xl p-6 mx-4 min-w-[300px]">
-          <Text className="text-center text-red-500 text-lg font-semibold">
+        <View className="bg-white rounded-xl p-6 mx-4 min-w-[300px] items-center">
+          <View className="text-4xl mb-3">❌</View>
+          <Text 
+            className="text-center text-red-500 text-lg font-semibold mb-4"
+            testID="error-message"
+          >
             ゴールが見つかりません
           </Text>
           <ActionButton
@@ -176,7 +218,7 @@ export default function GoalDetail({ goal, isLoading = false }: GoalDetailProps)
 
   return (
     <View 
-      className="flex-1 justify-center items-center bg-black/50"
+      className="flex-1 justify-center items-center"
       testID="modal-overlay"
       style={{
         backgroundColor: "rgba(0, 0, 0, 0.5)",
@@ -193,31 +235,37 @@ export default function GoalDetail({ goal, isLoading = false }: GoalDetailProps)
         accessibilityRole="dialog"
         accessibilityLabel="ゴール詳細"
       >
-        {/* ヘッダー */}
-        <View className="flex-row justify-between items-center p-4 border-b border-gray-200">
-          <Text 
-            className="text-lg font-bold"
-            style={{ color: BRAND_COLORS.SECONDARY }}
-          >
-            ゴール詳細
-          </Text>
-          <Pressable
-            onPress={handleClose}
-            className="p-2"
-            testID="close-modal-button"
-            accessibilityRole="button"
-            accessibilityLabel="モーダルを閉じる"
-          >
-            <Text className="text-xl text-gray-500">✕</Text>
-          </Pressable>
+        {/* ヘッダー - 画面カタログ準拠 */}
+        <View 
+          className="p-4 border-b border-gray-200"
+          style={{ backgroundColor: BRAND_COLORS.PRIMARY }}
+        >
+          <View className="flex-row justify-between items-center">
+            <Text 
+              className="text-xl font-bold"
+              style={{ color: BRAND_COLORS.SECONDARY }}
+            >
+              🎯 ゴール詳細
+            </Text>
+            <Pressable
+              onPress={handleClose}
+              className="p-2"
+              testID="close-modal-button"
+              accessibilityRole="button"
+              accessibilityLabel="モーダルを閉じる"
+            >
+              <Text className="text-xl" style={{ color: BRAND_COLORS.SECONDARY }}>✕</Text>
+            </Pressable>
+          </View>
         </View>
 
         <ScrollView className="flex-1" showsVerticalScrollIndicator={false}>
           <View className="p-6">
-            {/* ゴールタイトル */}
-            <View className="mb-4">
+            {/* ゴールタイトル - 画面カタログ準拠 */}
+            <View className="mb-6 items-center">
+              <View className="text-4xl mb-3">🎯</View>
               <Text 
-                className="text-xl font-bold mb-2"
+                className="text-xl font-bold mb-2 text-center"
                 style={{ color: BRAND_COLORS.SECONDARY }}
                 testID="goal-title-text"
               >
@@ -227,7 +275,7 @@ export default function GoalDetail({ goal, isLoading = false }: GoalDetailProps)
               {/* ゴールの詳細説明 */}
               {goal.description && (
                 <Text 
-                  className="text-base text-gray-700 leading-6"
+                  className="text-base text-gray-700 leading-6 text-center"
                   testID="goal-description-text"
                 >
                   {goal.description}
@@ -235,10 +283,10 @@ export default function GoalDetail({ goal, isLoading = false }: GoalDetailProps)
               )}
             </View>
 
-            {/* ゴール情報 */}
-            <View className="space-y-3 mb-6">
+            {/* ゴール情報 - 画面カタログ準拠のカード形式 */}
+            <View className="bg-gray-50 rounded-xl p-4 mb-6">
               {/* 優先度 */}
-              <View className="flex-row justify-between items-center">
+              <View className="flex-row justify-between items-center mb-3">
                 <Text 
                   className="text-sm font-medium text-gray-600"
                   testID="priority-label"
@@ -255,7 +303,7 @@ export default function GoalDetail({ goal, isLoading = false }: GoalDetailProps)
               </View>
 
               {/* ステータス */}
-              <View className="flex-row justify-between items-center">
+              <View className="flex-row justify-between items-center mb-3">
                 <Text 
                   className="text-sm font-medium text-gray-600"
                   testID="status-label"
@@ -289,7 +337,7 @@ export default function GoalDetail({ goal, isLoading = false }: GoalDetailProps)
               </View>
             </View>
 
-            {/* アクションボタン */}
+            {/* アクションボタン - 画面カタログ準拠 */}
             <View className="space-y-3">
               {/* 編集・達成ボタン行 */}
               <View className="flex-row gap-3">
@@ -315,7 +363,7 @@ export default function GoalDetail({ goal, isLoading = false }: GoalDetailProps)
                 )}
               </View>
 
-              {/* 削除ボタン */}
+              {/* 削除ボタン - 画面カタログ準拠 */}
               <Pressable
                 onPress={handleDelete}
                 disabled={isDeleting}
@@ -331,9 +379,39 @@ export default function GoalDetail({ goal, isLoading = false }: GoalDetailProps)
                 </Text>
               </Pressable>
             </View>
+            
+            {/* 閉じるボタン - 画面カタログ準拠 */}
+            <View className="items-center mt-4">
+              <Pressable
+                onPress={handleClose}
+                className="px-4 py-2"
+                testID="close-secondary-button"
+                accessibilityRole="button"
+                accessibilityLabel="モーダルを閉じる"
+              >
+                <Text 
+                  className="text-sm underline"
+                  style={{ color: BRAND_COLORS.SECONDARY }}
+                >
+                  閉じる
+                </Text>
+              </Pressable>
+            </View>
           </View>
         </ScrollView>
       </View>
+      
+      {/* トースト表示 */}
+      {showToast && (
+        <View 
+          className="absolute bottom-20 left-6 right-6 bg-gray-800 rounded-lg p-4 z-50"
+          testID="toast-message"
+        >
+          <Text className="text-white text-sm font-medium text-center">
+            {toastMessage}
+          </Text>
+        </View>
+      )}
     </View>
   );
 }

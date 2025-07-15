@@ -1,22 +1,27 @@
 import React from "react";
-import { Pressable, RefreshControl, ScrollView, Text, View } from "react-native";
+import { Pressable, RefreshControl, ScrollView, Text, View, ActivityIndicator } from "react-native";
 import { SimpleGoalCompletion } from "../ui/SimpleGoalCompletion";
+import { Goal, GoalStatus, GoalPriority } from "../../types/goal.types";
 
 interface AuthenticatedHomeScreenProps {
-  goalData: any;
+  goals: Goal[];
+  isLoadingGoals: boolean;
+  goalsError: string | null;
   refreshing: boolean;
   onRefresh: () => void;
-  fetchGoalCount: () => void;
+  fetchGoals: () => void;
   router: any;
   user: any;
   onCreateGoal?: () => void;
 }
 
 const AuthenticatedHomeScreen: React.FC<AuthenticatedHomeScreenProps> = ({
-  goalData,
+  goals,
+  isLoadingGoals,
+  goalsError,
   refreshing,
   onRefresh,
-  fetchGoalCount,
+  fetchGoals,
   router,
   user,
   onCreateGoal,
@@ -86,36 +91,87 @@ const AuthenticatedHomeScreen: React.FC<AuthenticatedHomeScreenProps> = ({
                 </Pressable>
               )}
             </View>
-            <View className="gap-3">
-              {/* 未完了ゴール1 */}
-              <View className="bg-gray-50 rounded-xl p-4 flex-row items-center justify-between mb-2">
-                <View className="flex-1">
-                  <Text className="text-sm font-medium">
-                    💼 英語学習マスター
-                  </Text>
-                  <Text className="text-xs text-gray-600 mt-1">
-                    優先度: 高
-                  </Text>
-                </View>
-                <Pressable className="bg-success text-white text-xs font-bold py-1 px-3 rounded-lg ml-2">
-                  <Text className="text-white text-xs font-bold">達成</Text>
+
+            {/* ローディング状態 */}
+            {isLoadingGoals && (
+              <View className="flex-1 justify-center items-center py-8">
+                <ActivityIndicator size="small" color="#FFC400" />
+                <Text className="text-sm text-gray-600 mt-2">ゴールを読み込み中...</Text>
+              </View>
+            )}
+
+            {/* エラー状態 */}
+            {goalsError && !isLoadingGoals && (
+              <View className="bg-red-50 rounded-xl p-4 mb-2">
+                <Text className="text-sm text-red-800 font-medium mb-2">
+                  エラーが発生しました
+                </Text>
+                <Text className="text-xs text-red-600 mb-3">
+                  {goalsError}
+                </Text>
+                <Pressable
+                  onPress={fetchGoals}
+                  className="bg-red-600 text-white py-2 px-3 rounded-lg self-start"
+                  accessibilityRole="button"
+                  accessibilityLabel="再試行"
+                >
+                  <Text className="text-white text-xs font-semibold">再試行</Text>
                 </Pressable>
               </View>
-              {/* 未完了ゴール2 */}
-              <View className="bg-gray-50 rounded-xl p-4 flex-row items-center justify-between mb-2">
-                <View className="flex-1">
-                  <Text className="text-sm font-medium">
-                    🏃 健康的な生活習慣
-                  </Text>
-                  <Text className="text-xs text-gray-600 mt-1">
-                    優先度: 中
-                  </Text>
-                </View>
-                <Pressable className="bg-success text-white text-xs font-bold py-1 px-3 rounded-lg ml-2">
-                  <Text className="text-white text-xs font-bold">達成</Text>
-                </Pressable>
+            )}
+
+            {/* 実際のゴールデータを表示 */}
+            {!isLoadingGoals && !goalsError && (
+              <View className="gap-3">
+                {/* 未達成ゴールが存在しない場合 */}
+                {goals.length === 0 ? (
+                  <View className="bg-gray-50 rounded-xl p-6 items-center">
+                    <Text className="text-4xl mb-2">🎯</Text>
+                    <Text className="text-sm font-medium text-gray-700 mb-1">
+                      まだゴールがありません
+                    </Text>
+                    <Text className="text-xs text-gray-500 text-center">
+                      「＋ ゴール作成」ボタンから{"\n"}最初のゴールを設定してみましょう
+                    </Text>
+                  </View>
+                ) : (
+                  /* 実際のゴールリストを表示 */
+                  goals
+                    .filter(goal => goal.status === GoalStatus.ACTIVE) // アクティブなゴールのみ表示
+                    .map((goal) => (
+                      <View
+                        key={goal.id}
+                        className="bg-gray-50 rounded-xl p-4 flex-row items-center justify-between mb-2"
+                      >
+                        <View className="flex-1">
+                          <Text className="text-sm font-medium">
+                            {goal.title}
+                          </Text>
+                          {goal.description && (
+                            <Text className="text-xs text-gray-500 mt-1">
+                              {goal.description}
+                            </Text>
+                          )}
+                          <Text className="text-xs text-gray-600 mt-1">
+                            優先度: {goal.priority === GoalPriority.HIGH ? '高' : goal.priority === GoalPriority.MEDIUM ? '中' : '低'}
+                          </Text>
+                        </View>
+                        <Pressable 
+                          className="bg-success text-white text-xs font-bold py-1 px-3 rounded-lg ml-2"
+                          onPress={() => {
+                            // MVP2段目でゴール完了機能を実装予定
+                            console.log('ゴール完了:', goal.id);
+                          }}
+                          accessibilityRole="button"
+                          accessibilityLabel={`${goal.title}を達成済みにマーク`}
+                        >
+                          <Text className="text-white text-xs font-bold">達成</Text>
+                        </Pressable>
+                      </View>
+                    ))
+                )}
               </View>
-            </View>
+            )}
           </View>
 
           {/* 簡易ゴール完了機能セクション */}

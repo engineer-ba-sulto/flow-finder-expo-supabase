@@ -1,25 +1,33 @@
 import { useRouter } from "expo-router";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import AuthenticatedHomeScreen from "../../components/home/AuthenticatedHomeScreen";
 import ErrorScreen from "../../components/home/ErrorScreen";
 import LoadingScreen from "../../components/home/LoadingScreen";
 import UnauthenticatedHomeScreen from "../../components/home/UnauthenticatedHomeScreen";
 import { GoalForm } from "../../components/forms/GoalForm";
 import { useAuth } from "../../hooks/useAuth";
-import { useHomeData } from "../../hooks/useHomeData";
 import { useGoals } from "../../hooks/useGoals";
 import { View, Text, Modal } from "react-native";
 
 export default function HomeScreen() {
   const router = useRouter();
   const { user, loading, error, isAuthenticated } = useAuth();
-  const { goalData, refreshing, onRefresh, fetchGoalCount } = useHomeData();
   
   // ゴール作成フォーム表示状態
   const [showCreateForm, setShowCreateForm] = useState(false);
   
-  // useGoalsフックでゴール作成機能を取得
-  const { isCreating, createGoal } = useGoals(user, isAuthenticated);
+  // useGoalsフックでゴール関連機能を取得
+  const { 
+    goals, 
+    isLoading: isLoadingGoals, 
+    error: goalsError, 
+    isCreating, 
+    createGoal, 
+    fetchGoals 
+  } = useGoals(user, isAuthenticated);
+
+  // Pull-to-refresh用の状態
+  const [refreshing, setRefreshing] = useState(false);
   
   // ゴール作成ボタンのハンドラ
   const handleCreateGoal = () => {
@@ -31,20 +39,36 @@ export default function HomeScreen() {
     setShowCreateForm(false);
   };
 
+  // Pull-to-refresh ハンドラ
+  const handleRefresh = async () => {
+    setRefreshing(true);
+    await fetchGoals();
+    setRefreshing(false);
+  };
+
+  // 認証情報取得時にゴールデータを取得
+  useEffect(() => {
+    if (isAuthenticated && user && !isLoadingGoals) {
+      fetchGoals();
+    }
+  }, [isAuthenticated, user]);
+
   if (loading) {
     return <LoadingScreen />;
   }
   if (error) {
-    return <ErrorScreen error={error} onRetry={fetchGoalCount} />;
+    return <ErrorScreen error={error} onRetry={() => fetchGoals()} />;
   }
   if (isAuthenticated && user) {
     return (
       <>
         <AuthenticatedHomeScreen
-          goalData={goalData}
+          goals={goals}
+          isLoadingGoals={isLoadingGoals}
+          goalsError={goalsError}
           refreshing={refreshing}
-          onRefresh={onRefresh}
-          fetchGoalCount={fetchGoalCount}
+          onRefresh={handleRefresh}
+          fetchGoals={fetchGoals}
           router={router}
           user={user}
           onCreateGoal={handleCreateGoal}
@@ -69,7 +93,7 @@ export default function HomeScreen() {
                 onSubmit={async (goalData) => {
                   await createGoal(goalData);
                   handleFormClose();
-                  onRefresh(); // ホーム画面を更新
+                  await handleRefresh(); // ホーム画面を更新
                 }}
                 onCancel={handleFormClose}
                 isSubmitting={isCreating}

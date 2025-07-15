@@ -1,5 +1,5 @@
 import React from "react";
-import { RefreshControl, ScrollView, Text, View } from "react-native";
+import { Pressable, RefreshControl, ScrollView, Text, View } from "react-native";
 import { SimpleGoalCompletion } from "../ui/SimpleGoalCompletion";
 
 interface AuthenticatedHomeScreenProps {
@@ -9,6 +9,7 @@ interface AuthenticatedHomeScreenProps {
   fetchGoalCount: () => void;
   router: any;
   user: any;
+  onCreateGoal?: () => void;
 }
 
 const AuthenticatedHomeScreen: React.FC<AuthenticatedHomeScreenProps> = ({
@@ -18,6 +19,7 @@ const AuthenticatedHomeScreen: React.FC<AuthenticatedHomeScreenProps> = ({
   fetchGoalCount,
   router,
   user,
+  onCreateGoal,
 }) => {
   // ユーザー名を取得（メールアドレスから名前部分を抽出、またはデフォルト）
   const getUserDisplayName = () => {
@@ -63,23 +65,56 @@ const AuthenticatedHomeScreen: React.FC<AuthenticatedHomeScreenProps> = ({
             </Text>
           </View>
 
-          {/* 今日のゴールセクション */}
+          {/* 未達成のゴールセクション */}
           <View className="mb-6">
-            <Text
-              className="text-sm font-semibold text-[#212121] mb-2"
-              accessibilityRole="header"
-            >
-              🎯 今日のゴール
-            </Text>
-            <View className="bg-gray-50 rounded-xl p-4">
-              <View className="flex-row items-center justify-between mb-2">
-                <Text className="text-sm font-medium">
-                  💼 英語学習マスター
-                </Text>
-              </View>
-              <Text className="text-xs text-gray-600">
-                優先度: 高
+            <View className="flex-row items-center justify-between mb-2">
+              <Text
+                className="text-sm font-semibold text-[#212121]"
+                accessibilityRole="header"
+              >
+                🎯 未達成のゴール
               </Text>
+              {onCreateGoal && (
+                <Pressable
+                  onPress={onCreateGoal}
+                  className="bg-primary text-secondary font-semibold py-2 px-3 rounded-lg ml-2"
+                  accessibilityRole="button"
+                  accessibilityLabel="ゴールを作成する"
+                  testID="create-goal-button"
+                >
+                  <Text className="text-secondary text-sm font-semibold">＋ ゴール作成</Text>
+                </Pressable>
+              )}
+            </View>
+            <View className="gap-3">
+              {/* 未完了ゴール1 */}
+              <View className="bg-gray-50 rounded-xl p-4 flex-row items-center justify-between mb-2">
+                <View className="flex-1">
+                  <Text className="text-sm font-medium">
+                    💼 英語学習マスター
+                  </Text>
+                  <Text className="text-xs text-gray-600 mt-1">
+                    優先度: 高
+                  </Text>
+                </View>
+                <Pressable className="bg-success text-white text-xs font-bold py-1 px-3 rounded-lg ml-2">
+                  <Text className="text-white text-xs font-bold">達成</Text>
+                </Pressable>
+              </View>
+              {/* 未完了ゴール2 */}
+              <View className="bg-gray-50 rounded-xl p-4 flex-row items-center justify-between mb-2">
+                <View className="flex-1">
+                  <Text className="text-sm font-medium">
+                    🏃 健康的な生活習慣
+                  </Text>
+                  <Text className="text-xs text-gray-600 mt-1">
+                    優先度: 中
+                  </Text>
+                </View>
+                <Pressable className="bg-success text-white text-xs font-bold py-1 px-3 rounded-lg ml-2">
+                  <Text className="text-white text-xs font-bold">達成</Text>
+                </Pressable>
+              </View>
             </View>
           </View>
 

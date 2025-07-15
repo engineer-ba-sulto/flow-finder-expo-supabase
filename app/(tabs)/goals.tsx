@@ -90,16 +90,8 @@ export default function Goals() {
       <GoalsHeader />
 
       <ScrollView className="flex-1 p-6">
-        <View className="flex-row justify-between items-center mb-4">
+        <View className="mb-4">
           <Text className="text-lg font-bold text-[#212121]">ゴール管理</Text>
-          <Pressable
-            onPress={() => setShowCreateForm(true)}
-            className="bg-[#FFC400] text-[#212121] text-sm font-semibold py-2 px-3 rounded-lg"
-            accessibilityRole="button"
-            testID="add-goal-button"
-          >
-            <Text className="text-[#212121] font-semibold">+ 追加</Text>
-          </Pressable>
         </View>
 
         {/* タブ切り替え */}

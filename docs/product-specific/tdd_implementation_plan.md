@@ -185,7 +185,7 @@ Flow Finder の **TDD 実装計画** です。基本的な TDD 手法につい�
 | 3.7  | **UI/UX**    | 設定画面の画面カタログ適用           | `app/(tabs)/settings.tsx` | [x]  |
 | 3.8  | **UI/UX**    | ゴール作成モーダルの画面カタログ適用 | `app/modal/`              | [x]  |
 | 3.9  | **Red**      | ゴール完了モーダルのテスト作成       | `app/modal/`              | [x]  |
-| 3.10 | **Green**    | ゴール完了モーダルの実装             | `app/modal/`              | [ ]  |
+| 3.10 | **Green**    | ゴール完了モーダルの実装             | `app/modal/`              | [x]  |
 | 3.11 | **Refactor** | ゴール完了モーダルの改善             | `app/modal/`              | [ ]  |
 | 3.12 | **Red**      | GoalList/GoalCardコンポーネントの共通化テスト作成      | `components/ui/`         | [ ]  |
 | 3.13 | **Green**    | GoalList/GoalCardコンポーネントの共通化実装            | `components/ui/`         | [ ]  |
@@ -579,7 +579,7 @@ describe("Goal API", () => {
   - Week 1 完了: Task 1.1〜1.9（全て[x]）
   - Week 2 完了: Task 2.1〜2.33（全て[x]）
   - Week 3 残り: Task 3.5,3.7〜3.10（[ ]）
-  - **次の実装**: Task 3.10（ゴール完了モーダルの実装 - Green Phase）が最優先
+  - **次の実装**: Task 3.11（ゴール完了モーダルの改善 - Refactor Phase）が最優先
 
 - **MVP 2 段目（Week 4-6）**: Task 4.1〜6.10
 

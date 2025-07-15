@@ -190,8 +190,38 @@ Flow Finder の **TDD 実装計画** です。基本的な TDD 手法につい�
 | 3.12 | **Red**      | GoalList/GoalCardコンポーネントの共通化テスト作成      | `components/ui/`         | [x]  |
 | 3.13 | **Green**    | GoalList/GoalCardコンポーネントの共通化実装            | `components/ui/`         | [x]  |
 | 3.14 | **Refactor** | GoalList/GoalCardコンポーネントの共通化改善            | `components/ui/`         | [x]  |
-| 3.15 | **Release**  | App Store/Google Play 登録準備       | `app.json`, `eas.json`    | [ ]  |
-| 3.16 | **Release**  | MVP 1 段目リリース実行               | EAS Build & Submit        | [ ]  |
+
+#### Week 3 追加: MVP 1 段目完成のための必須機能実装
+
+| Task | TDD Phase    | 説明                                 | 配置場所                  | 完了 |
+| ---- | ------------ | ------------------------------------ | ------------------------- | ---- |
+| 3.15 | **Red**      | ゴール詳細表示モーダルのテスト作成   | `app/modal/`              | [ ]  |
+| 3.16 | **Green**    | ゴール詳細表示モーダルの実装         | `app/modal/goal-detail.tsx` | [ ]  |
+| 3.17 | **Refactor** | ゴール詳細表示モーダルの改善         | `app/modal/goal-detail.tsx` | [ ]  |
+| 3.18 | **Red**      | ゴール編集モーダルのテスト作成       | `app/modal/`              | [ ]  |
+| 3.19 | **Green**    | ゴール編集モーダルの実装             | `app/modal/edit-goal.tsx` | [ ]  |
+| 3.20 | **Refactor** | ゴール編集モーダルの改善             | `app/modal/edit-goal.tsx` | [ ]  |
+| 3.21 | **UI/UX**    | GoalCard達成ボタン追加（画面カタログ仕様） | `components/ui/GoalCard.tsx` | [ ]  |
+| 3.22 | **UI/UX**    | ゴール画面タブ切り替え機能実装       | `app/(tabs)/goals.tsx`    | [ ]  |
+| 3.23 | **UI/UX**    | ゴール作成ボタンをホーム画面に移動   | `app/(tabs)/index.tsx` + `goals.tsx` | [ ]  |
+| 3.24 | **UI/UX**    | ホーム画面の実データ表示（ダミーデータ置き換え） | `components/home/AuthenticatedHomeScreen.tsx` | [ ]  |
+
+#### Week 3 最終: 画面カタログ準拠・品質統一
+
+| Task | TDD Phase    | 説明                                 | 配置場所                  | 完了 |
+| ---- | ------------ | ------------------------------------ | ------------------------- | ---- |
+| 3.25 | **QA**       | 画面カタログとの差分調査・一覧化     | 全画面                    | [ ]  |
+| 3.26 | **UI/UX**    | UI/UXの統一（カラー・レイアウト・タイポグラフィ） | 全コンポーネント | [ ]  |
+| 3.27 | **UI/UX**    | アクセシビリティ要素の統一           | 全コンポーネント          | [ ]  |
+| 3.28 | **UI/UX**    | コンポーネントスタイルの画面カタログ準拠 | `components/ui/`       | [ ]  |
+| 3.29 | **QA**       | 最終品質チェック・画面カタログ適合確認 | 全画面                  | [ ]  |
+
+#### Week 3 リリース: App Store/Google Play 準備・実行
+
+| Task | TDD Phase    | 説明                                 | 配置場所                  | 完了 |
+| ---- | ------------ | ------------------------------------ | ------------------------- | ---- |
+| 3.30 | **Release**  | App Store/Google Play 登録準備       | `app.json`, `eas.json`    | [ ]  |
+| 3.31 | **Release**  | MVP 1 段目リリース実行               | EAS Build & Submit        | [ ]  |
 
 #### 画面カタログ適用タスクの詳細
 
@@ -574,12 +604,15 @@ describe("Goal API", () => {
 
 #### 🎯 MVP 3 段階リリース進捗
 
-- **MVP 1 段目（Week 1-3）**: Task 1.1〜3.4
+- **MVP 1 段目（Week 1-3）**: Task 1.1〜3.31
 
   - Week 1 完了: Task 1.1〜1.9（全て[x]）
   - Week 2 完了: Task 2.1〜2.33（全て[x]）
-  - Week 3 残り: Task 3.5,3.7〜3.10（[ ]）
-  - **次の実装**: Task 3.15（App Store/Google Play 登録準備 - Release Phase）が最優先
+  - Week 3 基本完了: Task 3.1〜3.14（全て[x]）
+  - Week 3 追加実装: Task 3.15〜3.24（必須機能実装）
+  - Week 3 品質統一: Task 3.25〜3.29（画面カタログ準拠）
+  - Week 3 リリース: Task 3.30〜3.31（App Store/Google Play）
+  - **次の実装**: Task 3.15（ゴール詳細表示モーダルのテスト作成 - Red Phase）が最優先
 
 - **MVP 2 段目（Week 4-6）**: Task 4.1〜6.10
 

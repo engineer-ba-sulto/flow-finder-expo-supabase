@@ -204,7 +204,7 @@ Flow Finder の **TDD 実装計画** です。基本的な TDD 手法につい�
 | 3.21 | **UI/UX**    | GoalCard達成ボタン追加（画面カタログ仕様） | `components/ui/GoalCard.tsx` | [x]  |
 | 3.22 | **UI/UX**    | ゴール画面タブ切り替え機能実装       | `app/(tabs)/goals.tsx`    | [x]  |
 | 3.23 | **UI/UX**    | ゴール作成ボタンをホーム画面に移動   | `app/(tabs)/index.tsx` + `goals.tsx` | [x]  |
-| 3.24 | **UI/UX**    | ホーム画面の実データ表示（ダミーデータ置き換え） | `components/home/AuthenticatedHomeScreen.tsx` | [ ]  |
+| 3.24 | **UI/UX**    | ホーム画面の実データ表示（ダミーデータ置き換え） | `components/home/AuthenticatedHomeScreen.tsx` | [x]  |
 
 #### Week 3 最終: 画面カタログ準拠・品質統一
 
@@ -612,7 +612,7 @@ describe("Goal API", () => {
   - Week 3 追加実装: Task 3.15〜3.24（必須機能実装）
   - Week 3 品質統一: Task 3.25〜3.29（画面カタログ準拠）
   - Week 3 リリース: Task 3.30〜3.31（App Store/Google Play）
-  - **次の実装**: Task 3.24（ホーム画面の実データ表示 - UI/UX Phase）が最優先
+  - **次の実装**: Task 3.25（画面カタログとの差分調査・一覧化 - QA Phase）が最優先
 
 - **MVP 2 段目（Week 4-6）**: Task 4.1〜6.10
 

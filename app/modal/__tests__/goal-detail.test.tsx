@@ -1,6 +1,10 @@
 import { act, fireEvent, render, waitFor } from "@testing-library/react-native";
+import { Alert } from "react-native";
 import GoalDetail from "../goal-detail";
 import { Goal, GoalPriority, GoalStatus } from "../../../types/goal.types";
+
+// React Native Alert のモック
+jest.spyOn(Alert, 'alert');
 
 // expo-routerのモック
 const mockBack = jest.fn();

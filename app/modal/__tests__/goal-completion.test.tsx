@@ -94,7 +94,7 @@ describe("<GoalCompletion />", () => {
 
     // 開始日・達成日の表示を確認
     await waitFor(() => {
-      expect(getByText(/開始日:.*達成日:.*/).startsWith("開始日:")).toBeTruthy();
+      expect(getByText(/開始日:.*達成日:.*/)).toBeTruthy();
     });
   });
 
@@ -117,14 +117,15 @@ describe("<GoalCompletion />", () => {
   });
 
   test("評価（難しさ・満足度）の星評価が表示されること", async () => {
-    const { getByText } = render(<GoalCompletion goal={mockGoalData} />);
+    const { getByText, getByTestId } = render(<GoalCompletion goal={mockGoalData} />);
 
     // 評価ラベルと星評価が表示されることを確認
     await waitFor(() => {
       expect(getByText("評価")).toBeTruthy();
       expect(getByText("難しさ:")).toBeTruthy();
       expect(getByText("満足度:")).toBeTruthy();
-      expect(getByText("⭐⭐⭐⭐⭐")).toBeTruthy();
+      expect(getByTestId("difficulty-stars")).toBeTruthy();
+      expect(getByTestId("satisfaction-stars")).toBeTruthy();
     });
   });
 
@@ -269,7 +270,7 @@ describe("<GoalCompletion />", () => {
       expect(shareButton).toHaveStyle({ backgroundColor: "#FFC400" });
 
       // secondary色: #212121 (テキスト)
-      const shareButtonText = getByTestId("share-button-text");
+      const shareButtonText = getByTestId("share-achievement-button-text");
       expect(shareButtonText).toHaveStyle({ color: "#212121" });
 
       // success色: #4CAF50

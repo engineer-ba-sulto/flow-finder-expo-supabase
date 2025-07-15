@@ -195,8 +195,8 @@ Flow Finder の **TDD 実装計画** です。基本的な TDD 手法につい�
 
 | Task | TDD Phase    | 説明                                 | 配置場所                  | 完了 |
 | ---- | ------------ | ------------------------------------ | ------------------------- | ---- |
-| 3.15 | **Red**      | ゴール詳細表示モーダルのテスト作成   | `app/modal/`              | [ ]  |
-| 3.16 | **Green**    | ゴール詳細表示モーダルの実装         | `app/modal/goal-detail.tsx` | [ ]  |
+| 3.15 | **Red**      | ゴール詳細表示モーダルのテスト作成   | `app/modal/`              | [x]  |
+| 3.16 | **Green**    | ゴール詳細表示モーダルの実装         | `app/modal/goal-detail.tsx` | [x]  |
 | 3.17 | **Refactor** | ゴール詳細表示モーダルの改善         | `app/modal/goal-detail.tsx` | [ ]  |
 | 3.18 | **Red**      | ゴール編集モーダルのテスト作成       | `app/modal/`              | [ ]  |
 | 3.19 | **Green**    | ゴール編集モーダルの実装             | `app/modal/edit-goal.tsx` | [ ]  |
@@ -612,7 +612,7 @@ describe("Goal API", () => {
   - Week 3 追加実装: Task 3.15〜3.24（必須機能実装）
   - Week 3 品質統一: Task 3.25〜3.29（画面カタログ準拠）
   - Week 3 リリース: Task 3.30〜3.31（App Store/Google Play）
-  - **次の実装**: Task 3.15（ゴール詳細表示モーダルのテスト作成 - Red Phase）が最優先
+  - **次の実装**: Task 3.17（ゴール詳細表示モーダルの改善 - Refactor Phase）が最優先
 
 - **MVP 2 段目（Week 4-6）**: Task 4.1〜6.10
 

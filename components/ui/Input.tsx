@@ -30,11 +30,18 @@ export const Input: React.FC<InputProps> = ({
       <TextInput
         className={baseStyle}
         editable={disabled ? false : editable}
+        accessibilityRole="text"
+        accessibilityLabel={label || props.placeholder || '入力欄'}
+        accessibilityHint={error ? `エラー: ${errorMessage}` : undefined}
         accessibilityState={{ disabled }}
         {...props}
       />
       {error && errorMessage && (
-        <Text className="text-[#F44336] text-sm mt-1">
+        <Text 
+          className="text-[#F44336] text-sm mt-1"
+          accessibilityRole="alert"
+          accessibilityLiveRegion="polite"
+        >
           {errorMessage}
         </Text>
       )}

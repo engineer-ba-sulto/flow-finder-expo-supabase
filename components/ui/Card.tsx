@@ -56,7 +56,10 @@ export const Card: React.FC<CardProps> = ({
         {...props}
       >
         {title && (
-          <Text className="text-lg font-semibold mb-2 text-gray-800">
+          <Text 
+            className="text-lg font-semibold mb-2 text-gray-800"
+            accessibilityRole="header"
+          >
             {title}
           </Text>
         )}
@@ -68,7 +71,10 @@ export const Card: React.FC<CardProps> = ({
   return (
     <View className={baseStyle}>
       {title && (
-        <Text className="text-lg font-semibold mb-2 text-gray-800">
+        <Text 
+          className="text-lg font-semibold mb-2 text-gray-800"
+          accessibilityRole="header"
+        >
           {title}
         </Text>
       )}

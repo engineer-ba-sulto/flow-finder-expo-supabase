@@ -91,7 +91,12 @@ export default function Goals() {
 
       <ScrollView className="flex-1 p-6">
         <View className="mb-4">
-          <Text className="text-lg font-bold text-[#212121]">ゴール管理</Text>
+          <Text 
+            className="text-lg font-bold text-[#212121]"
+            accessibilityRole="header"
+          >
+            ゴール管理
+          </Text>
         </View>
 
         {/* タブ切り替え */}
@@ -104,6 +109,8 @@ export default function Goals() {
                 : 'bg-gray-200'
             }`}
             accessibilityRole="button"
+            accessibilityLabel="未達成のゴールを表示"
+            accessibilityState={{ selected: activeTab === 'uncompleted' }}
             testID="uncompleted-tab"
           >
             <Text className={`text-sm font-semibold text-center ${
@@ -122,6 +129,8 @@ export default function Goals() {
                 : 'bg-gray-200'
             }`}
             accessibilityRole="button"
+            accessibilityLabel="達成済みのゴールを表示"
+            accessibilityState={{ selected: activeTab === 'completed' }}
             testID="completed-tab"
           >
             <Text className={`text-sm font-semibold text-center ${

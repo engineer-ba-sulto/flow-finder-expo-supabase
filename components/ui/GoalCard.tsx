@@ -162,7 +162,7 @@ const GoalCard: React.FC<GoalCardProps> = React.memo(({ goal, onComplete, onDele
           {goal.status !== GoalStatus.COMPLETED && (
             <Pressable
               onPress={handleCompletePress}
-              className="bg-[#4CAF50] text-white py-1 px-3 rounded-lg ml-2"
+              className="bg-[#4CAF50] py-1 px-3 rounded-lg ml-2"
               accessibilityRole="button"
               accessibilityLabel="ゴールを達成済みにする"
               testID="complete-goal-button"

@@ -17,9 +17,9 @@ export const Button: React.FC<ButtonProps> = ({
   ...props
 }) => {
   const baseStyle = "px-4 py-3 rounded-xl";
-  const variantStyle = variant === "primary" ? "bg-[#FFC400]" : "bg-[#212121]";
+  const variantStyle = variant === "primary" ? "bg-[#FFC400]" : "border border-gray-300";
   const disabledStyle = disabled ? "opacity-50" : "";
-  const textStyle = variant === "primary" ? "text-[#212121]" : "text-white";
+  const textStyle = variant === "primary" ? "text-[#212121]" : "text-[#212121]";
 
   return (
     <Pressable

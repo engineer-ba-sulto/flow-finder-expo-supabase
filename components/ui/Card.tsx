@@ -24,7 +24,7 @@ export const Card: React.FC<CardProps> = ({
       case 'primary':
         return 'border-[#FFC400]';
       case 'error':
-        return 'border-red-500';
+        return 'border-[#F44336]';
       default:
         return 'border-gray-200';
     }
@@ -44,7 +44,7 @@ export const Card: React.FC<CardProps> = ({
   const borderColor = getBorderColor();
   const paddingClass = getPadding();
   const disabledStyle = disabled ? 'opacity-50' : '';
-  const baseStyle = `bg-white rounded-lg shadow border-2 ${borderColor} ${paddingClass} ${disabledStyle}`;
+  const baseStyle = `bg-white rounded-xl shadow border ${borderColor} ${paddingClass} ${disabledStyle}`;
 
   if (onPress) {
     return (

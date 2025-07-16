@@ -12,10 +12,10 @@ export const Button: React.FC<ButtonProps> = ({
   disabled = false,
   ...props
 }) => {
-  const baseStyle = "px-4 py-2 rounded-lg";
+  const baseStyle = "px-4 py-3 rounded-xl";
   const variantStyle = variant === "primary" ? "bg-[#FFC400]" : "bg-[#212121]";
   const disabledStyle = disabled ? "opacity-50" : "";
-  const textStyle = variant === "primary" ? "text-black" : "text-white";
+  const textStyle = variant === "primary" ? "text-[#212121]" : "text-white";
 
   return (
     <Pressable
@@ -25,7 +25,7 @@ export const Button: React.FC<ButtonProps> = ({
       disabled={disabled}
       {...props}
     >
-      <Text className={`text-center font-medium ${textStyle}`}>{children}</Text>
+      <Text className={`text-center font-semibold text-sm ${textStyle}`}>{children}</Text>
     </Pressable>
   );
 };

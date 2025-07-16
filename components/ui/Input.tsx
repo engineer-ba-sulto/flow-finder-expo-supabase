@@ -16,9 +16,9 @@ export const Input: React.FC<InputProps> = ({
   editable = true,
   ...props
 }) => {
-  const borderColor = error ? 'border-red-500' : 'border-[#FFC400]';
+  const borderColor = error ? 'border-[#F44336]' : 'border-gray-300';
   const disabledStyle = disabled ? 'opacity-50 bg-gray-100' : 'bg-white';
-  const baseStyle = `border-2 rounded-lg px-4 py-2 ${borderColor} ${disabledStyle}`;
+  const baseStyle = `border rounded-xl px-4 py-3 ${borderColor} ${disabledStyle}`;
   
   return (
     <View className="mb-4">
@@ -34,7 +34,7 @@ export const Input: React.FC<InputProps> = ({
         {...props}
       />
       {error && errorMessage && (
-        <Text className="text-red-500 text-sm mt-1">
+        <Text className="text-[#F44336] text-sm mt-1">
           {errorMessage}
         </Text>
       )}

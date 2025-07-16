@@ -69,7 +69,7 @@ const GoalCard: React.FC<GoalCardProps> = React.memo(({ goal, onComplete, onDele
 
   // 背景色の取得（メモ化）
   const backgroundColor = useMemo(() => {
-    return goal.status === GoalStatus.COMPLETED ? "#f0fdf4" : "#f9fafb"; // bg-success/10 or bg-gray-50
+    return goal.status === GoalStatus.COMPLETED ? "#e8f5e8" : "#f9fafb"; // bg-[#4CAF50]/10 or bg-gray-50
   }, [goal.status]);
 
   // ゴールカードのタップハンドラ（最適化）
@@ -162,7 +162,7 @@ const GoalCard: React.FC<GoalCardProps> = React.memo(({ goal, onComplete, onDele
           {goal.status !== GoalStatus.COMPLETED && (
             <Pressable
               onPress={handleCompletePress}
-              className="bg-success text-white py-1 px-3 rounded-lg ml-2"
+              className="bg-[#4CAF50] text-white py-1 px-3 rounded-lg ml-2"
               accessibilityRole="button"
               accessibilityLabel="ゴールを達成済みにする"
               testID="complete-goal-button"

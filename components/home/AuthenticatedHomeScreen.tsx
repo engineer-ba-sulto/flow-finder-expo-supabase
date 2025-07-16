@@ -82,12 +82,12 @@ const AuthenticatedHomeScreen: React.FC<AuthenticatedHomeScreenProps> = ({
               {onCreateGoal && (
                 <Pressable
                   onPress={onCreateGoal}
-                  className="bg-primary text-secondary font-semibold py-2 px-3 rounded-lg ml-2"
+                  className="bg-[#FFC400] text-[#212121] font-semibold py-2 px-3 rounded-lg ml-2"
                   accessibilityRole="button"
                   accessibilityLabel="ゴールを作成する"
                   testID="create-goal-button"
                 >
-                  <Text className="text-secondary text-sm font-semibold">＋ ゴール作成</Text>
+                  <Text className="text-[#212121] text-sm font-semibold">＋ ゴール作成</Text>
                 </Pressable>
               )}
             </View>
@@ -111,7 +111,7 @@ const AuthenticatedHomeScreen: React.FC<AuthenticatedHomeScreenProps> = ({
                 </Text>
                 <Pressable
                   onPress={fetchGoals}
-                  className="bg-red-600 text-white py-2 px-3 rounded-lg self-start"
+                  className="bg-[#F44336] text-white py-2 px-3 rounded-lg self-start"
                   accessibilityRole="button"
                   accessibilityLabel="再試行"
                 >
@@ -157,7 +157,7 @@ const AuthenticatedHomeScreen: React.FC<AuthenticatedHomeScreenProps> = ({
                           </Text>
                         </View>
                         <Pressable 
-                          className="bg-success text-white text-xs font-bold py-1 px-3 rounded-lg ml-2"
+                          className="bg-[#4CAF50] text-white text-xs font-bold py-1 px-3 rounded-lg ml-2"
                           onPress={() => {
                             // MVP2段目でゴール完了機能を実装予定
                             console.log('ゴール完了:', goal.id);

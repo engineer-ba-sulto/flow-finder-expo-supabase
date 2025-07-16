@@ -44,7 +44,7 @@ export const Card: React.FC<CardProps> = ({
   const borderColor = getBorderColor();
   const paddingClass = getPadding();
   const disabledStyle = disabled ? 'opacity-50' : '';
-  const baseStyle = `bg-white rounded-xl shadow border ${borderColor} ${paddingClass} ${disabledStyle}`;
+  const baseStyle = `bg-white rounded-xl ${borderColor} ${paddingClass} ${disabledStyle}`;
 
   if (onPress) {
     return (
@@ -57,7 +57,7 @@ export const Card: React.FC<CardProps> = ({
       >
         {title && (
           <Text 
-            className="text-lg font-semibold mb-2 text-gray-800"
+            className="text-lg font-semibold mb-2 text-[#212121]"
             accessibilityRole="header"
           >
             {title}
@@ -72,7 +72,7 @@ export const Card: React.FC<CardProps> = ({
     <View className={baseStyle}>
       {title && (
         <Text 
-          className="text-lg font-semibold mb-2 text-gray-800"
+          className="text-lg font-semibold mb-2 text-[#212121]"
           accessibilityRole="header"
         >
           {title}

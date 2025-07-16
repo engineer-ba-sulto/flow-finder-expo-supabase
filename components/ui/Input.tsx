@@ -18,12 +18,12 @@ export const Input: React.FC<InputProps> = ({
 }) => {
   const borderColor = error ? 'border-[#F44336]' : 'border-gray-300';
   const disabledStyle = disabled ? 'opacity-50 bg-gray-100' : 'bg-white';
-  const baseStyle = `border rounded-xl px-4 py-3 ${borderColor} ${disabledStyle}`;
+  const baseStyle = `border rounded-xl px-4 py-3 text-sm ${borderColor} ${disabledStyle}`;
   
   return (
-    <View className="mb-4">
+    <View>
       {label && (
-        <Text className="text-sm font-medium mb-2 text-gray-700">
+        <Text className="text-sm font-medium mb-1 text-[#212121]">
           {label}
         </Text>
       )}
@@ -34,6 +34,9 @@ export const Input: React.FC<InputProps> = ({
         accessibilityLabel={label || props.placeholder || '入力欄'}
         accessibilityHint={error ? `エラー: ${errorMessage}` : undefined}
         accessibilityState={{ disabled }}
+        style={{
+          fontFamily: "System",
+        }}
         {...props}
       />
       {error && errorMessage && (

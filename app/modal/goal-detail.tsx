@@ -1,8 +1,8 @@
-import React, { useState } from "react";
-import { View, Text, Pressable, ScrollView, ActivityIndicator, Alert } from "react-native";
 import { router } from "expo-router";
-import { Goal, GoalPriority, GoalStatus } from "../../types/goal.types";
+import React, { useState } from "react";
+import { ActivityIndicator, Alert, Pressable, ScrollView, Text, View } from "react-native";
 import ActionButton, { BRAND_COLORS } from "../../components/ui/ActionButton";
+import { Goal, GoalPriority, GoalStatus } from "../../types/goal.types";
 
 /**
  * ゴール詳細表示モーダルコンポーネントのProps型定義

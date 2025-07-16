@@ -2,6 +2,7 @@ import { Redirect } from "expo-router";
 import React, { useEffect, useState } from "react";
 import {
   ActivityIndicator,
+  Modal,
   Pressable,
   ScrollView,
   Text,
@@ -191,19 +192,35 @@ export default function Goals() {
           </View>
         )}
 
-        {/* ゴール編集フォーム */}
-        {showEditForm && editingGoal && (
-          <View className="mt-6 bg-white rounded-xl p-6 shadow-sm">
-            <Text className="text-lg font-bold text-[#212121] mb-4 text-center">
-              ゴール編集
-            </Text>
-            <GoalForm
-              onSubmit={updateGoal}
-              onCancel={resetEditForm}
-              initialGoal={editingGoal}
-              isSubmitting={isUpdating}
-            />
-          </View>
+        {/* ゴール編集モーダル */}
+        {editingGoal && (
+          <Modal
+            visible={showEditForm}
+            animationType="slide"
+            presentationStyle="pageSheet"
+            onRequestClose={resetEditForm}
+          >
+            <View className="flex-1 bg-white">
+              <View className="bg-primary p-4">
+                <Text className="text-xl font-bold text-secondary">✏️ ゴール編集</Text>
+              </View>
+              <View className="flex-1 p-6">
+                <Text className="text-lg font-bold text-[#212121] mb-4 text-center">
+                  ゴールを編集
+                </Text>
+                <GoalForm
+                  onSubmit={async (goalData) => {
+                    await updateGoal(goalData);
+                    resetEditForm();
+                    fetchGoals();
+                  }}
+                  onCancel={resetEditForm}
+                  initialGoal={editingGoal}
+                  isSubmitting={isUpdating}
+                />
+              </View>
+            </View>
+          </Modal>
         )}
 
         {/* エラー表示 */}

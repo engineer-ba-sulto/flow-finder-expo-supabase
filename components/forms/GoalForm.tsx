@@ -131,7 +131,7 @@ export const GoalForm: React.FC<GoalFormProps> = React.memo(
         </View>
 
         {/* フォームコンテンツ */}
-        <View className="pb-6 gap-4">
+        <View className="px-6 pb-6 gap-4">
           {/* タイトル入力 */}
           <View>
             <Input
@@ -149,11 +149,11 @@ export const GoalForm: React.FC<GoalFormProps> = React.memo(
 
           {/* 説明入力 */}
           <View>
-            <Text className="text-sm font-medium mb-2 text-[#212121]">
+            <Text className="text-sm font-medium mb-1 text-[#212121]">
               説明（任意）
             </Text>
             <TextInput
-              className="border border-gray-300 rounded-lg p-3 bg-white text-sm min-h-[200px]"
+              className="border border-gray-300 rounded-xl px-4 py-3 bg-white text-sm min-h-[64px]"
               placeholder="このゴールについて詳しく..."
               placeholderTextColor="#9CA3AF"
               value={description}
@@ -169,7 +169,7 @@ export const GoalForm: React.FC<GoalFormProps> = React.memo(
               }}
             />
             {errors.description && (
-              <Text className="text-red-500 text-xs mt-1">
+              <Text className="text-[#F44336] text-sm mt-1">
                 {errors.description}
               </Text>
             )}
@@ -194,9 +194,7 @@ export const GoalForm: React.FC<GoalFormProps> = React.memo(
                   accessibilityState={{ selected: priority === value }}
                 >
                   <Text
-                    className={`text-sm text-center font-medium ${
-                      priority === value ? "text-[#212121]" : "text-[#212121]"
-                    }`}
+                    className={`text-sm text-center font-medium text-[#212121]`}
                   >
                     {label}
                   </Text>
@@ -207,7 +205,7 @@ export const GoalForm: React.FC<GoalFormProps> = React.memo(
         </View>
 
         {/* アクションボタン */}
-        <View className="flex-row gap-3 pb-6 mt-auto">
+        <View className="flex-row gap-3 px-6 pb-6 mt-auto">
           <View className="flex-1">
             <Button
               variant="secondary"

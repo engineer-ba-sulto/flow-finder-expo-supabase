@@ -157,7 +157,7 @@ const AuthenticatedHomeScreen: React.FC<AuthenticatedHomeScreenProps> = ({
                           </Text>
                         </View>
                         <Pressable 
-                          className="bg-[#4CAF50] text-white text-xs font-bold py-1 px-3 rounded-lg ml-2"
+                          className="bg-[#4CAF50] py-1 px-3 rounded-lg ml-2"
                           onPress={() => {
                             // MVP2段目でゴール完了機能を実装予定
                             console.log('ゴール完了:', goal.id);

@@ -105,22 +105,12 @@ export default function Login() {
           className="text-xl font-bold text-[#212121]"
           accessibilityRole="text"
         >
-          🔐 認証
+          🔐 ログイン
         </Text>
       </View>
 
       <View className="flex-1 p-6 justify-between">
         <View>
-          {/* ロゴ・アプリ名エリア */}
-          <View className="items-center mb-6">
-            <Text
-              className="text-xl font-bold text-[#212121] mb-6 text-center"
-              accessibilityRole="text"
-            >
-              ログイン
-            </Text>
-          </View>
-
           {/* フォームエリア */}
           <View className="gap-4" accessibilityLabel="ログインフォーム">
             {/* メールアドレス入力 */}
